@@ -1,0 +1,120 @@
+/* ==========================================================================
+   tokens.css — Design System Tokens
+   Inventory Intelligence Dashboard (IID)
+
+   Concept: "Control Tower" — a night-operations command center for supply
+   chains. Deep navy base with an electric indigo/teal signal pair standing
+   in for data-in-motion, plus strict functional status colors (amber/red/
+   emerald) reserved ONLY for inventory health states, never decoration.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand / signal colors -------------------------------------------- */
+  --signal-indigo: #4f6ef7;
+  --signal-indigo-dim: #3c56d6;
+  --signal-teal: #22d3b8;
+  --signal-teal-dim: #17a892;
+
+  /* ---- Functional status colors (reserved meaning — do not reuse) ------ */
+  --status-critical: #ef4444;
+  --status-critical-bg: rgba(239, 68, 68, 0.12);
+  --status-low: #f59e0b;
+  --status-low-bg: rgba(245, 158, 11, 0.12);
+  --status-overstock: #a855f7;
+  --status-overstock-bg: rgba(168, 85, 247, 0.12);
+  --status-expiring: #fb7185;
+  --status-expiring-bg: rgba(251, 113, 133, 0.12);
+  --status-healthy: #10b981;
+  --status-healthy-bg: rgba(16, 185, 129, 0.12);
+
+  /* ---- Typography --------------------------------------------------------
+     Display: Space Grotesk — geometric, technical, used for headings & KPIs
+     Body: Inter — high legibility for dense enterprise data
+     Mono: JetBrains Mono — SKUs, quantities, currency (terminal authenticity)
+  */
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  --fs-xs: 0.6875rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.625rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3rem;
+
+  /* ---- Spacing scale ------------------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---- Radius / elevation -------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms var(--ease-out);
+  --transition-base: 240ms var(--ease-out);
+  --transition-slow: 420ms var(--ease-out);
+
+  --sidebar-width: 248px;
+  --sidebar-width-collapsed: 76px;
+  --navbar-height: 68px;
+}
+
+/* ============================ DARK THEME (default) ====================== */
+:root,
+[data-theme="dark"] {
+  --bg-canvas: #080b14;
+  --bg-sidebar: #0a0e1c;
+  --bg-surface: #10152b;
+  --bg-surface-alt: #141a35;
+  --bg-elevated: #171d3d;
+  --bg-glass: rgba(23, 29, 61, 0.55);
+  --border-subtle: rgba(148, 163, 199, 0.12);
+  --border-strong: rgba(148, 163, 199, 0.22);
+
+  --text-primary: #f1f4fb;
+  --text-secondary: #a3adc9;
+  --text-tertiary: #6b7494;
+  --text-inverse: #080b14;
+
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 12px 24px -8px rgba(0, 0, 0, 0.35);
+  --shadow-glow-indigo: 0 0 0 1px rgba(79, 110, 247, 0.25), 0 8px 24px -4px rgba(79, 110, 247, 0.35);
+
+  color-scheme: dark;
+}
+
+/* ============================ LIGHT THEME ================================ */
+[data-theme="light"] {
+  --bg-canvas: #eef1f8;
+  --bg-sidebar: #10152b;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f6f8fc;
+  --bg-elevated: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.65);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #f8fafc;
+
+  --shadow-glass: 0 8px 32px rgba(15, 23, 42, 0.08);
+  --shadow-card: 0 1px 2px rgba(15,23,42,0.04), 0 12px 24px -8px rgba(15, 23, 42, 0.10);
+  --shadow-glow-indigo: 0 0 0 1px rgba(79, 110, 247, 0.18), 0 8px 24px -4px rgba(79, 110, 247, 0.22);
+
+  color-scheme: light;
+}

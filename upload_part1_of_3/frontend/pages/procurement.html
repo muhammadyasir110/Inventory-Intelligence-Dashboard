@@ -1,0 +1,72 @@
+﻿<div class="page-header">
+  <div>
+    <h1>Procurement Planning &amp; Purchase Orders</h1>
+    <p>Automated replenishment order calculation based on optimal EOQ and stochastic reorder thresholds.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" id="refreshProcurementBtn">Refresh Plan</button>
+    <button class="btn btn-primary" id="createPoBatchBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+      Create Purchase Orders
+    </button>
+  </div>
+</div>
+
+<!-- Procurement KPI Summary -->
+<div class="kpi-grid">
+  <div class="kpi-card accent-critical">
+    <div class="kpi-top"><div class="kpi-icon">🚨</div><span class="badge badge-critical">Immediate</span></div>
+    <div class="kpi-value" id="procCriticalOrdersCount">0</div>
+    <div class="kpi-label">Stockout Deficit Lines</div>
+  </div>
+  <div class="kpi-card accent-low">
+    <div class="kpi-top"><div class="kpi-icon">🛒</div></div>
+    <div class="kpi-value" id="procTotalOrdersCount">0</div>
+    <div class="kpi-label">Total Recommended Replenishments</div>
+  </div>
+  <div class="kpi-card accent-primary">
+    <div class="kpi-top"><div class="kpi-icon">💵</div></div>
+    <div class="kpi-value" id="procTotalValue"></div>
+    <div class="kpi-label">Total Procurement Capital Required</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-top"><div class="kpi-icon">🏭</div></div>
+    <div class="kpi-value" id="procSuppliersCount">0</div>
+    <div class="kpi-label">Target Vendors Involved</div>
+  </div>
+</div>
+
+<!-- Recommended Replenishment Order Queue -->
+<div class="card" style="margin-top:20px">
+  <div class="card-header">
+    <div>
+      <h3>Automated Replenishment Order Queue</h3>
+      <div class="subtitle">System-computed orders matching EOQ and supplier minimum order constraints</div>
+    </div>
+    <div class="table-toolbar" style="padding:0">
+      <input type="text" id="procSearchInput" placeholder="Filter SKU, product, or supplier..." style="min-width:260px" />
+    </div>
+  </div>
+  <div class="table-container" style="max-height:480px;overflow-y:auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Product Name</th>
+          <th>Supplier</th>
+          <th>Warehouse</th>
+          <th>On Hand</th>
+          <th>ROP</th>
+          <th>Order Qty (EOQ)</th>
+          <th>Unit Cost</th>
+          <th>Subtotal</th>
+          <th>Urgency</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="procurementTableBody">
+        <tr><td colspan="11" class="text-center text-muted" style="padding:24px">Loading procurement recommendations...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
