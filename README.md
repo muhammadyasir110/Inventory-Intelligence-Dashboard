@@ -1,4 +1,4 @@
-# Inventory Intelligence Platform (IIP) 2.2
+ # Inventory Intelligence Platform (IIP) 2.4
 > **Enterprise Decision Support, Multi-Item Optimization & Explainable AI Inventory Platform**  
 > Embodiment of MPhil Research: *"Explainable Inventory Decision Support through Computational Intelligence"*
 
