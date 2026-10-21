@@ -1,0 +1,27 @@
+{
+  "_comment": "Field mapping for the MPhil research dataset (30 FMCG packaged-food SKUs). Column names are as documented by the researcher. UNITS ARE NOT YET CONFIRMED: every unit set to null must be confirmed by the researcher before any unit-dependent calculation (EOQ, safety stock, ROP, optimisation) is run on this dataset.",
+  "dataset_label": "MPhil research dataset - 30 FMCG packaged-food SKUs",
+  "provenance": "research",
+  "expected_rows": 30,
+  "columns": {
+    "sku_id": "SKU_ID",
+    "segment": "Segment",
+    "annual_demand": "Annual_Demand_Dbar",
+    "demand_std": "Demand_StdDev_Sigma",
+    "unit_cost": "Unit_Cost_c",
+    "ordering_cost": "Ordering_Cost_s",
+    "holding_cost": "Holding_Cost_h",
+    "shortage_cost": "Shortage_Cost_pi",
+    "lead_time": "Lead_Time_L",
+    "unit_volume": "Unit_Volume_v"
+  },
+  "units": {
+    "currency": null,
+    "annual_demand": "units_per_year",
+    "demand_std_period": null,
+    "holding_cost_basis": null,
+    "shortage_cost_basis": null,
+    "lead_time": null,
+    "unit_volume": null
+  }
+}

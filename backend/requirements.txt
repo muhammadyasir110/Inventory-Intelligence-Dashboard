@@ -1,0 +1,16 @@
+# Runtime dependencies. Versions chosen to have prebuilt wheels for
+# Python 3.12 and 3.13 on Windows, macOS and Linux (verified 2026-10-18).
+fastapi==0.115.6
+uvicorn==0.32.1
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10   # only used when DATABASE_URL points to PostgreSQL
+pandas==2.2.3
+numpy==2.1.3
+scipy==1.14.1             # statistical tests in experiments/run_benchmark.py
+openpyxl==3.1.5
+python-multipart==0.0.20
+pydantic==2.9.2
+reportlab==4.2.5
+XlsxWriter==3.2.0
+python-dotenv==1.0.1
+pypdf==5.1.0              # PDF table import in utils/file_parser.py
