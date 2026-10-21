@@ -1,0 +1,20 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Main comparison on the synthetic 50-SKU portfolio ($N=50$, $\tau_B=0.75$, $\tau_C=0.80$; 30 independent runs per stochastic method, $E_{\max}=50{,}000$ objective evaluations). Cost statistics are over feasible runs only, on the controllable-cost scale (millions of currency units).}\label{tab:e1}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Method & Feasible & $U_B$ (\%) & $\max_w U_w$ (\%) & Median & IQR & Mean & SD & $\Delta_{\mathrm{BKS}}$ (\%) & Time (s) \\
+\midrule
+EOQ + static SS & 0/1 & 133.3 & 125.0 & 15.98 & 0.00 & 15.98 & 0.00 & -- & 0.0 \\
+GA & 9/30 & 94.9 & 99.8 & 78.52 & 7.25 & 78.89 & 4.83 & 164.3 & 2.1 \\
+PSO & 0/30 & 85.6 & 98.9 & -- & -- & -- & -- & -- & 0.4 \\
+ABC (A1) & 1/30 & 93.5 & 99.7 & 80.51 & 0.00 & 80.51 & -- & 171.0 & 14.2 \\
+FMCG-ABC (A4) & 30/30 & 99.9 & 99.9 & 34.10 & 2.52 & 34.31 & 2.23 & 14.8 & 31.6 \\
+GA+ & 30/30 & 99.9 & 99.9 & 40.30 & 4.51 & 42.18 & 5.05 & 35.7 & 3.3 \\
+PSO+ & 30/30 & 100.0 & 99.9 & 40.23 & 2.09 & 39.17 & 4.45 & 35.4 & 1.7 \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize $U_B$, $U_w$: median budget and highest warehouse utilisation of the returned policy (values above 100 indicate violation). $\Delta_{\mathrm{BKS}}$: median gap to the best known feasible solution over all runs. Controllable cost $= TC - \sum_i D_i\min(p_i^{reg},p_i^{disc})$ (a constant shift). Lagrangian lower bound: 25.02; best known feasible: 29.71.}
+\end{table}

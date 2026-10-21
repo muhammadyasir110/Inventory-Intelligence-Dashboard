@@ -1,0 +1,439 @@
+%% Manuscript prepared for Decision Support Systems (Elsevier), elsarticle class.
+%% All numerical results are \input from generated/ (produced by backend/eidsf/report.py
+%% from the stored study outputs); numbers quoted in the text were checked against them.
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,multirow,array}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,fit,calc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{lineno}
+\usepackage{enumitem}
+\usepackage{setspace}
+\onehalfspacing
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newcommand{\sdlt}{\sigma_{DLT,i}}
+\newcommand{\Cctrl}{C^{\mathrm{ctrl}}}
+
+%% Switch: set to \realdatatrue once the thesis' 30-SKU distributor dataset and its unit
+%% definitions are confirmed and the study has been re-run on it (see sec_realdata.tex).
+\newif\ifrealdata
+\realdatafalse
+
+\journal{Decision Support Systems}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Explainable Inventory Decision Support through Computational Intelligence: An Enterprise Framework for FMCG Inventory Management}
+
+\author[caspam]{Muhammad Yasir\corref{cor1}}
+\ead{yasirmazari10@gmail.com}
+\author[caspam]{Imran Javaid}
+\ead{imran.javaid@bzu.edu.pk}
+\cortext[cor1]{Corresponding author.}
+\affiliation[caspam]{organization={Centre for Advanced Studies in Pure and Applied Mathematics (CASPAM), Bahauddin Zakariya University},
+            city={Multan},
+            postcode={60000},
+            state={Punjab},
+            country={Pakistan}}
+
+\begin{abstract}
+Distributors of fast-moving consumer goods (FMCG) must set order quantities and safety stocks for many products that compete for a procurement budget and warehouse space, under uncertain demand and lead times and with product-specific service targets. Optimisation can compute such policies but rarely tells a planner how good a policy is, which resource binds, or how much service risk remains. Following design science research, we develop an Explainable Inventory Decision Support Framework (EIDSF) and instantiate it in a working decision support system. EIDSF combines a joint order-quantity and safety-stock model with expected-shortage cost, all-units discounts and budget, warehouse and service constraints; an FMCG-adapted Artificial Bee Colony algorithm (FMCG-ABC); a Lagrangian lower bound, based on the convexity of the model within each price regime, that bounds the optimality gap of any recommended policy; and a decision artifact that reports cost drivers, binding resources, model-implied versus realised service and rule-based recommendations with thresholds fixed in advance. In a seeded study on synthetic portfolios of 6 to 100 products at an equal evaluation budget, penalty-based genetic algorithm, particle swarm and ABC rarely returned feasible policies under binding resources (0--9 of 30 runs), whereas constraint-adapted variants always did. FMCG-ABC returned the cheapest policies on the main 50-product instance and kept the lowest median when the adapted genetic algorithm and particle swarm received equal computing time (significantly against the former only), came within about 0.1\% of a certified optimum without discounts, and had the lowest median gap for most further instance groups; it tied with them on small discounted instances and was not the best for 25 products. An ablation attributes its advantage to constraint handling and a logarithmic search move rather than to the bee-colony search itself. Out of sample, model-feasible policies missed individual service targets for about half of the products, mainly because of daily-review undershoot; modelling the review period reduced the misses from 27 to 9 of 50 products at 3.9\% higher controllable cost. All evidence is synthetic, and the effect of the artifact on managerial decisions remains to be tested.
+\end{abstract}
+
+\begin{keyword}
+Decision support systems \sep Design science \sep Inventory optimisation \sep Artificial bee colony \sep Explainable optimisation \sep Lagrangian relaxation \sep FMCG
+\end{keyword}
+
+\end{frontmatter}
+
+%% ============================================================================
+\section{Introduction}\label{sec:intro}
+
+Inventory management in fast-moving consumer goods (FMCG) distribution is a resource-allocation problem. A distributor carries hundreds of products with frequent, uncertain demand and variable supplier lead times; each product has its own service requirement; and all products compete for a limited procurement budget and for space in a small number of warehouses. Setting each product's order quantity and safety stock independently, for example with the economic order quantity (EOQ) and a service-level safety stock, is transparent but ignores these shared resources and can produce a portfolio policy that the organisation cannot finance or store \citep{Silver1998,Axsater2015,Zipkin2000}.
+
+Two lines of work address parts of this problem. Inventory theory provides the cost and service relationships and, for structured cases, optimality conditions \citep{HadleyWhitin1963,RosenblattRothblum1990}. Computational intelligence provides population-based search methods, such as genetic algorithms (GA), particle swarm optimisation (PSO) and the Artificial Bee Colony (ABC) algorithm, that can handle non-convex, discontinuous and constrained objectives \citep{Holland1975,Kennedy1995,Karaboga2007,Talbi2009}. Neither line, on its own, delivers a decision. A metaheuristic returns a candidate policy with no statement of how good it is, and an optimal policy that a manager cannot interpret is unlikely to be adopted or properly overridden. Decision support systems (DSS) research has long argued that analytical models create value only when they are embedded in the decision process with the data, interaction and accountability that the decision maker needs \citep{Shim2002,Power2002,Arnott2014}, and the recent literature on explainable artificial intelligence for operational research and for decision making stresses that optimisation-based systems need explanations of the decision, its constraints and its trade-offs, not only of predictions \citep{DeBock2024,Coussement2024,Olan2024}.
+
+This paper reports a design science study \citep{Hevner2004,Peffers2007,GregorHevner2013} that develops and evaluates an Explainable Inventory Decision Support Framework (EIDSF) for multi-item FMCG inventory planning and instantiates it in a working DSS, the Inventory Intelligence Dashboard (IID). The research questions are:
+
+\begin{enumerate}[label=RQ\arabic*:, leftmargin=*]
+\item How can a multi-item FMCG inventory decision be modelled so that ordering, holding, shortage and purchasing costs, quantity discounts, a procurement budget, warehouse capacities and service targets are represented jointly and consistently?
+\item How can the ABC algorithm be adapted to search the resulting constrained decision space, and which adaptations matter?
+\item How does the adapted algorithm perform relative to EOQ with static safety stock, GA, PSO and standard ABC under an equal evaluation budget, and how close does it come to a certified optimum?
+\item How robust are the resulting policies to tighter or looser resources, larger portfolios, parameter changes and out-of-sample demand?
+\item How can optimisation output be turned into decision-oriented, traceable explanations and recommendations that preserve managerial authority?
+\end{enumerate}
+
+The study makes four contributions and states explicitly a fifth that it does not make. \emph{(C1) Model.} It formulates the joint order-quantity and safety-stock problem with an expected-shortage cost based on the normal loss function, all-units quantity discounts and portfolio-level budget and warehouse constraints, and shows that the problem is convex for every fixed price regime (Proposition~\ref{prop:convex}). This yields a Lagrangian lower bound that is tight without discounts and remains valid with them, so that the DSS can attach a bound on the optimality gap to any recommended policy (Section~\ref{sec:model}). \emph{(C2) Method.} It specifies FMCG-ABC, an ABC variant with EOQ-informed initialisation, service-as-bound encoding, feasibility repair with feasibility-first ranking, and a logarithmic, multi-dimensional move, and isolates the effect of each adaptation by ablation (Section~\ref{sec:abc}). \emph{(C3) Evaluation of the optimisation.} It evaluates the methods in a documented, seeded simulation study with an equal evaluation budget, certified and exact references, non-parametric statistics with effect sizes, sensitivity and scalability analyses and an out-of-sample policy replay, reporting also the conditions under which FMCG-ABC was not the best method (Sections~\ref{sec:design}--\ref{sec:results}). \emph{(C4) Decision artifact.} It designs an artifact whose every entry is computed from the policy, the model or the replay, with recommendation rules whose thresholds were fixed before the experiments, and instantiates it in the IID together with a decision-recording workflow (Sections~\ref{sec:framework} and \ref{sec:artifact}). \emph{(C5) Not evaluated: usefulness to decision makers.} The study tests the technical fidelity of the explanations, not whether planners decide better with them; we specify a user evaluation for future work (Section~\ref{sec:discussion}). Table~\ref{tab:evidence} maps each research gap through the design requirements and artifact features to the evaluation evidence, the resulting contribution and its limitation.
+
+\paragraph{Relation to the thesis and to the system} The work originates in the first author's MPhil thesis, \emph{Artificial Bee Colony Optimization for FMCG Supply Chains} (CASPAM, Bahauddin Zakariya University), which studied ABC optimisation for FMCG inventory and supply chain problems and assembled a 30-SKU packaged-food dataset of a distributor. The present paper re-implements the inventory model in a single, tested Python package that serves both the experiments and the IID, corrects formulation details (Section~\ref{sec:model}), replaces best-run reporting with distributional, statistically tested and certified comparisons, and adds the decision artifact. The IID validates the thesis dataset through a dedicated research schema (Table~\ref{tab:dict}); the dataset is not used for results in this paper because its units and several model parameters have not yet been confirmed (Section~\ref{sec:limits}).
+
+%% ============================================================================
+\section{Related work}\label{sec:related}
+
+\subsection{Multi-item inventory models with shared resources}
+The EOQ balances ordering and holding costs for a single item \citep{Harris1990}. Reorder-point models add safety stock against demand during an uncertain lead time; under a normal approximation of lead-time demand, the expected shortage per cycle is the standard deviation of lead-time demand times the standard normal loss function \citep{Silver1998,Axsater2015,Nahmias2009}. When several items share a budget or a storage resource, the item problems are coupled. For the classical case the optimal policy follows from a Lagrange multiplier on the shared resource \citep{HadleyWhitin1963}, and \citet{RosenblattRothblum1990} characterise the single-resource capacity problem for multi-item systems. Generalised Lagrange multipliers and Lagrangian relaxation provide bounds and heuristics when constraints are hard to handle directly \citep{Everett1963,Fisher1981}. All-units quantity discounts make the purchasing cost and the budget use discontinuous in the order quantity, which breaks the convexity on which these methods rely \citep{Silver1998,Zipkin2000}. Few studies treat order quantity and safety stock jointly under shared budget and warehouse constraints with explicit service targets and discounts; the model in Section~\ref{sec:model} does so and makes the convex structure within each price regime explicit.
+
+\subsection{Computational intelligence for inventory optimisation}
+Population-based metaheuristics search directly over candidate policies and are therefore attractive for discontinuous, constrained inventory problems \citep{Blum2003,Talbi2009}. ABC \citep{Karaboga2007,Karaboga2008} has been modified in many ways, for example by perturbing several dimensions per move \citep{Akay2012}, and applied widely to combinatorial and supply chain problems \citep{Kaya2022}; a recent example is an improved hybrid ABC for a closed-loop location--inventory problem \citep{Guo2025}. For multi-item inventory with shared resources, \citet{Pasandideh2013} solve a multi-period problem with storage capacity and all-units or incremental discounts by a parameter-tuned GA and a memetic algorithm compared statistically, and \citet{Tan2024} combine Monte Carlo simulation with a multi-objective grey wolf optimiser for several items under stochastic demand and a budget limit. Two recurring weaknesses of this literature motivate our evaluation design. Constraint handling is often by penalty, whose outcome depends on the penalty weight, whereas feasibility-first rules avoid this dependence \citep{Deb2000}. Comparisons are often based on the best of several runs, without an equal evaluation budget, statistical testing or a reference optimum \citep{Derrac2011}. We therefore compare all methods on the same model, the same evaluation counter and the same seeds, report distributions and effect sizes, and measure gaps against certified or exact optima.
+
+\subsection{Decision support, design science and explainability}
+DSS research views the system as the combination of data, models and an interface that supports, rather than replaces, a decision maker facing a semi-structured problem \citep{Shim2002,Power2002}. Design science research (DSR) has become the dominant paradigm of DSS research \citep{Arnott2014}: it builds an artifact to address an organisational problem, evaluates it rigorously and states its contribution to the knowledge base \citep{Hevner2004,Peffers2007,GregorHevner2013}. Explainable artificial intelligence developed mainly for predictive models, with post-hoc attribution methods such as LIME and SHAP \citep{Ribeiro2016,Lundberg2017,Arrieta2020,DoshiVelez2017}. For operational research, \citet{DeBock2024} argue that explanations must address the decision model and its outputs, and \citet{Coussement2024} call for explainable AI that measurably improves decision making. In supply chains, \citet{Olan2024} discuss how explainability capabilities enable decision support. Decision support systems for inventory have combined optimisation with simulation or learned models, for example dynamic pricing of deteriorating products via a Hamilton--Jacobi--Bellman formulation solved with PSO and approximated with a neural network \citep{Long2023}. User-centred design has begun to be applied to inventory decision support tools \citep{Hinrichs2024}. In optimisation-based inventory decision support, the natural explanatory units are cost components, binding resources, the service gap and the sensitivity of the decision; these are what EIDSF makes explicit.
+
+\subsection{Positioning}
+Table~\ref{tab:position} positions the study against the closest works we identified, marking a capability only where the cited source states it. The contribution is the integration, in one evaluated artifact, of a joint constrained model, a problem-specific ABC adaptation evaluated against certified bounds and adapted competitors, out-of-sample replay, and decision-oriented explanation. We do not claim a new general-purpose metaheuristic.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Capabilities of the closest works and of this study (\checkmark: stated in the source; --: not stated).}\label{tab:position}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{p{0.36\linewidth}cccccc}
+\toprule
+Capability & \citet{RosenblattRothblum1990} & \citet{Pasandideh2013} & \citet{Long2023} & \citet{Tan2024} & \citet{Guo2025} & This study \\
+\midrule
+Multiple items                              & \checkmark & \checkmark & -- & \checkmark & -- & \checkmark \\
+Demand uncertainty                          & -- & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+Lead-time uncertainty                       & -- & -- & -- & -- & -- & \checkmark \\
+Shared budget or capacity constraint        & \checkmark & \checkmark & -- & \checkmark & -- & \checkmark \\
+Quantity discounts                          & -- & \checkmark & -- & -- & -- & \checkmark \\
+Metaheuristic optimisation                  & -- & GA, MA & PSO & GWO & ABC & ABC, GA, PSO \\
+Statistical comparison of methods           & -- & \checkmark & -- & -- & -- & \checkmark \\
+Certified optimality gap                    & -- & -- & -- & -- & -- & \checkmark \\
+Out-of-sample policy evaluation             & -- & -- & -- & -- & -- & \checkmark\,(synthetic) \\
+Decision support or managerial output       & -- & -- & \checkmark & \checkmark & \checkmark & \checkmark \\
+Decision-oriented explanation and rules     & -- & -- & -- & -- & -- & \checkmark \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize MA: memetic algorithm; GWO: multi-objective grey wolf optimiser. \citet{Tan2024} treat storage space as an objective, not as a constraint.}
+\end{table}
+
+%% ============================================================================
+\section{Research method}\label{sec:method}
+We followed the design science research methodology of \citet{Peffers2007}. \emph{Problem identification}: planners need policies that are cost-efficient, feasible for shared resources, protective against uncertainty, and understandable enough to accept, modify or reject (Section~\ref{sec:intro}). \emph{Objectives}: we derived six design requirements (DR) from the problem and the DSS literature (Table~\ref{tab:dr}). \emph{Design and development}: the framework (Section~\ref{sec:framework}), the decision model (Section~\ref{sec:model}), the optimiser (Section~\ref{sec:abc}) and the artifact (Section~\ref{sec:artifact}) were implemented in one code base that serves both the DSS and the experiments. \emph{Demonstration and evaluation}: following the evaluation methods of \citet{Hevner2004}, we used analytical evaluation (convexity, bounds), controlled experiments and simulation (equal-budget comparison, ablation, sensitivity, scalability, replay) and testing (141 automated tests, including the hand-checked model equations and API tests of the DSS). \emph{Communication}: this paper, with code and data generator released for reproduction. In the terms of the FEDS framework \citep{Venable2016}, the evaluation is ex post and artificial (technical): it tests whether the artifact computes correct, high-quality and honestly qualified recommendations, not whether people decide better with them, which requires a naturalistic evaluation (Section~\ref{sec:limits}).
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Design requirements, design features and evaluation evidence.}\label{tab:dr}
+\begin{tabular}{p{0.27\linewidth}p{0.36\linewidth}p{0.28\linewidth}}
+\toprule
+Design requirement & Design feature & Evaluation \\
+\midrule
+DR1 Integrate the decision data with provenance & Validated upload and research-dataset schema; dataset fingerprint; tenant isolation & Validation and API tests \\
+DR2 Represent costs, uncertainty and shared resources jointly & Model (\ref{eq:tc})--(\ref{eq:bounds}) & Analytical (Prop.~\ref{prop:convex}); hand-checked tests \\
+DR3 Return feasible, high-quality policies with known quality & FMCG-ABC; feasibility-first selection; Lagrangian bound & E1--E5 (Section~\ref{sec:results}) \\
+DR4 Report service risk honestly & Model-implied vs.\ realised service; replay & E7 \\
+DR5 Explain the decision in management terms & Cost decomposition, utilisation, sensitivity, rules R1--R6 & Artifact demonstration; fidelity tests \\
+DR6 Preserve managerial authority and traceability & Accept/modify/reject workflow with comments; audit log; recorded thresholds & Decision-workflow tests \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering\scriptsize
+\caption{Contribution matrix: from research gap to design requirement, artifact feature, evaluation evidence, contribution and limitation.}\label{tab:evidence}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{p{0.17\linewidth}p{0.08\linewidth}p{0.2\linewidth}p{0.2\linewidth}p{0.17\linewidth}p{0.16\linewidth}}
+\toprule
+Research gap & DR & Artifact feature & Evaluation evidence & Contribution & Limitation \\
+\midrule
+Joint $Q$/$SS$ models with shared budget, space, service and discounts are rarely treated together (Table~\ref{tab:position}) & DR2 & Model (\ref{eq:tc})--(\ref{eq:bounds}); budget and review-period variants & Lemma~\ref{lem:mills}, Proposition~\ref{prop:convex}; hand-checked and symbolic tests & C1: convex-per-regime model & normal lead-time demand, backorders \\
+Metaheuristic recommendations come without a statement of their quality & DR3 & Lagrangian bound; certified gap in the DSS & E2 (tight bound), S1 (certified references), E1 bound & C1: certificate attached to every policy & bound not tight with discounts \\
+Penalty-based metaheuristics return inadmissible policies under binding resources & DR3 & FMCG-ABC: service bound, repair, feasibility-first ranking, log move & E1 ablation; E1--E5, X1--X5 vs generic and adapted GA/PSO & C2, C3: which adaptations matter, and when FMCG-ABC is (not) best & synthetic instances \\
+Optimisation output hides service risk outside the model & DR4 & model-implied vs.\ realised service; replay & E7, S3, X6 & C3: shortfall located and reduced & synthetic holdout \\
+Explanations of optimised decisions (not predictions) are scarce & DR5 & cost decomposition, rules R1--R6, portfolio resource view with multipliers & fidelity tests; artifact demonstration; S2; second design iteration & C4: traceable decision explanation & no user evaluation \\
+Decisions must remain the planner's and be traceable & DR1, DR6 & data validation and provenance; accept/modify/reject workflow & API and workflow tests & C4: accountable decision record & usefulness to planners not tested (C5) \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+%% ============================================================================
+\section{The framework and its instantiation}\label{sec:framework}
+
+EIDSF organises the decision process into seven stages: enterprise data (ED), decision modelling (DM), computational intelligence (CI), knowledge extraction (KE), explainability (EX), recommendation (RE) and managerial evaluation (ME). The optimised policy is treated as an intermediate artifact that is analysed, explained and then evaluated by a manager, not as the decision itself. Figure~\ref{fig:framework} maps the stages onto the IID.
+
+\begin{figure}[!htbp]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  stage/.style={draw=black!70, rounded corners=2pt, fill=blue!6, minimum width=1.55cm, minimum height=0.9cm, align=center, font=\scriptsize},
+  impl/.style={draw=black!40, fill=black!3, text width=1.55cm, minimum height=2.2cm, align=left, font=\tiny, inner sep=2pt},
+  arr/.style={-{Stealth[length=2mm]}, thick, black!60}]
+\node[stage] (ed) {ED\\Enterprise data};
+\node[stage, right=0.25cm of ed] (dm) {DM\\Decision model};
+\node[stage, right=0.25cm of dm] (ci) {CI\\Optimisation};
+\node[stage, right=0.25cm of ci] (ke) {KE\\Knowledge};
+\node[stage, right=0.25cm of ke] (ex) {EX\\Explanation};
+\node[stage, right=0.25cm of ex] (re) {RE\\Recommend.};
+\node[stage, right=0.25cm of re] (me) {ME\\Manager};
+\foreach \a/\b in {ed/dm,dm/ci,ci/ke,ke/ex,ex/re,re/me} \draw[arr] (\a) -- (\b);
+\node[impl, below=0.3cm of ed] {upload validation; research schema; dataset fingerprint; tenant scope};
+\node[impl, below=0.3cm of dm] {model eqs.\ (\ref{eq:sdlt})--(\ref{eq:bounds}); record-to-model mapping};
+\node[impl, below=0.3cm of ci] {FMCG-ABC; PSO+, GA+; EOQ; Lagrangian bound};
+\node[impl, below=0.3cm of ke] {SKU costs; utilisation; model and replayed service; ESE};
+\node[impl, below=0.3cm of ex] {cost shares; binding resources; sensitivity; gap to bound};
+\node[impl, below=0.3cm of re] {rules R1--R6 (fixed thresholds), evidence $\to$ action};
+\node[impl, below=0.3cm of me] {accept / modify / reject with comment; audit log};
+\end{tikzpicture}}
+\caption{EIDSF stages (top) and their implementation in the Inventory Intelligence Dashboard (bottom).}\label{fig:framework}
+\end{figure}
+
+\paragraph{Enterprise data} The IID accepts operational inventory files (stock, demand, cost, lead time, supplier and warehouse attributes) through a validating upload service that rejects files it cannot interpret and reports every derived field. A separate research-dataset schema validates the thesis data format (SKU, segment, annual demand, demand standard deviation, unit, ordering, holding and shortage costs, lead time and unit volume) without storing or altering values, records a content fingerprint, and requires the units of each field to be confirmed before the data can enter the model (Table~\ref{tab:dict}). All data are scoped to an organisation (tenant).
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Thesis dataset (30 SKUs): fields, model symbols and status in the IID research schema.}\label{tab:dict}
+\begin{tabular}{p{0.26\linewidth}p{0.17\linewidth}p{0.47\linewidth}}
+\toprule
+Thesis field & Model symbol & Status \\
+\midrule
+SKU\_ID, Segment & $i$, class & identifiers \\
+Annual\_Demand\_Dbar & $D_i$ ($d_i=D_i/365$) & units per year \\
+Demand\_StdDev\_Sigma & $\sigma_{d,i}$ & period (daily or annual) to be confirmed \\
+Unit\_Cost\_c & $p^{reg}_i$ & currency to be confirmed; no discount data \\
+Ordering\_Cost\_s & $K_i$ & per order \\
+Holding\_Cost\_h & $h_i$ & basis (absolute or rate) to be confirmed \\
+Shortage\_Cost\_pi & $c_{s,i}$ & basis (per unit or per unit-time) to be confirmed \\
+Lead\_Time\_L & $L_i$ & unit to be confirmed; $\sigma_{L,i}$ not recorded \\
+Unit\_Volume\_v & $v_i$ & unit to be confirmed; warehouse assignment not recorded \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Decision model and computational intelligence} The model of Section~\ref{sec:model} and the methods of Section~\ref{sec:abc} are implemented in one Python package (\texttt{eidsf}) that is used both by the experiments in this paper and by an authenticated DSS service. The service maps the organisation's current inventory records to the model (the mapping assumptions are returned with every result), runs the selected method, and computes the Lagrangian bound for the same instance (by default for portfolios of up to 1{,}000 SKUs; for larger ones the bound takes several minutes and is computed on request). Figure~\ref{fig:iid} shows the resulting view.
+
+\paragraph{Knowledge extraction, explanation and recommendation} For every SKU and for the portfolio, the artifact reports the policy, its cost components and their shares, resource utilisation, model-implied and (where a replay is available) realised service, the expected shortage exposure, the gap to the lower bound, and the recommendation rules that fired with their evidence (Section~\ref{sec:artifact}).
+
+\paragraph{Managerial evaluation} Recommendations enter a decision workflow in which a manager accepts, modifies or rejects each one; modifications and rejections require a comment, and each decision is stored with the dataset identity, a snapshot of the recommendation and the user, so that the decision can later be traced to the evidence on which it was based. The system does not place orders.
+
+%% ============================================================================
+\section{Decision model}\label{sec:model}
+
+\subsection{Assumptions and notation}
+We consider $N$ SKUs indexed by $i$, assigned to warehouses $w=1,\dots,W$ ($I_w$ is the set of SKUs in warehouse $w$), and a planning year of 365 days. SKU $i$ has mean daily demand $d_i$ with standard deviation $\sigma_{d,i}$, annual demand $D_i=365d_i$, mean lead time $L_i$ (days) with standard deviation $\sigma_{L,i}$, ordering cost $K_i$ per order, holding cost $h_i$ per unit and year, shortage cost $c_{s,i}$ per unit short, regular price $p^{reg}_i$, discounted price $p^{disc}_i<p^{reg}_i$ for orders of at least $q^{disc}_i$ units (all-units discount), unit volume $v_i$, and target cycle service level $\alpha_i\ge 0.5$. $B$ is the procurement budget, defined below, and $Cap_w$ the capacity of warehouse $w$. Demand and lead time are independent, lead-time demand is approximated as normal for the service and expected-shortage calculations, and shortages are backordered. The decision variables are the order quantity $Q_i$ and the safety stock $SS_i$; the reorder point is derived as $ROP_i=d_iL_i+SS_i$.
+
+\subsection{Costs}
+The standard deviation of lead-time demand is
+\begin{equation}\label{eq:sdlt}
+\sdlt=\sqrt{L_i\sigma_{d,i}^2+d_i^2\sigma_{L,i}^2},
+\end{equation}
+and the standardised safety stock is $z_i=SS_i/\sdlt$, with model-implied cycle service level
+\begin{equation}\label{eq:cslmodel}
+CSL^{\mathrm{model}}_i=\Phi(z_i).
+\end{equation}
+With $\mathcal{L}(z)=\phi(z)-z\,[1-\Phi(z)]$ the standard normal loss function, the expected shortage per cycle is $ES_i=\sdlt\,\mathcal{L}(z_i)$ and, with $D_i/Q_i$ cycles per year, the annual cost is
+\begin{equation}\label{eq:tc}
+TC(Q,SS)=\sum_{i=1}^N\Big[\underbrace{K_i\frac{D_i}{Q_i}}_{C_{o,i}}+\underbrace{h_i\Big(\frac{Q_i}{2}+SS_i\Big)}_{C_{h,i}}+\underbrace{c_{s,i}\frac{D_i}{Q_i}\sdlt\,\mathcal{L}(z_i)}_{C_{s,i}}+\underbrace{D_i\,p_i(Q_i)}_{C_{p,i}}\Big],
+\end{equation}
+where $p_i(Q_i)=p^{disc}_i$ if $Q_i\ge q^{disc}_i$ and $p^{reg}_i$ otherwise. Because $C_{p,i}\ge D_i\min(p^{reg}_i,p^{disc}_i)$, we also report the \emph{controllable cost} $\Cctrl=TC-C_0$ with the constant $C_0=\sum_i D_i\min(p^{reg}_i,p^{disc}_i)$; all relative gaps in this paper are computed on $\Cctrl$, because ratios of $TC$, which is dominated by purchasing, make large differences in ordering, holding and shortage look negligible.
+
+\subsection{Constraints and complete model}
+\begin{align}
+\min_{Q,SS}\quad & TC(Q,SS) \nonumber\\
+\text{s.t.}\quad & \textstyle\sum_{i} p_i(Q_i)\,Q_i \le B, \label{eq:budget}\\
+& \textstyle\sum_{i\in I_w} v_i\,(Q_i/2+SS_i)\le Cap_w,\qquad w=1,\dots,W, \label{eq:wh}\\
+& \Phi(SS_i/\sdlt)\ge\alpha_i\iff SS_i\ge z_{\alpha_i}\sdlt,\quad z_{\alpha_i}=\Phi^{-1}(\alpha_i), \label{eq:service}\\
+& Q^{\min}_i\le Q_i\le Q^{\max}_i,\qquad 0\le SS_i\le SS^{\max}_i. \label{eq:bounds}
+\end{align}
+Constraint (\ref{eq:budget}) limits the purchase value of one replenishment batch of every SKU, that is, the procurement commitment if all SKUs were replenished at the same time; it is the budget formulation of the thesis and uses the active price, so that taking a discount changes both the purchasing cost and the commitment. It is not the average capital tied up in stock, $\sum_i p_i(Q_i)(Q_i/2+SS_i)$, under which safety stock would also consume budget. Both forms are used in practice and they bind differently; the convexity argument and the bound carry over to the average-investment form, which is also linear within each price regime. The main results use (\ref{eq:budget}); the comparison is repeated with the average-investment form in Section~\ref{sec:res-variants}. Likewise, the continuous-review assumption is relaxed in a variant that subtracts the expected review-period undershoot $u_i$ from the protection, $z_i=(SS_i-u_i)/\sdlt$, which shifts the service bound to $SS_i\ge z_{\alpha_i}\sdlt+u_i$ and leaves Proposition~\ref{prop:convex} intact. The warehouse constraint (\ref{eq:wh}) limits average stored volume; a peak-volume version would replace $Q_i/2$ by $Q_i$. Two corrections relative to earlier versions of this model are worth stating: the shortage cost uses the expected shortage quantity (loss function) rather than the stockout probability times demand, and the expected shortage exposure used in the artifact is $ESE_i=(D_i/Q_i)\,ES_i/D_i=ES_i/Q_i$, the expected fraction of annual demand that is short, rather than the dimensionally inconsistent $ES_i/D_i$.
+
+\subsection{Structure and a certified lower bound}
+
+The structure of the model rests on one inequality for the standard normal distribution. Let $\bar\Phi=1-\Phi$ and let $R(z)=\bar\Phi(z)/\phi(z)$ be Mills' ratio, so that $\mathcal{L}(z)=\phi(z)\,[1-zR(z)]$.
+
+\begin{lemma}\label{lem:mills}
+For every $z\ge0$, $2\mathcal{L}(z)\phi(z)-\bar\Phi(z)^2>0$.
+\end{lemma}
+\begin{proof}
+Dividing by $\phi(z)^2>0$, the claim is $2(1-zR)-R^2>0$, that is $R^2+2zR-2<0$. Because $R>0$, this is equivalent to $R(z)<b(z):=\sqrt{z^2+2}-z$, the positive root of $r^2+2zr-2$. Mills' ratio satisfies $R'(z)=zR(z)-1$, and
+\[
+b'(z)-\big(zb(z)-1\big)=\frac{z\,\big(z\sqrt{z^2+2}-z^2-1\big)}{\sqrt{z^2+2}}\le0\quad(z\ge0),
+\]
+with equality only at $z=0$, because $(z^2+1)^2-z^2(z^2+2)=1>0$ gives $z\sqrt{z^2+2}<z^2+1$. Hence $\Delta=b-R$ satisfies $\Delta'-z\Delta=b'-zb+1\le0$, so $e^{-z^2/2}\Delta(z)$ is non-increasing on $[0,\infty)$. Since $0<R(z)\le R(0)$ and $0<b(z)\le\sqrt2$, $e^{-z^2/2}\Delta(z)\to0$ as $z\to\infty$; a non-increasing function with limit zero is non-negative, and it is strictly positive because its derivative is negative on $(0,\infty)$. Thus $\Delta(z)>0$ for all $z\ge0$.
+\end{proof}
+
+\begin{proposition}\label{prop:convex}
+For a fixed price regime of each SKU (that is, restricting $Q_i$ to $Q_i<q^{disc}_i$ or to $Q_i\ge q^{disc}_i$), model (\ref{eq:tc})--(\ref{eq:bounds}) is a convex program, provided that $\sigma_{DLT,i}>0$, $c_{s,i}>0$, $D_i>0$ and $\alpha_i\in[0.5,1)$ for all $i$. The same holds for the average-investment budget and for the review-period variant, in which $z_i=(SS_i-u_i)/\sigma_{DLT,i}$ is an affine shift.
+\end{proposition}
+\begin{proof}
+Within a regime, $C_{o,i}$ is convex in $Q_i>0$, $C_{h,i}$ is linear, $C_{p,i}$ is constant, and the constraints are linear. For the shortage term $g(Q,S)=c\,\mathcal{L}(S/\sigma)/Q$ with $c=c_{s}D\sigma>0$, using $\mathcal{L}'(z)=-\bar\Phi(z)$ and $\mathcal{L}''(z)=\phi(z)$,
+\begin{gather*}
+g_{QQ}=\frac{2c\mathcal{L}}{Q^3},\qquad g_{SS}=\frac{c\,\phi}{\sigma^2Q},\qquad g_{QS}=\frac{c\,\bar\Phi}{\sigma Q^2},\\
+\det\nabla^2g=\frac{c^2}{\sigma^2Q^4}\Big(2\mathcal{L}(z)\phi(z)-\bar\Phi(z)^2\Big),
+\end{gather*}
+evaluated at $z=S/\sigma$. The diagonal entries are positive because $\mathcal{L}>0$ and $\phi>0$. The service constraint (\ref{eq:service}) with $\alpha_i\ge0.5$ restricts the feasible set to $z\ge z_{\alpha_i}\ge0$, where the determinant is positive by Lemma~\ref{lem:mills}. Hence $\nabla^2g$ is positive definite on the convex feasible set and $g$ is convex there. (If $\sigma_{DLT,i}=0$ the shortage term vanishes and the claim holds trivially; the argument uses $\alpha_i\ge0.5$ only to guarantee $z\ge0$, and for $z<0$ convexity is not claimed.) The proposition is analytic; the numerical checks of the Hessian in the test suite are a safeguard against implementation errors, not part of the proof.
+\end{proof}
+
+The derivatives and the determinant were also checked symbolically. Numerically, the bracket remains non-negative down to $z\approx-0.5506$, but we use and claim convexity only for $z\ge0$, which is all the model requires. The same argument covers the review-period variant of Section~\ref{sec:res-variants}, in which $z=(S-u)/\sigma$ is an affine function of $S$, and the average-investment budget, which is linear within a regime.
+
+Quantity discounts therefore make the problem non-convex only through the choice among $2^N$ price-regime combinations. We relax the budget and warehouse constraints with multipliers $\lambda\ge0$ and $\mu\in\mathbb{R}^W_{\ge0}$:
+\begin{multline}\label{eq:dual}
+g(\lambda,\mu)=\sum_{i=1}^N\min_{(Q_i,SS_i)\in X_i}\Big[TC_i+\lambda p_i(Q_i)Q_i+\mu_{w(i)}v_i\big(\tfrac{Q_i}{2}+SS_i\big)\Big]\\
+-\lambda B-\sum_w\mu_wCap_w,
+\end{multline}
+where $X_i$ collects (\ref{eq:service}) and (\ref{eq:bounds}). By weak duality, $g(\lambda,\mu)\le TC^*$ for every $\lambda,\mu\ge0$ \citep{Everett1963,Fisher1981}; this holds whether or not the primal problem is convex, provided each inner minimum is computed exactly, because an overestimated inner minimum could overstate the bound. The relaxation separates by SKU, and each SKU is solved for its two price regimes separately and the cheaper one kept, so the $2^N$ combinations never have to be enumerated. Within a regime, the inner objective is convex in $SS_i$ for fixed $Q_i$ ($g_{SS}>0$), and its first-order condition gives the closed form
+\begin{equation}\label{eq:ssopt}
+1-\Phi(z_i^*)=\frac{(h_i+\mu_{w(i)}v_i)\,Q_i}{c_{s,i}D_i},\qquad SS_i^*=\sdlt\cdot\mathrm{clip}\big(z_i^*,\,z_{\alpha_i},\,SS_i^{\max}/\sdlt\big),
+\end{equation}
+where clipping to the bounds is exact for a one-dimensional convex function. Because the inner objective is jointly convex in $(Q_i,SS_i)$ on the regime (Proposition~\ref{prop:convex}) and the bounds on $SS_i$ do not depend on $Q_i$, its partial minimum over $SS_i$ is a convex function of $Q_i$; it is therefore unimodal in $\log Q_i$ as well, and a golden-section search on $\log Q_i$ (120 iterations, after which the interval is reduced by a factor of about $10^{-25}$), compared with the two end points of the regime, returns the regime minimum up to floating-point precision. We maximise $g$ by coordinate ascent over $(\lambda,\mu)$; ascent need not reach the dual optimum, but every point it visits is a valid bound. Without discounts the program is convex with linear constraints and a strictly feasible point, strong duality holds \citep{Boyd2004} and the bound is tight; with discounts it remains a valid lower bound but a duality gap can remain. In both cases the gap of any feasible policy to the bound is an upper bound on its true optimality gap, which the DSS reports with every recommendation. The multipliers at the best dual point are the sensitivities of the bound with respect to the resource limits; they equal the shadow prices of the optimal cost only in the convex case (and where the optimal value is differentiable), and with discounts they should be read as approximate indicators of where additional resources would pay off.
+
+%% ============================================================================
+\section{FMCG-ABC}\label{sec:abc}
+
+\subsection{Search space and standard ABC}
+All stochastic methods search $x\in[0,1]^{2N}$ that a common decoder maps to $(Q,SS)$, call the same evaluation function, and stop after the same number $E_{\max}$ of objective evaluations. In standard ABC \citep{Karaboga2007}, a colony of $2\cdot SN$ bees maintains $SN$ food sources (candidate policies). Each employed bee perturbs one randomly chosen dimension $k$ of its source $x_j$ towards or away from a random other source $x_r$, $v_{jk}=x_{jk}+\varphi_{jk}(x_{jk}-x_{rk})$ with $\varphi_{jk}\sim U(-1,1)$, and keeps the better of $x_j$ and $v_j$ (greedy selection); onlooker bees repeat this for sources chosen with probability increasing in quality; a source not improved for \emph{limit} trials is replaced by a random scout. We use rank-proportional onlooker selection (scale-free and identical in all variants), $SN=50$, limit $=120$, and $E_{\max}=50{,}000$.
+
+\subsection{FMCG-specific adaptations}
+FMCG-ABC adds three groups of adaptations, which the ablation in Section~\ref{sec:results} evaluates cumulatively:
+\begin{description}
+\item[A2.] \emph{EOQ-informed initialisation.} Half of the initial sources are placed around the EOQ policy, $Q_{ij}=Q^{EOQ}_i(1+\epsilon_{ij})$ with $\epsilon_{ij}\sim U(-0.2,0.2)$ and $SS_{ij}=z_{\alpha_i}\sdlt(1+U(0,0.2))$; the other half are uniform random.
+\item[A3.] \emph{Inventory-specific constraint adaptation.} (i) The service constraint (\ref{eq:service}) is encoded as a lower bound of $SS_i$, so every decoded policy meets it. (ii) A repair restores the coupling constraints: if (\ref{eq:budget}) or (\ref{eq:wh}) is violated, $Q$ and $SS$ are moved along the segment towards their lower bounds, $(Q,SS)(t)=(Q^{\min},z_\alpha\sigma_{DLT})+t\,[(Q,SS)-(Q^{\min},z_\alpha\sigma_{DLT})]$, and $t\in[0,1]$ is chosen by 30 bisection steps that keep the lower end of the bracket feasible; the repaired policy is written back into the source (Lamarckian repair). Without discounts, resource use is increasing in $t$ and the bisection returns the largest feasible $t$. With all-units discounts, budget use can increase when an order quantity falls below its discount threshold, so the feasible set of $t$ need not be an interval; the bisection then still returns a feasible point, but not necessarily the largest feasible $t$. If the lower-bound policy ($t=0$) is itself infeasible, no feasible policy exists and the method reports infeasibility. (iii) Sources are ranked feasibility-first \citep{Deb2000}: feasible before infeasible, feasible by $TC$, infeasible by normalised violation. Without A3, constraints are handled by the normalised quadratic penalty $F=TC+\rho\sum_j\tilde V_j^2$, with $\tilde V$ the violations scaled by the service requirement, $B$ and $Cap_w$ and $\rho=10^3\,TC(\text{EOQ})$, fixed before the experiments.
+\item[A4.] \emph{Inventory-specific perturbation (full FMCG-ABC).} Order quantities are decoded on a logarithmic scale, so that ABC moves are multiplicative and comparable across SKUs whose quantities differ by orders of magnitude, and each dimension is perturbed with probability $MR=0.1$ (at least one), in the spirit of \citet{Akay2012}, instead of exactly one.
+\end{description}
+In every variant the reported solution is the best feasible policy evaluated during the run; if none is feasible, the least-violating policy is retained only as a diagnostic and reported as infeasible. Algorithm~\ref{alg:abc} summarises FMCG-ABC.
+
+\begin{algorithm}[!htbp]
+\caption{FMCG-ABC}\label{alg:abc}
+\footnotesize
+\begin{algorithmic}[1]
+\Require instance data, $SN$, limit, $E_{\max}$, $MR$, seed
+\State initialise $SN$ sources: 50\% around $(Q^{EOQ},z_\alpha\sigma_{DLT})$, 50\% uniform in the encoded box
+\State decode (log-$Q$, service-as-bound), repair, write back, evaluate; set trial counters to 0
+\While{evaluations $<E_{\max}$}
+  \For{each source $j$ (employed) and then $SN$ sources drawn by rank (onlookers)}
+    \State $v\gets x_j$; for each dimension $k$ with probability $MR$: $v_k\gets x_{jk}+\varphi(x_{jk}-x_{rk})$
+    \State decode, repair, write back, evaluate $v$; if $v$ ranks before $x_j$ (feasibility first) then $x_j\gets v$, trial$_j\gets0$ else trial$_j\gets$ trial$_j+1$
+  \EndFor
+  \State if $\max_j$ trial$_j\ge$ limit: replace that source by a uniform random scout
+  \State record the best feasible policy found so far
+\EndWhile
+\State \Return best feasible policy (or a diagnostic, flagged infeasible)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Comparators}
+\emph{EOQ with static safety stock} uses the all-units-discount EOQ procedure per SKU and $SS_i=z_{\alpha_i}\sdlt$, ignoring the coupling constraints (its feasibility is reported). \emph{GA} is a real-coded GA with binary tournament selection, simulated binary crossover ($p_c=0.9$, $\eta_c=15$), polynomial mutation ($p_m=1/(2N)$, $\eta_m=20$), elitism of two and population 100 \citep{DebAgrawal1995}. \emph{PSO} is global-best PSO with constriction coefficients ($w=0.7298$, $c_1=c_2=1.49618$, velocity clamp 0.2) and swarm 100 \citep{ClercKennedy2002}. GA, PSO and ABC (A1) use the penalty approach. To separate the effect of the search engine from that of the inventory adaptations, \emph{GA+} and \emph{PSO+} receive exactly the A3 adaptations (EOQ initialisation, service-as-bound, repair and feasibility-first ranking). All parameters were fixed before the experiments and are listed in Table~\ref{tab:config}.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Method configuration (fixed before the experiments).}\label{tab:config}
+\begin{tabular}{p{0.2\linewidth}p{0.72\linewidth}}
+\toprule
+All methods & $E_{\max}=50{,}000$ evaluations (10{,}000 on 6-SKU instances); 30 runs (main instance) with seeds 1--30; NumPy PCG64 generator; same decoder, evaluation and best-solution rule \\
+ABC variants & colony 100 ($SN=50$), limit 120, rank-proportional onlookers; A1 random init., penalty, linear $Q$, one dimension per move; A2 +EOQ init.\ (50\%, $\delta=0.2$); A3 +service bound, repair, feasibility-first; A4 (FMCG-ABC) +log-$Q$, $MR=0.1$ \\
+GA / GA+ & population 100, tournament 2, SBX $p_c=0.9$, $\eta_c=15$, polynomial mutation $p_m=1/(2N)$, $\eta_m=20$, elitism 2 \\
+PSO / PSO+ & swarm 100, $w=0.7298$, $c_1=c_2=1.49618$, $|v|\le0.2$ \\
+Penalty & $F=TC+\rho\sum_j\tilde V_j^2$, $\rho=10^3\,TC(\text{EOQ})$ (A1, A2, GA, PSO) \\
+Software & Python 3.12, NumPy 2.1, SciPy 1.14, pandas 2.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ============================================================================
+\section{Evaluation design}\label{sec:design}
+
+\subsection{Synthetic FMCG portfolios}
+Because the evaluation requires many controlled instances, known data-generating processes and a holdout period, the experiments use a documented generator (Table~\ref{tab:gen}). Daily demand is Gamma distributed with a coefficient of variation between 0.15 and 0.75, deliberately not normal, so that the normal approximation of the model is tested out of sample. The first 730 days calibrate $d_i$ and $\sigma_{d,i}$ (sample mean and standard deviation); the last 270 days are held out for policy replay. Service targets follow an ABC classification by annual demand value. The discount threshold lies above the EOQ, so that the discount creates a genuine order-size trade-off. The budget and warehouse capacities are set to a fraction $\tau_B$, $\tau_C$ of what the EOQ policy would use, so that the coupling constraints bind. All instances are generated from fixed seeds and labelled synthetic throughout; no result in this paper is based on real company data.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Synthetic portfolio generator (per SKU unless stated).}\label{tab:gen}
+\begin{tabular}{p{0.33\linewidth}p{0.6\linewidth}}
+\toprule
+Mean daily demand & $\mathrm{LogNormal}(\ln40,1)$, clipped to [2, 600] units/day \\
+Daily demand series (1000 days) & $\mathrm{Gamma}$ with mean $d_i$ and $CV_i\sim U(0.15,0.75)$ \\
+Lead time & $L_i\sim U\{3,\dots,21\}$ days; $\sigma_{L,i}=L_i\cdot U(0.1,0.3)$ \\
+Regular price; discount & $p^{reg}_i\sim U(80,1500)$; rate $U(0.02,0.08)$; $q^{disc}_i=U(1,2)\times Q^{EOQ}_i$ \\
+Holding, ordering, shortage cost & $h_i=U(0.18,0.30)\,p^{reg}_i$; $K_i\sim U(1500,6000)$; $c_{s,i}=U(0.25,0.80)\,p^{reg}_i$ \\
+Unit volume; warehouse & $v_i\sim U(0.0008,0.012)\,\mathrm{m}^3$; uniform over $W=2$ warehouses \\
+Service target & 0.98 / 0.95 / 0.90 for the top 20\% / next 30\% / last 50\% by annual demand value \\
+Bounds & $Q^{\min}_i=\max(1,d_i)$, $Q^{\max}_i=6Q^{EOQ}_i$, $SS^{\max}_i=4\sigma_{DLT,i}$ \\
+Budget; capacity & $B=\tau_B\sum_ip_i(Q^{EOQ}_i)Q^{EOQ}_i$; $Cap_w=\tau_C\sum_{i\in I_w}v_i(Q^{EOQ}_i/2+SS_i)$ \\
+Calibration / holdout & days 1--730 / 731--1000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Experiments}
+\begin{description}
+\item[E1 Main comparison.] One 50-SKU instance (seed 2026, $\tau_B=0.75$, $\tau_C=0.80$); EOQ and eight stochastic methods (GA, PSO, ABC, A2, A3, FMCG-ABC, GA+, PSO+), 30 runs each.
+\item[E2 Certified gap, convex case.] The E1 instance without discounts ($p^{disc}=p^{reg}$), for which the Lagrangian bound is tight; six methods, 10 runs.
+\item[E3 Exact optimum with discounts.] Five 6-SKU instances ($\tau_B=0.70$, $\tau_C=0.75$) whose reference optimum is obtained by enumerating all $2^6$ price regimes, each a convex program (Proposition~\ref{prop:convex}) solved by sequential quadratic programming on a scaled formulation from six starting points, and certified afterwards by per-regime Lagrangian bounds (S1); six methods, 10 runs each.
+\item[E4 Robustness.] Five further 50-SKU instances at tight ($\tau=0.60$) and loose ($\tau=0.90$) resources; ABC, FMCG-ABC, GA+, PSO+, 3 runs each.
+\item[E5 Scalability.] $N\in\{25,50,75,100\}$, one instance per size, 10 runs, fixed $E_{\max}$.
+\item[E6 Sensitivity.] The E1 instance with $\sigma_d\times\{0.8,1.2\}$, $\alpha_i\{-0.03,+0.01\}$, $B\times\{0.9,1.1\}$ and $Cap_w\times\{0.9,1.1\}$, re-optimised with FMCG-ABC (5 runs).
+\item[E7 Out-of-sample replay.] The median run of each method in E1 and the EOQ policy are replayed on the 270-day holdout.
+\end{description}
+Six extension experiments were added in revision to address the limits of E1--E7 (\texttt{python -m eidsf.extend}). \emph{X1} gives PSO+ and GA+ the number of evaluations they can perform in the time FMCG-ABC needs for 50{,}000 (equal wall-clock time; seeds 1--10). \emph{X2} repeats E5 on three generated instances per size (seeds $3000+N$, $3100+N$, $3200+N$; five runs each). \emph{X3} and \emph{X4} add runs to E4 (five per instance) and E6 (ten per scenario). \emph{X5} replaces the budget by the average capital tied up in stock, $\sum_ip_i(Q_i)(Q_i/2+SS_i)\le B$; \emph{X6} builds the expected daily-review undershoot $u_i=(\sigma_{d,i}^2+d_i^2)/(2d_i)$ into the model by measuring protection as $SS_i-u_i$ in the service constraint and the shortage cost (both with ten runs per method and the Lagrangian bound, which extends to both variants).
+Three supplementary analyses were added after the main run to check the references and to explain observed results; they did not change any E1--E7 result. \emph{S1} certifies the E3 references by computing, for every price regime, the Lagrangian bound of the convex regime problem and taking the minimum over regimes. \emph{S2} recomputes the E1 bound with the budget or the capacities scaled by 0.9 and 1.1 and compares the change with the first-order estimate from the multipliers. \emph{S3} replays the median FMCG-ABC policy under normal instead of Gamma demand and with an allowance for daily-review undershoot (Section~\ref{sec:replay}).
+
+\subsection{Policy replay}
+A fixed policy $(Q_i, ROP_i)$ is replayed against the observed holdout demand with daily review and backorders. Each day, arriving orders first clear backorders; demand is served from stock and the unmet part is backordered; if the inventory position (on hand minus backorders plus on order) is at or below $ROP_i$, $k\,Q_i$ units are ordered with $k$ the smallest integer that lifts the position above $ROP_i$; the lead time is drawn from $\max(1,\mathrm{round}(N(L_i,\sigma_{L,i}^2)))$ and the order is usable from the start of day $t+LT+1$. After a 30-day warm-up we record the realised cycle service level (share of replenishment cycles without a stockout day), the fill rate ($1-$ backordered units / demand), shortage units and annualised costs. Replications (30) differ only in lead-time draws.
+
+\subsection{Metrics and statistics}
+For each method we report the number of feasible runs, and over feasible runs the mean, standard deviation, median and interquartile range of $\Cctrl$ and the median gap to the best known feasible solution (BKS) or to the certified or exact optimum. Gap $=100\,(TC-TC^*)/(TC^*-C_0)$. The sensitivity of the policy cost to a parameter change $\theta\to\theta+\Delta$ (with re-optimisation) is
+\begin{equation}\label{eq:si}
+SI_\theta=\frac{TC(\theta+\Delta)-TC(\theta)}{TC(\theta)},
+\end{equation}
+reported on $TC$ and, as $SI^{ctrl}$, on $\Cctrl$. Runs of different methods use the same integer seeds but not the same random numbers, because each method consumes its generator stream differently; on one instance they are therefore independent samples, not pairs. We compare FMCG-ABC with each other method by the two-sided Mann--Whitney U test \citep{MannWhitney1947} with Holm correction \citep{Holm1979}, report a percentile-bootstrap 95\% confidence interval of the difference of medians (both groups resampled independently, 5{,}000 resamples) and the Vargha--Delaney effect size $A_{12}$, the probability that a randomly chosen FMCG-ABC run is cheaper than a randomly chosen run of the comparator \citep{VarghaDelaney2000}, and apply a Kruskal--Wallis test \citep{KruskalWallis1952} across methods. Paired tests over problem instances, as recommended by \citet{Derrac2011} for comparisons across many problems, would require more instances than our design contains. Statistical tests are only applied to methods feasible in all runs; an infeasible policy is never compared on cost.
+
+\subsection{Reproducibility}
+All experiments are run by one command (\texttt{python -m eidsf.study}); every table and figure in Section~\ref{sec:results} is generated from the stored outputs by \texttt{python -m eidsf.report}, and the run configuration (seeds, software versions, rule thresholds and runtime) is written next to the results. The supplementary analyses, the extensions and the statistical comparison are run by the modules \texttt{eidsf.supplement}, \texttt{eidsf.extend} and \texttt{eidsf.stats\_unpaired} of the same package. Before submission, 134 numbers stated in this paper were checked automatically against the stored result files, and a subset of 57 values covering every experiment type was re-computed in a fresh environment built from the pinned library versions; all matched exactly. The model equations, the bound, the methods, the replay, the artifact and the price, budget and repair behaviour immediately below, at and above discount thresholds are covered by automated tests, several of which compare against values computed by hand from the equations above.
+
+%% ============================================================================
+\section{Results}\label{sec:results}
+%% RESULTS-START (written after the study run; every number checked against generated/values.json and the CSV files)
+\input{sec_results}
+%% RESULTS-END
+
+%% ============================================================================
+\section{The decision artifact}\label{sec:artifact}
+\input{sec_artifact}
+
+%% ============================================================================
+\ifrealdata
+\section{Application to a distributor's portfolio}\label{sec:real}
+\input{sec_realdata}
+\fi
+
+%% ============================================================================
+\section{Discussion}\label{sec:discussion}
+\input{sec_discussion}
+
+%% ============================================================================
+\section{Conclusion}\label{sec:conclusion}
+\input{sec_conclusion}
+
+%% ============================================================================
+\section*{Data and code availability}
+All results are based on synthetic data that are fully determined by the documented generator and the seeds reported here. The code that generates the data, runs every experiment and supplementary analysis, produces every table and figure, and implements the decision support system, together with the machine-readable raw results and the pinned software environment, is kept in a version-controlled repository. It is available from the corresponding author on request at submission and will be deposited in a public archive with a persistent identifier before publication.
+%% AUTHORS: once the archive exists, replace the previous sentence by "It is available at <DOI>."
+The company dataset of the first author's thesis is subject to confidentiality restrictions and is not used in any result reported here.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\section*{Funding}
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
+
+\section*{CRediT authorship contribution statement}
+\textbf{Muhammad Yasir:} Conceptualization, Methodology, Software, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft. \textbf{Imran Javaid:} Conceptualization, Methodology, Supervision, Writing -- review \& editing.
+%% Authors: confirm or correct these roles before submission.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+During the preparation of this work the authors used an AI assistant (Anthropic Claude) to help implement and test software, run the experiments and draft and edit text. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
+%% Authors: adjust this statement to reflect the actual use, as required by Elsevier's policy.
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,7 @@
+Highlights (each at most 85 characters including spaces)
+
+- Design science study of an explainable inventory decision support system for FMCG
+- Joint order quantity and safety stock model with budget, warehouse, service limits
+- A Lagrangian bound limits the optimality gap of every recommended inventory policy
+- Generic GA, PSO and ABC rarely found feasible policies; adapted variants always did
+- Artifact shows cost drivers, binding resources and model-versus-realised service

@@ -1,0 +1,20 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Sensitivity of the re-optimised FMCG-ABC policy cost to model parameters (10 runs per scenario; E6 extended by X4).}\label{tab:sens}
+\begin{tabular}{lrrrr}
+\toprule
+Scenario & Feas. (\%) & Median ctrl. cost & IQR & $SI^{ctrl}$ (\%) \\
+\midrule
+$\sigma_d\times0.8$ & 100 & 33.01 & [31.73, 34.63] & -3.2 \\
+$\sigma_d\times1.2$ & 100 & 36.48 & [34.93, 37.91] & +7.0 \\
+$\alpha_i-0.03$ & 100 & 32.52 & [32.04, 33.17] & -4.6 \\
+$\alpha_i+0.01$ & 100 & 37.99 & [35.70, 38.92] & +11.4 \\
+$B\times0.9$ & 100 & 39.00 & [37.65, 40.33] & +14.4 \\
+$B\times1.1$ & 100 & 28.39 & [28.14, 29.67] & -16.8 \\
+$Cap_w\times0.9$ & 100 & 40.41 & [39.50, 41.17] & +18.5 \\
+$Cap_w\times1.1$ & 100 & 32.44 & [32.11, 32.94] & -4.9 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize $SI^{ctrl}$: change of the median controllable cost relative to the median of the 30 E1 runs (34.10 million), eq.~(\ref{eq:si}). Base run-to-run IQR: 2.52 million (7.4\%).}
+\end{table}

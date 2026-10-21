@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Comparison of FMCG-ABC with each method feasible in all runs on the main instance (two-sided Mann--Whitney U test on controllable cost, Holm correction; runs of different methods are independent).}\label{tab:stats}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Comparison & $n$ & $U$ & $p$ & $p_{\mathrm{Holm}}$ & Diff.\ of medians [95\% CI] & $A_{12}$ \\
+\midrule
+FMCG-ABC vs A3 & 30/30 & 0 & $<10^{-4}$ & $<10^{-4}$ & -20.11 [-21.57, -18.79] & 1.00 \\
+FMCG-ABC vs GA+ & 30/30 & 43 & $<10^{-4}$ & $<10^{-4}$ & -6.20 [-7.80, -5.28] & 0.95 \\
+FMCG-ABC vs PSO+ & 30/30 & 172 & $<10^{-4}$ & $<10^{-4}$ & -6.12 [-6.93, -4.84] & 0.81 \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize Difference of medians: FMCG-ABC minus comparator, millions; negative favours FMCG-ABC; CI: percentile bootstrap of both groups independently (5000 resamples). $A_{12}$: probability that a randomly chosen FMCG-ABC run is cheaper than a randomly chosen comparator run (Vargha--Delaney). Kruskal--Wallis test across the four methods: $H=83.9$, $p<10^{-4}$.}
+\end{table}

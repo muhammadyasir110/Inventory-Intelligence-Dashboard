@@ -1,0 +1,135 @@
+claim,location,stated,computed,status
+EOQ budget use 133%,Res 8.1,133.3,133.3333,verified
+EOQ capacity 125%,Res 8.1,125.0,125.0,verified
+EOQ ctrl cost 16.0M,Res 8.1,15.98,15.9778,verified
+PSO feasible 0/30,Res 8.1,0.0,0.0,verified
+ABC feasible 1/30,Res 8.1,1.0,1.0,verified
+GA feasible 9/30,Res 8.1,9.0,9.0,verified
+FMCG-ABC median 34.10M,"Res 8.1, abstract",34.1,34.103,verified
+FMCG-ABC IQR 2.52M,Res 8.1,2.52,2.519,verified
+PSO+ median 40.23M,Res 8.1,40.23,40.2261,verified
+GA+ median 40.30M,Res 8.1,40.3,40.2983,verified
+A3 median 54.21M,Res 8.1,54.21,54.2101,verified
+BKS 29.71M,Res 8.1,29.71,29.7052,verified
+best GA+ 31.93M,Res 8.1,31.93,31.9326,verified
+best PSO+ 32.01M,Res 8.1,32.01,32.0051,verified
+Kruskal-Wallis H 83.9,Res 8.1,83.9,83.9453,verified
+median diff vs A3 -20.11,Res 8.1,-20.11,-20.1071,verified
+A12 vs A3 1.0,Res 8.1,1.0,1.0,verified
+Holm p vs A3 <1e-4,Res 8.1,1.0,1.0,verified
+CI vs A3 excludes 0,Res 8.1,1.0,1.0,verified
+median diff vs GA+ -6.2,Res 8.1,-6.2,-6.1953,verified
+A12 vs GA+ 0.95,Res 8.1,0.95,0.9522,verified
+Holm p vs GA+ <1e-4,Res 8.1,1.0,1.0,verified
+CI vs GA+ excludes 0,Res 8.1,1.0,1.0,verified
+median diff vs PSO+ -6.12,Res 8.1,-6.12,-6.1231,verified
+A12 vs PSO+ 0.81,Res 8.1,0.81,0.8089,verified
+Holm p vs PSO+ <1e-4,Res 8.1,1.0,1.0,verified
+CI vs PSO+ excludes 0,Res 8.1,1.0,1.0,verified
+lower bound 25.02M,Res 8.2,25.02,25.0226,verified
+BKS 18.7% above bound,Res 8.2,18.7,18.7134,verified
+FMCG median 36.3% above bound,Res 8.2,36.3,36.289,verified
+E2 duality gap ~1e-6 %,Res 8.2,1e-06,0.0,verified
+E2 FMCG median gap 0.10%,"Res 8.2, abstract",0.1,0.1008,verified
+E2 GA+ median gap 0.10%,Res 8.2,0.1,0.1002,verified
+E2 PSO+ median gap 0.17%,Res 8.2,0.17,0.1676,verified
+E2 GA one policy 50% above,Res 8.2,50.0,49.9614,verified
+E3 PSO+ median 7.6%,Res 8.2,7.6,7.6069,verified
+E3 GA+ median 7.7%,Res 8.2,7.7,7.6559,verified
+E3 FMCG median 7.9%,Res 8.2,7.9,7.8523,verified
+E3 worst adapted 47%,Res 8.2,47.0,47.3926,verified
+S1 certified within 2e-6 %,Res 8.2 fn,2e-06,0.0,verified
+E3 smallest gap 0.04%,Res 8.2 fn,0.04,0.0403,verified
+A2 feasible 21/30,Res 8.3,21.0,21.0,verified
+A2 median 60.9M,Res 8.3,60.9,60.9291,verified
+ABC median 80.5M,Res 8.3,80.5,80.514,verified
+A3 gap to BKS 82%,Disc,82.5,82.4939,verified
+FMCG gap to BKS 15%,Disc,14.8,14.8051,verified
+"X1 PSO+ evals 952,752",Res 8.5,952752.0,952752.0,verified
+"X1 GA+ evals 478,667",Res 8.5,478667.0,478667.0,verified
+X1 FMCG median 34.00,Res 8.5,34.0,34.0041,verified
+X1 PSO+ median 40.24,Res 8.5,40.24,40.2433,verified
+X1 GA+ median 38.35,Res 8.5,38.35,38.3461,verified
+X1 vs PSO+ p 0.064,Res 8.5,0.064,0.064,verified
+X1 vs PSO+ A12 0.75,Res 8.5,0.75,0.75,verified
+X1 vs PSO+ CI low -7.59,Res 8.5,-7.59,-7.5904,verified
+X1 vs PSO+ CI high +1.65,Res 8.5,1.65,1.6454,verified
+X1 vs GA+ p<0.001,Res 8.5,1.0,1.0,verified
+X1 vs GA+ A12 1.00,Res 8.5,1.0,1.0,verified
+X3 tau 0.6 FMCG-ABC 4.7%,Res 8.6,4.7,4.7224,verified
+X3 tau 0.6 PSO+ 10.3%,Res 8.6,10.3,10.3144,verified
+X3 tau 0.6 GA+ 13.4%,Res 8.6,13.4,13.3722,verified
+X3 tau 0.9 FMCG-ABC 5.5%,Res 8.6,5.5,5.4991,verified
+X3 tau 0.9 PSO+ 14.1%,Res 8.6,14.1,14.1109,verified
+X3 tau 0.9 GA+ 19.1%,Res 8.6,19.1,19.1035,verified
+X3 wins FMCG tight 4,Res 8.6,4.0,4.0,verified
+X3 wins PSO+ loose 3,Res 8.6,3.0,3.0,verified
+X3 wins FMCG loose 1,Res 8.6,1.0,1.0,verified
+X3 ABC loose feasible 5/25,Res 8.6,5.0,5.0,verified
+X2 N=50 FMCG-ABC 4.2%,Res 8.6,4.2,4.2223,verified
+X2 N=75 FMCG-ABC 5.3%,Res 8.6,5.3,5.3406,verified
+X2 N=100 FMCG-ABC 4.9%,Res 8.6,4.9,4.9499,verified
+X2 N=25 PSO+ 8.3%,Res 8.6,8.3,8.2877,verified
+X2 N=25 FMCG-ABC 10.9%,Res 8.6,10.9,10.9446,verified
+X2 ABC feasible only N=25,Res 8.6,1.0,1.0,verified
+X4 E6-cap-0.9 18.5%,Res 8.7,18.5,18.5047,verified
+X4 E6-B-0.9 14.4%,Res 8.7,14.4,14.3605,verified
+X4 E6-alpha-0.01 11.4%,Res 8.7,11.4,11.3953,verified
+X4 E6-B-1.1 -16.8%,Res 8.7,-16.8,-16.7553,verified
+X4 E6-sigma_d-0.8 -3.2%,Res 8.7,-3.2,-3.1946,verified
+X4 E6-sigma_d-1.2 7.0%,Res 8.7,7.0,6.9568,verified
+X4 E6-cap-1.1 -4.9%,Res 8.7,-4.9,-4.8911,verified
+X4 E6-alpha--0.03 -4.6%,Res 8.7,-4.6,-4.6296,verified
+X4 all TC changes <0.5%,Res 8.7,0.5,0.4693,verified
+E7 FMCG realised CSL 92.9,Res 8.8,92.9,92.882,verified
+E7 PSO+ 92.3,Res 8.8,92.3,92.2837,verified
+E7 GA+ 94.8,Res 8.8,94.8,94.7523,verified
+E7 A3 94.7,Res 8.8,94.7,94.6608,verified
+E7 EOQ 90.5,Res 8.8,90.5,90.5457,verified
+E7 EOQ 38 SKUs,Res 8.8,38.0,38.0,verified
+E7 FMCG 27 SKUs,"Res 8.8, abstract",27.0,27.0,verified
+E7 mean target 93.1,Res 8.8,93.1,93.1,verified
+E7 fill > 99.3 (feasible),Res 8.8,99.3,99.3433,verified
+S3 normal CSL 91.7,Res 8.8,91.7,91.743,verified
+S3 normal 28 SKUs,Res 8.8,28.0,28.0,verified
+S3 allowance CSL 95.3,Res 8.8,95.3,95.3246,verified
+S3 allowance 17 SKUs,Res 8.8,17.0,17.0,verified
+"S3 added units 2,562",Res 8.8,2562.0,2562.492,verified
+S3 added holding 0.54M,Res 8.8,0.54,0.544,verified
+X5 FMCG 53.64,Res 8.9,53.64,53.6352,verified
+X5 GA+ 56.56,Res 8.9,56.56,56.5597,verified
+X5 PSO+ 63.22,Res 8.9,63.22,63.2163,verified
+X5 ABC feasible 0,Res 8.9,0.0,0.0,verified
+X5 warehouse multipliers zero,Res 8.9,0.0,0.0,verified
+X6 FMCG 35.42,Res 8.9,35.42,35.4224,verified
+X6 +3.9% vs 34.10,"Res 8.9, abstract",3.9,3.8689,verified
+X6 realised CSL 96.8,Res 8.9,96.8,96.7647,verified
+X6 9 SKUs,"Res 8.9, abstract",9.0,9.0,verified
+X6 GA+ 96.5,Res 8.9,96.5,96.461,verified
+X6 PSO+ 95.9,Res 8.9,95.9,95.8961,verified
+S2 lambda 0.91,Sec 9,0.91,0.9123,verified
+"S2 mu2 17,924",Sec 9,17924.0,17924.4159,verified
+"S2 bound change ('B', 0.9) 3.91",Sec 9,3.91,3.9084,verified
+"S2 bound change ('B', 1.1) -3.22",Sec 9,-3.22,-3.2236,verified
+"S2 bound change ('cap', 0.9) 1.23",Sec 9,1.23,1.2295,verified
+"S2 bound change ('cap', 1.1) -0.12",Sec 9,-0.12,-0.1194,verified
+S2 first-order 3.73,Sec 9,3.73,3.7324,verified
+S2 first-order cap 0.49,Sec 9,0.49,0.4856,verified
+Artifact: 33 SKUs Q below EOQ,Sec 9,33.0,33.0,verified
+Artifact: discount 17 SKUs,Sec 9,17.0,17.0,verified
+Artifact: holding driver 30,Sec 9,30.0,30.0,verified
+Artifact: rules fired 155,Sec 9,155.0,155.0,verified
+Artifact v2: SKU rule firings 55,Sec 9,55.0,55.0,verified
+Artifact v2: 2 constraining resources,Sec 9,2.0,2.0,verified
+Artifact v2: 1 high-use not constraining,Sec 9,1.0,1.0,verified
+"SKU-040 holding 723,971",Sec 9,723971.0,723971.0928,verified
+"SKU-040 controllable 849,154",Sec 9,849154.0,849154.1466,verified
+Artifact: 15 SKUs at service bound,Sec 9,15.0,15.0,verified
+Artifact: ESE median 0.31%,Sec 9,0.31,0.3119,verified
+Artifact: ESE max 1.8%,Sec 9,1.8,1.7869,verified
+Artifact: budget use 99.9%,Sec 9,99.9,99.8738,verified
+Artifact: wh 95.2%,Sec 9,95.2,95.1947,verified
+Artifact: wh 99.8%,Sec 9,99.8,99.8183,verified
+Decomp: total +1.4% vs EOQ,Sec 9,1.4,1.3664,verified
+Run time study 68 min,Res intro,68.0,67.7117,verified
+Run time ext 77 min,Res intro,77.0,76.5517,verified

@@ -1,0 +1,1890 @@
+{
+  "portfolio": {
+    "total_cost": 1344750988.033892,
+    "components": {
+      "ordering": 5320312.461095298,
+      "holding": 9944871.239959925,
+      "shortage": 1713952.7558435043,
+      "purchasing": 1327771851.5769932
+    },
+    "budget_utilisation": 0.9987384886969376,
+    "warehouse_utilisation": [
+      0.9519469718702276,
+      0.9981826024146304
+    ],
+    "feasible": true,
+    "rule_thresholds": {
+      "cv_high": 0.5,
+      "holding_share": 0.5,
+      "lead_time_days": 14.0,
+      "warehouse_util": 0.95,
+      "budget_util": 0.95,
+      "csl_shortfall": 0.05,
+      "ese": 0.01
+    },
+    "cost_change_vs_baseline_pct": 1.366369723017556,
+    "realised_csl": 0.9288200658014074,
+    "realised_fill_rate": 0.9934325762274443
+  },
+  "resources": [
+    {
+      "resource": "procurement budget",
+      "rule": "R5",
+      "scope": "portfolio",
+      "utilisation": 0.9987384886969376,
+      "threshold": 0.95,
+      "binding": true,
+      "multiplier": 0.9122789153029796,
+      "status": "constraining",
+      "action": "Relieving this resource lowers cost; compare the marginal value with its price before requesting more."
+    },
+    {
+      "resource": "warehouse 0",
+      "rule": "R4",
+      "scope": "portfolio",
+      "utilisation": 0.9519469718702276,
+      "threshold": 0.95,
+      "binding": false,
+      "multiplier": 0.0,
+      "status": "high utilisation, not constraining",
+      "action": "Monitor; at the current policy the limit does not raise cost."
+    },
+    {
+      "resource": "warehouse 1",
+      "rule": "R4",
+      "scope": "portfolio",
+      "utilisation": 0.9981826024146304,
+      "threshold": 0.95,
+      "binding": true,
+      "multiplier": 17924.41589132455,
+      "status": "constraining",
+      "action": "Relieving this resource lowers cost; compare the marginal value with its price before requesting more space."
+    }
+  ],
+  "multipliers": {
+    "lambda_budget": 0.9122789153029796,
+    "mu_warehouse": [
+      0.0,
+      17924.41589132455
+    ]
+  },
+  "rule_counts": {
+    "R2": 27,
+    "R3": 16,
+    "R1": 12
+  },
+  "skus": [
+    {
+      "sku": "SIM-001",
+      "warehouse": 1,
+      "order_quantity": 613.0746138421532,
+      "safety_stock": 123.53972970801019,
+      "reorder_point": 503.97583004220826,
+      "unit_price_paid": 1122.2604463972539,
+      "discount_taken": true,
+      "ordering_cost": 31686.346216851103,
+      "holding_cost": 108172.68732767989,
+      "shortage_cost": 15202.704443713656,
+      "purchasing_cost": 7420769.597244808,
+      "total_cost": 7575831.335233053,
+      "cost_shares_controllable": {
+        "ordering": 0.2043466468772153,
+        "holding": 0.6976104404032963,
+        "shortage": 0.09804291271948845
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9060893048859524,
+      "target_csl": 0.9,
+      "realised_csl": 0.8839285714285716,
+      "realised_fill_rate": 0.9923355741550298,
+      "expected_shortage_exposure": 0.006717009076586177,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 70% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 21 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 455.3709840488833,
+      "baseline_safety_stock": 120.20983535123085
+    },
+    {
+      "sku": "SIM-002",
+      "warehouse": 0,
+      "order_quantity": 2232.638791551757,
+      "safety_stock": 90.42367466339418,
+      "reorder_point": 340.88031504092123,
+      "unit_price_paid": 159.4967147459493,
+      "discount_taken": true,
+      "ordering_cost": 22266.645740374697,
+      "holding_cost": 43260.07358190916,
+      "shortage_cost": 2854.872024685428,
+      "purchasing_cost": 2916131.8268361967,
+      "total_cost": 2984513.418183166,
+      "cost_shares_controllable": {
+        "ordering": 0.325623392228376,
+        "holding": 0.6326274766319324,
+        "shortage": 0.04174913113969171
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9069229453229998,
+      "target_csl": 0.9,
+      "realised_csl": 0.7133333333333336,
+      "realised_fill_rate": 0.9934693134098939,
+      "expected_shortage_exposure": 0.0013306481554984692,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 63% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1732.3688613752531,
+      "baseline_safety_stock": 87.65424020007747
+    },
+    {
+      "sku": "SIM-003",
+      "warehouse": 1,
+      "order_quantity": 751.3882977769795,
+      "safety_stock": 22.094784178728744,
+      "reorder_point": 65.49358973710588,
+      "unit_price_paid": 116.89410287787135,
+      "discount_taken": false,
+      "ordering_cost": 11209.502220848428,
+      "holding_cost": 13637.652382805083,
+      "shortage_cost": 5.814817197804928,
+      "purchasing_cost": 264524.0744609928,
+      "total_cost": 289377.04388184415,
+      "cost_shares_controllable": {
+        "ordering": 0.45103271287348873,
+        "holding": 0.548733318416401,
+        "shortage": 0.00023396871011020404
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9869416247838727,
+      "target_csl": 0.9,
+      "realised_csl": 0.5666666666666667,
+      "realised_fill_rate": 0.9980668708119739,
+      "expected_shortage_exposure": 6.024169548155349e-05,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.54 > 0.5 and realised CSL 0.567 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 55% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1147.8020732139046,
+      "baseline_safety_stock": 12.729139312496521
+    },
+    {
+      "sku": "SIM-004",
+      "warehouse": 0,
+      "order_quantity": 2412.6129341141977,
+      "safety_stock": 1024.0176906431604,
+      "reorder_point": 4151.460736907605,
+      "unit_price_paid": 83.56233450200605,
+      "discount_taken": false,
+      "ordering_cost": 98571.83133289602,
+      "holding_cost": 51198.64006887725,
+      "shortage_cost": 27545.921763346574,
+      "purchasing_cost": 5020410.595699561,
+      "total_cost": 5197726.988864681,
+      "cost_shares_controllable": {
+        "ordering": 0.5559092962211585,
+        "holding": 0.2887417184332204,
+        "shortage": 0.15534898534562097
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.937842598083101,
+      "target_csl": 0.9,
+      "realised_csl": 0.9091911764705883,
+      "realised_fill_rate": 0.9869175676360504,
+      "expected_shortage_exposure": 0.00743644412633988,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R3",
+          "evidence": "lead time 19 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 8745.67993912541,
+      "baseline_safety_stock": 853.8753533024911
+    },
+    {
+      "sku": "SIM-005",
+      "warehouse": 1,
+      "order_quantity": 588.0845495825289,
+      "safety_stock": 575.04521542653,
+      "reorder_point": 1927.55413525713,
+      "unit_price_paid": 890.6738550551086,
+      "discount_taken": false,
+      "ordering_cost": 165047.35472849302,
+      "holding_cost": 200268.4043614522,
+      "shortage_cost": 111885.72111279036,
+      "purchasing_cost": 24427510.09844492,
+      "total_cost": 24904711.578647655,
+      "cost_shares_controllable": {
+        "ordering": 0.3458651357459618,
+        "holding": 0.41967263864389026,
+        "shortage": 0.23446222561014798
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.95,
+      "target_csl": 0.95,
+      "realised_csl": 0.9464856963577764,
+      "realised_fill_rate": 0.9903582271058123,
+      "expected_shortage_exposure": 0.012420381067137472,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R3",
+          "evidence": "lead time 18 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 1712.1172606811685,
+      "baseline_safety_stock": 575.04521542653
+    },
+    {
+      "sku": "SIM-006",
+      "warehouse": 1,
+      "order_quantity": 1175.7915512630982,
+      "safety_stock": 240.56492000061948,
+      "reorder_point": 805.6594744766223,
+      "unit_price_paid": 786.5472863133443,
+      "discount_taken": true,
+      "ordering_cost": 40519.010365538,
+      "holding_cost": 139292.12847427858,
+      "shortage_cost": 17539.441432651976,
+      "purchasing_cost": 8538571.565355007,
+      "total_cost": 8735922.145627474,
+      "cost_shares_controllable": {
+        "ordering": 0.20531487827193692,
+        "holding": 0.7058105848078449,
+        "shortage": 0.08887453692021811
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9410665862923945,
+      "target_csl": 0.9,
+      "realised_csl": 0.9103174603174603,
+      "realised_fill_rate": 0.9945082391548146,
+      "expected_shortage_exposure": 0.0033101699563622966,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 71% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 19 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 1152.7212029262794,
+      "baseline_safety_stock": 197.14686396193952
+    },
+    {
+      "sku": "SIM-007",
+      "warehouse": 0,
+      "order_quantity": 1722.017775069484,
+      "safety_stock": 213.67729733972726,
+      "reorder_point": 593.3539516479806,
+      "unit_price_paid": 512.73224372447,
+      "discount_taken": true,
+      "ordering_cost": 30812.989231118863,
+      "holding_cost": 130109.73218672987,
+      "shortage_cost": 594.7887624008138,
+      "purchasing_cost": 5465803.764726446,
+      "total_cost": 5627321.274906696,
+      "cost_shares_controllable": {
+        "ordering": 0.19077181908470683,
+        "holding": 0.8055456776267207,
+        "shortage": 0.003682503288572516
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9920524177385012,
+      "target_csl": 0.9,
+      "realised_csl": 0.95,
+      "realised_fill_rate": 0.9991536629300053,
+      "expected_shortage_exposure": 0.00013529359806855695,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 81% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1591.6436338136034,
+      "baseline_safety_stock": 113.56401291254703
+    },
+    {
+      "sku": "SIM-008",
+      "warehouse": 1,
+      "order_quantity": 760.5334182607271,
+      "safety_stock": 76.48212260170072,
+      "reorder_point": 240.18058928189805,
+      "unit_price_paid": 97.35932829162624,
+      "discount_taken": false,
+      "ordering_cost": 66544.89495754859,
+      "holding_cost": 11482.413812000765,
+      "shortage_cost": 2877.472692748506,
+      "purchasing_cost": 1939071.3522663026,
+      "total_cost": 2019976.1337286003,
+      "cost_shares_controllable": {
+        "ordering": 0.8225088030002149,
+        "holding": 0.14192503340920143,
+        "shortage": 0.035566163590583656
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9094065430858463,
+      "target_csl": 0.9,
+      "realised_csl": 0.9254901960784315,
+      "realised_fill_rate": 0.9959994236666962,
+      "expected_shortage_exposure": 0.003162713604333145,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 3279.19986020924,
+      "baseline_safety_stock": 73.30423410562501
+    },
+    {
+      "sku": "SIM-009",
+      "warehouse": 1,
+      "order_quantity": 439.95672697255384,
+      "safety_stock": 76.60027440117025,
+      "reorder_point": 440.48485305314136,
+      "unit_price_paid": 559.6471425743389,
+      "discount_taken": false,
+      "ordering_cost": 128643.79784482667,
+      "holding_cost": 36745.99139557142,
+      "shortage_cost": 24421.134684726447,
+      "purchasing_cost": 6194261.842028888,
+      "total_cost": 6384072.765954012,
+      "cost_shares_controllable": {
+        "ordering": 0.677747071583579,
+        "holding": 0.19359260592433952,
+        "shortage": 0.12866032249208137
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.830759803921569,
+      "realised_fill_rate": 0.9867355005103968,
+      "expected_shortage_exposure": 0.006431935205892435,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 1406.1031483192337,
+      "baseline_safety_stock": 76.60027440117025
+    },
+    {
+      "sku": "SIM-010",
+      "warehouse": 0,
+      "order_quantity": 425.8980207742805,
+      "safety_stock": 104.30765824081465,
+      "reorder_point": 489.0824439796133,
+      "unit_price_paid": 1343.029485767972,
+      "discount_taken": true,
+      "ordering_cost": 73747.78570607858,
+      "holding_cost": 130601.09718398839,
+      "shortage_cost": 18817.94460573106,
+      "purchasing_cost": 15718234.763245834,
+      "total_cost": 15941401.590741633,
+      "cost_shares_controllable": {
+        "ordering": 0.33046034006764363,
+        "holding": 0.5852173400925703,
+        "shortage": 0.08432231983978615
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.95,
+      "target_csl": 0.95,
+      "realised_csl": 0.8614035087719297,
+      "realised_fill_rate": 0.9911937812119707,
+      "expected_shortage_exposure": 0.003110880075354847,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 59% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 410.4657697627874,
+      "baseline_safety_stock": 104.30765824081465
+    },
+    {
+      "sku": "SIM-011",
+      "warehouse": 1,
+      "order_quantity": 638.3408723394771,
+      "safety_stock": 268.47709146666654,
+      "reorder_point": 755.7741925896271,
+      "unit_price_paid": 1004.7332212535109,
+      "discount_taken": false,
+      "ordering_cost": 150942.020520067,
+      "holding_cost": 136634.53000839325,
+      "shortage_cost": 32130.520194071967,
+      "purchasing_cost": 29784218.15555851,
+      "total_cost": 30103925.226281043,
+      "cost_shares_controllable": {
+        "ordering": 0.4721260001505151,
+        "holding": 0.42737412625751964,
+        "shortage": 0.1004998735919652
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.969594174166097,
+      "target_csl": 0.95,
+      "realised_csl": 0.9311213848720801,
+      "realised_fill_rate": 0.9933418252663614,
+      "expected_shortage_exposure": 0.002646470474855388,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 1572.4675799911167,
+      "baseline_safety_stock": 235.54022434540582
+    },
+    {
+      "sku": "SIM-012",
+      "warehouse": 0,
+      "order_quantity": 3545.721995463253,
+      "safety_stock": 271.0794585155279,
+      "reorder_point": 1192.2179675073382,
+      "unit_price_paid": 314.6881822593417,
+      "discount_taken": false,
+      "ordering_cost": 35456.045374228124,
+      "holding_cost": 117515.09428984027,
+      "shortage_cost": 11120.128238415267,
+      "purchasing_cost": 7557361.578311091,
+      "total_cost": 7721452.8462135745,
+      "cost_shares_controllable": {
+        "ordering": 0.21607515029562072,
+        "holding": 0.7161569033623243,
+        "shortage": 0.0677679463420549
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.8333333333333337,
+      "realised_fill_rate": 0.9931951883352358,
+      "expected_shortage_exposure": 0.002824315606528613,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.67 > 0.5 and realised CSL 0.833 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 72% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 3568.6802792391436,
+      "baseline_safety_stock": 271.0794585155279
+    },
+    {
+      "sku": "SIM-013",
+      "warehouse": 1,
+      "order_quantity": 407.23325309903,
+      "safety_stock": 87.88200675621876,
+      "reorder_point": 280.24502972758,
+      "unit_price_paid": 294.77870257924246,
+      "discount_taken": false,
+      "ordering_cost": 77668.98472671611,
+      "holding_cost": 21661.619769718403,
+      "shortage_cost": 18259.07898710877,
+      "purchasing_cost": 4139430.1305074785,
+      "total_cost": 4257019.813991021,
+      "cost_shares_controllable": {
+        "ordering": 0.6605084938219594,
+        "holding": 0.18421360724854707,
+        "shortage": 0.15527789892949354
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.796825396825397,
+      "realised_fill_rate": 0.9726405890067107,
+      "expected_shortage_exposure": 0.007972197140220214,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.74 > 0.5 and realised CSL 0.797 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        }
+      ],
+      "baseline_order_quantity": 1086.5351505495262,
+      "baseline_safety_stock": 87.88200675621876
+    },
+    {
+      "sku": "SIM-014",
+      "warehouse": 1,
+      "order_quantity": 664.1546598340057,
+      "safety_stock": 56.233947721636504,
+      "reorder_point": 353.89925395649607,
+      "unit_price_paid": 429.49095064133695,
+      "discount_taken": false,
+      "ordering_cost": 118360.86108454419,
+      "holding_cost": 35121.42031401534,
+      "shortage_cost": 5561.9045274572045,
+      "purchasing_cost": 5832907.8377412995,
+      "total_cost": 5991952.023667316,
+      "cost_shares_controllable": {
+        "ordering": 0.7442011186727859,
+        "holding": 0.22082806805872757,
+        "shortage": 0.03497081326848666
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.7862637362637364,
+      "realised_fill_rate": 0.991773979087604,
+      "expected_shortage_exposure": 0.0031278840579690016,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 1698.5375200193225,
+      "baseline_safety_stock": 56.233947721636504
+    },
+    {
+      "sku": "SIM-015",
+      "warehouse": 0,
+      "order_quantity": 1339.3326221306752,
+      "safety_stock": 141.0644593081745,
+      "reorder_point": 469.89133342218975,
+      "unit_price_paid": 1392.6249240104005,
+      "discount_taken": true,
+      "ordering_cost": 71055.35056169512,
+      "holding_cost": 228473.58080733052,
+      "shortage_cost": 15547.700817475112,
+      "purchasing_cost": 23877908.958585277,
+      "total_cost": 24192985.59077178,
+      "cost_shares_controllable": {
+        "ordering": 0.22551767825052765,
+        "holding": 0.7251365460580779,
+        "shortage": 0.049345775691394624
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9645831119800901,
+      "target_csl": 0.95,
+      "realised_csl": 0.9916666666666667,
+      "realised_fill_rate": 0.9998127243080182,
+      "expected_shortage_exposure": 0.00081868542922991,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 73% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1269.4688823731308,
+      "baseline_safety_stock": 128.43899215683226
+    },
+    {
+      "sku": "SIM-016",
+      "warehouse": 0,
+      "order_quantity": 1429.1066565443425,
+      "safety_stock": 64.60247630145314,
+      "reorder_point": 272.96049135019234,
+      "unit_price_paid": 129.04507337916147,
+      "discount_taken": false,
+      "ordering_cost": 20865.945038919697,
+      "holding_cost": 25565.88875308932,
+      "shortage_cost": 507.90363552071165,
+      "purchasing_cost": 981396.4999501857,
+      "total_cost": 1028336.2373777154,
+      "cost_shares_controllable": {
+        "ordering": 0.4445262411434371,
+        "holding": 0.5446534248846301,
+        "shortage": 0.010820333971932933
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.8333333333333334,
+      "realised_fill_rate": 0.9955725233808719,
+      "expected_shortage_exposure": 0.001669959047978954,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.56 > 0.5 and realised CSL 0.833 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 54% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 2194.722132436355,
+      "baseline_safety_stock": 64.60247630145314
+    },
+    {
+      "sku": "SIM-017",
+      "warehouse": 1,
+      "order_quantity": 185.26787001914937,
+      "safety_stock": 88.49347689583242,
+      "reorder_point": 382.79743095614845,
+      "unit_price_paid": 999.7165673367043,
+      "discount_taken": false,
+      "ordering_cost": 151479.4532071558,
+      "holding_cost": 52144.77333251892,
+      "shortage_cost": 29094.23576255962,
+      "purchasing_cost": 9762772.420725578,
+      "total_cost": 9995490.883027812,
+      "cost_shares_controllable": {
+        "ordering": 0.6509129173018836,
+        "holding": 0.22406805552366468,
+        "shortage": 0.12501902717445157
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9529208595069043,
+      "target_csl": 0.9,
+      "realised_csl": 0.9474450386215089,
+      "realised_fill_rate": 0.9940500004914772,
+      "expected_shortage_exposure": 0.0055603376992856505,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 542.496790735008,
+      "baseline_safety_stock": 67.75298432977135
+    },
+    {
+      "sku": "SIM-018",
+      "warehouse": 1,
+      "order_quantity": 401.8967008964076,
+      "safety_stock": 536.9698303140365,
+      "reorder_point": 1925.4810867427045,
+      "unit_price_paid": 867.3681795784939,
+      "discount_taken": false,
+      "ordering_cost": 219688.7006311307,
+      "holding_cost": 166092.5656078845,
+      "shortage_cost": 98629.301820181,
+      "purchasing_cost": 21979396.27483326,
+      "total_cost": 22463806.842892453,
+      "cost_shares_controllable": {
+        "ordering": 0.4535175636471337,
+        "holding": 0.3428756029690656,
+        "shortage": 0.2036068333838007
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9690339918653359,
+      "target_csl": 0.95,
+      "realised_csl": 0.9774443826175324,
+      "realised_fill_rate": 0.9958472528111789,
+      "expected_shortage_exposure": 0.008620981610011338,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R3",
+          "evidence": "lead time 20 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 1684.5372698420476,
+      "baseline_safety_stock": 473.13328619210165
+    },
+    {
+      "sku": "SIM-019",
+      "warehouse": 0,
+      "order_quantity": 478.00527242657057,
+      "safety_stock": 106.25209747438173,
+      "reorder_point": 392.42329335911796,
+      "unit_price_paid": 114.63429559113499,
+      "discount_taken": false,
+      "ordering_cost": 48285.47604731263,
+      "holding_cost": 9120.126764341627,
+      "shortage_cost": 2126.3085182814075,
+      "purchasing_cost": 1496729.6515540746,
+      "total_cost": 1556261.5628840104,
+      "cost_shares_controllable": {
+        "ordering": 0.8110856004556373,
+        "holding": 0.15319727790690912,
+        "shortage": 0.03571712163745348
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9312857045630577,
+      "target_csl": 0.9,
+      "realised_csl": 0.9191721132897601,
+      "realised_fill_rate": 0.9926911273720583,
+      "expected_shortage_exposure": 0.0045331803908524645,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [],
+      "baseline_order_quantity": 1760.0697939728482,
+      "baseline_safety_stock": 91.66845290152
+    },
+    {
+      "sku": "SIM-020",
+      "warehouse": 1,
+      "order_quantity": 653.8928854300971,
+      "safety_stock": 36.18214681564447,
+      "reorder_point": 121.44330349196356,
+      "unit_price_paid": 242.45189876439358,
+      "discount_taken": false,
+      "ordering_cost": 34878.73660249899,
+      "holding_cost": 21161.37607475602,
+      "shortage_cost": 711.7051233599908,
+      "purchasing_cost": 943147.6505453795,
+      "total_cost": 999899.4683459945,
+      "cost_shares_controllable": {
+        "ordering": 0.614583601974438,
+        "holding": 0.37287574028204434,
+        "shortage": 0.012540657743517748
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9382047059837937,
+      "target_csl": 0.9,
+      "realised_csl": 0.8416666666666667,
+      "realised_fill_rate": 0.998426001843047,
+      "expected_shortage_exposure": 0.0009610011883422698,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.59 > 0.5 and realised CSL 0.842 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        }
+      ],
+      "baseline_order_quantity": 1097.412324868964,
+      "baseline_safety_stock": 30.11235167570576
+    },
+    {
+      "sku": "SIM-021",
+      "warehouse": 0,
+      "order_quantity": 335.57005814605077,
+      "safety_stock": 113.30311130390112,
+      "reorder_point": 516.6476535272625,
+      "unit_price_paid": 735.9061267261178,
+      "discount_taken": false,
+      "ordering_cost": 162044.35502999436,
+      "holding_cost": 46880.33745921435,
+      "shortage_cost": 57751.426610069655,
+      "purchasing_cost": 6771291.108022201,
+      "total_cost": 7037967.227121479,
+      "cost_shares_controllable": {
+        "ordering": 0.6076447924070336,
+        "holding": 0.17579503413187783,
+        "shortage": 0.21656017346108863
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.9259259259259257,
+      "realised_fill_rate": 0.9919945980093267,
+      "expected_shortage_exposure": 0.01247325871681032,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R3",
+          "evidence": "lead time 16 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 926.6220472952799,
+      "baseline_safety_stock": 113.30311130390112
+    },
+    {
+      "sku": "SIM-022",
+      "warehouse": 0,
+      "order_quantity": 1862.3846931687797,
+      "safety_stock": 355.89464982071786,
+      "reorder_point": 907.9034999809114,
+      "unit_price_paid": 1039.9814744586197,
+      "discount_taken": true,
+      "ordering_cost": 73367.2938125274,
+      "holding_cost": 409888.29427333514,
+      "shortage_cost": 12211.098795300899,
+      "purchasing_cost": 29934118.133555565,
+      "total_cost": 30429584.820436727,
+      "cost_shares_controllable": {
+        "ordering": 0.14807714777830136,
+        "holding": 0.8272772017297017,
+        "shortage": 0.024645650491997063
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9826254869106182,
+      "target_csl": 0.98,
+      "realised_csl": 0.9566666666666663,
+      "realised_fill_rate": 0.9992903041367018,
+      "expected_shortage_exposure": 0.0005674887606625203,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.71 > 0.5 and realised CSL 0.957 < target 0.98",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 83% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1814.8563806422933,
+      "baseline_safety_stock": 346.19821582794253
+    },
+    {
+      "sku": "SIM-023",
+      "warehouse": 0,
+      "order_quantity": 506.21307442125857,
+      "safety_stock": 177.13931301751563,
+      "reorder_point": 401.9052928240078,
+      "unit_price_paid": 1483.8245930629496,
+      "discount_taken": false,
+      "ordering_cost": 116463.75645726098,
+      "holding_cost": 119341.0739905692,
+      "shortage_cost": 1355.8292025511105,
+      "purchasing_cost": 17390335.758582663,
+      "total_cost": 17627496.418233044,
+      "cost_shares_controllable": {
+        "ordering": 0.4910753605971164,
+        "holding": 0.5032077165179926,
+        "shortage": 0.005716922884891
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9940778286677687,
+      "target_csl": 0.95,
+      "realised_csl": 0.9683333333333334,
+      "realised_fill_rate": 0.9982048767010749,
+      "expected_shortage_exposure": 0.00026453327201703944,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 50% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1002.4418498966035,
+      "baseline_safety_stock": 115.77170721959136
+    },
+    {
+      "sku": "SIM-024",
+      "warehouse": 1,
+      "order_quantity": 1559.3447526339878,
+      "safety_stock": 93.54252569895746,
+      "reorder_point": 434.78793248985517,
+      "unit_price_paid": 103.69908205067,
+      "discount_taken": false,
+      "ordering_cost": 29238.628439446737,
+      "holding_cost": 18403.6633133416,
+      "shortage_cost": 323.3460107252984,
+      "purchasing_cost": 1291619.49349516,
+      "total_cost": 1339585.1312586737,
+      "cost_shares_controllable": {
+        "ordering": 0.6095744746187424,
+        "holding": 0.3836843242672538,
+        "shortage": 0.006741201114003749
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9628945553653361,
+      "target_csl": 0.9,
+      "realised_csl": 0.9388888888888888,
+      "realised_fill_rate": 0.9988193326678978,
+      "expected_shortage_exposure": 0.0004976975990556874,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 2159.815186221363,
+      "baseline_safety_stock": 67.14772483399697
+    },
+    {
+      "sku": "SIM-025",
+      "warehouse": 1,
+      "order_quantity": 527.8685070122586,
+      "safety_stock": 178.05691165505928,
+      "reorder_point": 414.3850298665162,
+      "unit_price_paid": 392.9907240008526,
+      "discount_taken": false,
+      "ordering_cost": 139684.58197597266,
+      "holding_cost": 51002.54152331653,
+      "shortage_cost": 13630.267003945517,
+      "purchasing_cost": 11299762.25711768,
+      "total_cost": 11504079.647620915,
+      "cost_shares_controllable": {
+        "ordering": 0.6836646730458376,
+        "holding": 0.24962408436059716,
+        "shortage": 0.06671124259356535
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9529927286533058,
+      "target_csl": 0.95,
+      "realised_csl": 0.8815210932857992,
+      "realised_fill_rate": 0.9804303388901693,
+      "expected_shortage_exposure": 0.003918009583910198,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.75 > 0.5 and realised CSL 0.882 < target 0.95",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        }
+      ],
+      "baseline_order_quantity": 2073.462480311273,
+      "baseline_safety_stock": 174.89499785409308
+    },
+    {
+      "sku": "SIM-026",
+      "warehouse": 1,
+      "order_quantity": 2296.0899920094475,
+      "safety_stock": 2371.937992799311,
+      "reorder_point": 6338.665833258363,
+      "unit_price_paid": 845.2857136302483,
+      "discount_taken": true,
+      "ordering_cost": 214186.51177653423,
+      "holding_cost": 867091.0398940986,
+      "shortage_cost": 70544.72771092276,
+      "purchasing_cost": 76490731.64317389,
+      "total_cost": 77642553.92255545,
+      "cost_shares_controllable": {
+        "ordering": 0.18595447892494035,
+        "holding": 0.7527993297365834,
+        "shortage": 0.06124619133847639
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9828057786973432,
+      "target_csl": 0.98,
+      "realised_csl": 0.9825432962099628,
+      "realised_fill_rate": 0.9965944683528175,
+      "expected_shortage_exposure": 0.0030260474814821628,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 75% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 16 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 2246.015171023531,
+      "baseline_safety_stock": 2302.7154270988476
+    },
+    {
+      "sku": "SIM-027",
+      "warehouse": 1,
+      "order_quantity": 321.41323861884547,
+      "safety_stock": 62.18925553052546,
+      "reorder_point": 242.3104542818147,
+      "unit_price_paid": 1206.015474061342,
+      "discount_taken": false,
+      "ordering_cost": 66708.20943827009,
+      "holding_cost": 72237.34063813282,
+      "shortage_cost": 16226.990623256661,
+      "purchasing_cost": 8809840.867632741,
+      "total_cost": 8965013.4083324,
+      "cost_shares_controllable": {
+        "ordering": 0.4298969981253677,
+        "holding": 0.4655291478274501,
+        "shortage": 0.10457385404718235
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9174767163603408,
+      "target_csl": 0.9,
+      "realised_csl": 0.8041666666666667,
+      "realised_fill_rate": 0.9857770505218727,
+      "expected_shortage_exposure": 0.005243589814125208,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 658.2044548516704,
+      "baseline_safety_stock": 57.40754811781798
+    },
+    {
+      "sku": "SIM-028",
+      "warehouse": 0,
+      "order_quantity": 2380.806990325933,
+      "safety_stock": 1290.915095499582,
+      "reorder_point": 3413.4352052669387,
+      "unit_price_paid": 1039.2971171448119,
+      "discount_taken": true,
+      "ordering_cost": 135387.62998158325,
+      "holding_cost": 676011.1378705663,
+      "shortage_cost": 77305.83803279353,
+      "purchasing_cost": 57511721.16960948,
+      "total_cost": 58400425.77549442,
+      "cost_shares_controllable": {
+        "ordering": 0.15234266716415706,
+        "holding": 0.7606702310239706,
+        "shortage": 0.08698710181187246
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.98,
+      "target_csl": 0.98,
+      "realised_csl": 0.9705555555555556,
+      "realised_fill_rate": 0.9977932169383884,
+      "expected_shortage_exposure": 0.0019386928002479375,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 76% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 2257.3278835301876,
+      "baseline_safety_stock": 1290.915095499582
+    },
+    {
+      "sku": "SIM-029",
+      "warehouse": 0,
+      "order_quantity": 256.01711541538975,
+      "safety_stock": 82.38128777870033,
+      "reorder_point": 281.01539177661107,
+      "unit_price_paid": 303.1815124005574,
+      "discount_taken": false,
+      "ordering_cost": 39915.02486397682,
+      "holding_cost": 16271.038633995846,
+      "shortage_cost": 11565.177345246226,
+      "purchasing_cost": 1293005.8025595236,
+      "total_cost": 1360757.0434027426,
+      "cost_shares_controllable": {
+        "ordering": 0.5891408683767576,
+        "holding": 0.2401585333565797,
+        "shortage": 0.17070059826666284
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.8999999999999999,
+      "target_csl": 0.9,
+      "realised_csl": 0.9141919191919191,
+      "realised_fill_rate": 0.9898061920025569,
+      "expected_shortage_exposure": 0.01188723571118395,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R3",
+          "evidence": "lead time 17 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 633.328970726114,
+      "baseline_safety_stock": 82.38128777870033
+    },
+    {
+      "sku": "SIM-030",
+      "warehouse": 1,
+      "order_quantity": 873.9500872881956,
+      "safety_stock": 78.31962383077033,
+      "reorder_point": 265.46507733557996,
+      "unit_price_paid": 867.9830093603756,
+      "discount_taken": true,
+      "ordering_cost": 31265.869971226795,
+      "holding_cost": 122582.60226313303,
+      "shortage_cost": 6753.129302481784,
+      "purchasing_cost": 14822565.495311046,
+      "total_cost": 14983167.096847888,
+      "cost_shares_controllable": {
+        "ordering": 0.19467968981650838,
+        "holding": 0.763271356512674,
+        "shortage": 0.04204895367081774
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9578423595720326,
+      "target_csl": 0.95,
+      "realised_csl": 0.7871794871794875,
+      "realised_fill_rate": 0.992797183701839,
+      "expected_shortage_exposure": 0.0008905027774422977,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 76% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 644.9447225828768,
+      "baseline_safety_stock": 74.6297717231209
+    },
+    {
+      "sku": "SIM-031",
+      "warehouse": 0,
+      "order_quantity": 474.8306779162397,
+      "safety_stock": 13.818991552060956,
+      "reorder_point": 50.69493189410431,
+      "unit_price_paid": 880.3733180388753,
+      "discount_taken": false,
+      "ordering_cost": 44687.7728221905,
+      "holding_cost": 50276.89289809653,
+      "shortage_cost": 863.272169157446,
+      "purchasing_cost": 3949858.931158612,
+      "total_cost": 4045686.8690480567,
+      "cost_shares_controllable": {
+        "ordering": 0.4663334493720009,
+        "holding": 0.524657986025958,
+        "shortage": 0.009008564602041136
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.940590410233381,
+      "target_csl": 0.9,
+      "realised_csl": 0.8666666666666667,
+      "realised_fill_rate": 0.9969223073933328,
+      "expected_shortage_exposure": 0.00047653524933505173,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 52% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 856.4548736190345,
+      "baseline_safety_stock": 11.354230008709372
+    },
+    {
+      "sku": "SIM-032",
+      "warehouse": 1,
+      "order_quantity": 1027.0390588417717,
+      "safety_stock": 1480.1390464156966,
+      "reorder_point": 4420.830225508138,
+      "unit_price_paid": 617.5018736985098,
+      "discount_taken": false,
+      "ordering_cost": 171386.60318327922,
+      "holding_cost": 335560.1350947239,
+      "shortage_cost": 72863.5369941832,
+      "purchasing_cost": 34884054.96138241,
+      "total_cost": 35463865.236654595,
+      "cost_shares_controllable": {
+        "ordering": 0.29559083461020663,
+        "holding": 0.5787412700425124,
+        "shortage": 0.12566789534728082
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9881000279682814,
+      "target_csl": 0.98,
+      "realised_csl": 1.0,
+      "realised_fill_rate": 1.0,
+      "expected_shortage_exposure": 0.0026203842901421706,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 58% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 19 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 2838.7653292418613,
+      "baseline_safety_stock": 1344.8549030388233
+    },
+    {
+      "sku": "SIM-033",
+      "warehouse": 1,
+      "order_quantity": 503.98212646066304,
+      "safety_stock": 422.394039307318,
+      "reorder_point": 1072.3189927230524,
+      "unit_price_paid": 742.5839316658142,
+      "discount_taken": false,
+      "ordering_cost": 191989.94580375447,
+      "holding_cost": 100377.56224586225,
+      "shortage_cost": 31060.476420235565,
+      "purchasing_cost": 25165385.275177095,
+      "total_cost": 25488813.25964695,
+      "cost_shares_controllable": {
+        "ordering": 0.5936095669595667,
+        "holding": 0.310355216820203,
+        "shortage": 0.09603521622023034
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9827976938906584,
+      "target_csl": 0.95,
+      "realised_csl": 0.9561925974489786,
+      "realised_fill_rate": 0.9928945273971395,
+      "expected_shortage_exposure": 0.0024565846729740297,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 1392.5982622566066,
+      "baseline_safety_stock": 328.45328702901026
+    },
+    {
+      "sku": "SIM-034",
+      "warehouse": 0,
+      "order_quantity": 554.6072651023507,
+      "safety_stock": 475.0846184111301,
+      "reorder_point": 1113.6186285599636,
+      "unit_price_paid": 1363.4411133346152,
+      "discount_taken": false,
+      "ordering_cost": 155878.80697651266,
+      "holding_cost": 269366.40406429966,
+      "shortage_cost": 73368.95561667872,
+      "purchasing_cost": 63554057.08405197,
+      "total_cost": 64052671.25070946,
+      "cost_shares_controllable": {
+        "ordering": 0.3126241037663682,
+        "holding": 0.5402301460265836,
+        "shortage": 0.1471457502070483
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9865267796467678,
+      "target_csl": 0.98,
+      "realised_csl": 0.9543445349522721,
+      "realised_fill_rate": 0.9908245105849771,
+      "expected_shortage_exposure": 0.0018271323238390617,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 54% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1350.2838802430624,
+      "baseline_safety_stock": 441.0376963999181
+    },
+    {
+      "sku": "SIM-035",
+      "warehouse": 0,
+      "order_quantity": 155.8367769201773,
+      "safety_stock": 48.962806163832695,
+      "reorder_point": 217.05536972123258,
+      "unit_price_paid": 1178.36217889264,
+      "discount_taken": false,
+      "ordering_cost": 76291.90610509303,
+      "holding_cost": 38081.90900320552,
+      "shortage_cost": 20800.83251408173,
+      "purchasing_cost": 7229698.059893875,
+      "total_cost": 7364872.707516256,
+      "cost_shares_controllable": {
+        "ordering": 0.5643950803424304,
+        "holding": 0.28172375273793915,
+        "shortage": 0.15388116691963044
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.931536416640062,
+      "target_csl": 0.9,
+      "realised_csl": 0.9219444444444448,
+      "realised_fill_rate": 0.9887399625594889,
+      "expected_shortage_exposure": 0.006371932948121057,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [],
+      "baseline_order_quantity": 433.17060627592303,
+      "baseline_safety_stock": 42.18853898518955
+    },
+    {
+      "sku": "SIM-036",
+      "warehouse": 1,
+      "order_quantity": 884.9273011472328,
+      "safety_stock": 481.3543690985527,
+      "reorder_point": 1504.2120733090364,
+      "unit_price_paid": 645.2804615268501,
+      "discount_taken": false,
+      "ordering_cost": 136066.00497511364,
+      "holding_cost": 153901.3618622407,
+      "shortage_cost": 38079.05984885597,
+      "purchasing_cost": 18531614.106074683,
+      "total_cost": 18859660.532760892,
+      "cost_shares_controllable": {
+        "ordering": 0.41477667155102493,
+        "holding": 0.46914506405964784,
+        "shortage": 0.11607826438932722
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.95,
+      "target_csl": 0.95,
+      "realised_csl": 0.9362347073216639,
+      "realised_fill_rate": 0.9918680799022442,
+      "expected_shortage_exposure": 0.006909235886310896,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 2063.425578324337,
+      "baseline_safety_stock": 481.3543690985527
+    },
+    {
+      "sku": "SIM-037",
+      "warehouse": 1,
+      "order_quantity": 215.51628265927275,
+      "safety_stock": 107.1386670919674,
+      "reorder_point": 303.14629135565264,
+      "unit_price_paid": 430.4917717006695,
+      "discount_taken": false,
+      "ordering_cost": 124211.56007402384,
+      "holding_cost": 19798.01506194721,
+      "shortage_cost": 18660.326663307067,
+      "purchasing_cost": 3849822.418022655,
+      "total_cost": 4012492.3198219333,
+      "cost_shares_controllable": {
+        "ordering": 0.7635804700201464,
+        "holding": 0.12170668847133384,
+        "shortage": 0.11471284150851976
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9400177144927172,
+      "target_csl": 0.9,
+      "realised_csl": 0.9581014492753626,
+      "realised_fill_rate": 0.9899448179770908,
+      "expected_shortage_exposure": 0.008257374192409904,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [],
+      "baseline_order_quantity": 1484.9756633704822,
+      "baseline_safety_stock": 88.30262761551535
+    },
+    {
+      "sku": "SIM-038",
+      "warehouse": 1,
+      "order_quantity": 403.13341478431363,
+      "safety_stock": 154.71918763642915,
+      "reorder_point": 519.5858555322128,
+      "unit_price_paid": 1330.900638573447,
+      "discount_taken": true,
+      "ordering_cost": 49509.85574700383,
+      "holding_cost": 121838.63351609951,
+      "shortage_cost": 31084.224047860505,
+      "purchasing_cost": 11816297.844885498,
+      "total_cost": 12018730.558196463,
+      "cost_shares_controllable": {
+        "ordering": 0.24457438196241552,
+        "holding": 0.6018722543571255,
+        "shortage": 0.1535533636804589
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9600109175812227,
+      "target_csl": 0.95,
+      "realised_csl": 0.9673992673992675,
+      "realised_fill_rate": 0.9989037613082952,
+      "expected_shortage_exposure": 0.003538288179489133,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 60% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 15 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 373.4238444284408,
+      "baseline_safety_stock": 145.35558578935562
+    },
+    {
+      "sku": "SIM-039",
+      "warehouse": 1,
+      "order_quantity": 2836.6737455616026,
+      "safety_stock": 553.1483743988683,
+      "reorder_point": 1952.3405804301317,
+      "unit_price_paid": 459.8872174390506,
+      "discount_taken": true,
+      "ordering_cost": 48697.80314801759,
+      "holding_cost": 178461.4764340652,
+      "shortage_cost": 12922.544864071959,
+      "purchasing_cost": 11184132.036064543,
+      "total_cost": 11424213.860510698,
+      "cost_shares_controllable": {
+        "ordering": 0.20283835838201686,
+        "holding": 0.7433360557208291,
+        "shortage": 0.053825585897154034
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.95,
+      "target_csl": 0.95,
+      "realised_csl": 0.9333333333333333,
+      "realised_fill_rate": 0.9942958205397278,
+      "expected_shortage_exposure": 0.002476879889901859,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 74% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 21 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 2498.550131464633,
+      "baseline_safety_stock": 553.1483743988683
+    },
+    {
+      "sku": "SIM-040",
+      "warehouse": 0,
+      "order_quantity": 1496.104429735167,
+      "safety_stock": 1029.7179484264377,
+      "reorder_point": 2952.120028872767,
+      "unit_price_paid": 1385.452654947364,
+      "discount_taken": true,
+      "ordering_cost": 51947.2175442433,
+      "holding_cost": 723971.0928042061,
+      "shortage_cost": 73235.83625450812,
+      "purchasing_cost": 48606996.45871033,
+      "total_cost": 49456150.605313286,
+      "cost_shares_controllable": {
+        "ordering": 0.061175250397184334,
+        "holding": 0.8525791173492511,
+        "shortage": 0.08624563225356456
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.98,
+      "target_csl": 0.98,
+      "realised_csl": 0.9487138188608777,
+      "realised_fill_rate": 0.9886848251174698,
+      "expected_shortage_exposure": 0.002460888184435088,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.70 > 0.5 and realised CSL 0.949 < target 0.98",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 85% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 20 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 942.8631298399123,
+      "baseline_safety_stock": 1029.7179484264377
+    },
+    {
+      "sku": "SIM-041",
+      "warehouse": 1,
+      "order_quantity": 645.0827408625831,
+      "safety_stock": 363.48274841521464,
+      "reorder_point": 889.7953980730435,
+      "unit_price_paid": 1227.5885021360534,
+      "discount_taken": false,
+      "ordering_cost": 139666.57541804135,
+      "holding_cost": 187857.3168788016,
+      "shortage_cost": 8595.051022179257,
+      "purchasing_cost": 21438618.67234361,
+      "total_cost": 21774737.615662634,
+      "cost_shares_controllable": {
+        "ordering": 0.41552723580199685,
+        "holding": 0.5589013074472856,
+        "shortage": 0.025571456750717543
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9842574469968173,
+      "target_csl": 0.95,
+      "realised_csl": 0.9887684898520811,
+      "realised_fill_rate": 0.998779476395723,
+      "expected_shortage_exposure": 0.001470750213136615,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 56% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 1561.7951599122737,
+      "baseline_safety_stock": 277.9671215792074
+    },
+    {
+      "sku": "SIM-042",
+      "warehouse": 1,
+      "order_quantity": 221.58318767614824,
+      "safety_stock": 197.9190973702427,
+      "reorder_point": 638.7056437235565,
+      "unit_price_paid": 683.9123386974617,
+      "discount_taken": false,
+      "ordering_cost": 179336.87771521776,
+      "holding_cost": 56752.56877192242,
+      "shortage_cost": 54379.987427854736,
+      "purchasing_cost": 5239650.742416584,
+      "total_cost": 5530120.176331579,
+      "cost_shares_controllable": {
+        "ordering": 0.6174036121394453,
+        "holding": 0.19538224042028085,
+        "shortage": 0.18721414744027381
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.932146827592881,
+      "target_csl": 0.9,
+      "realised_csl": 0.9653267143484535,
+      "realised_fill_rate": 0.9918502669374174,
+      "expected_shortage_exposure": 0.017868774431862366,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R3",
+          "evidence": "lead time 21 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 1034.3641361571924,
+      "baseline_safety_stock": 170.00549451336428
+    },
+    {
+      "sku": "SIM-043",
+      "warehouse": 0,
+      "order_quantity": 450.47611239094016,
+      "safety_stock": 50.42370040236547,
+      "reorder_point": 234.60812244583872,
+      "unit_price_paid": 1279.8770381253375,
+      "discount_taken": true,
+      "ordering_cost": 20834.169282487543,
+      "holding_cost": 87947.7177472854,
+      "shortage_cost": 15453.272696432256,
+      "purchasing_cost": 7822063.234740645,
+      "total_cost": 7946298.39446685,
+      "cost_shares_controllable": {
+        "ordering": 0.1676994606712205,
+        "holding": 0.7079132665914253,
+        "shortage": 0.12438727273735427
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.908809278801576,
+      "target_csl": 0.9,
+      "realised_csl": 0.7629629629629633,
+      "realised_fill_rate": 0.9819689380057557,
+      "expected_shortage_exposure": 0.0035578081465735653,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.54 > 0.5 and realised CSL 0.763 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 71% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 341.87665443848095,
+      "baseline_safety_stock": 48.46088616217529
+    },
+    {
+      "sku": "SIM-044",
+      "warehouse": 0,
+      "order_quantity": 942.6670486288406,
+      "safety_stock": 1073.0494427365982,
+      "reorder_point": 3289.7664685082036,
+      "unit_price_paid": 452.60171342227903,
+      "discount_taken": false,
+      "ordering_cost": 229977.5093022508,
+      "holding_cost": 202975.38299493023,
+      "shortage_cost": 55460.23892057902,
+      "purchasing_cost": 28169294.02102669,
+      "total_cost": 28657707.15224445,
+      "cost_shares_controllable": {
+        "ordering": 0.47086676136009703,
+        "holding": 0.4155813388736127,
+        "shortage": 0.11355189976629015
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.9754370637920718,
+      "target_csl": 0.95,
+      "realised_csl": 0.9828658661775058,
+      "realised_fill_rate": 0.9973659854458526,
+      "expected_shortage_exposure": 0.005357034254304465,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [],
+      "baseline_order_quantity": 2581.904573560757,
+      "baseline_safety_stock": 897.0833145720677
+    },
+    {
+      "sku": "SIM-045",
+      "warehouse": 0,
+      "order_quantity": 209.9642262840672,
+      "safety_stock": 236.65187243605544,
+      "reorder_point": 590.2670601376115,
+      "unit_price_paid": 1397.0449959550212,
+      "discount_taken": false,
+      "ordering_cost": 389242.32134568744,
+      "holding_cost": 90703.50397661577,
+      "shortage_cost": 88631.20273554008,
+      "purchasing_cost": 36063191.97846728,
+      "total_cost": 36631769.00652512,
+      "cost_shares_controllable": {
+        "ordering": 0.6845903055128152,
+        "holding": 0.15952720475964813,
+        "shortage": 0.15588248972753665
+      },
+      "primary_driver": "ordering",
+      "model_csl": 0.98,
+      "target_csl": 0.98,
+      "realised_csl": 0.9075862077437509,
+      "realised_fill_rate": 0.9531964834978193,
+      "expected_shortage_exposure": 0.00402995453232273,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.67 > 0.5 and realised CSL 0.908 < target 0.98",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        }
+      ],
+      "baseline_order_quantity": 987.1051367677893,
+      "baseline_safety_stock": 236.65187243605544
+    },
+    {
+      "sku": "SIM-046",
+      "warehouse": 1,
+      "order_quantity": 1563.5281349265397,
+      "safety_stock": 422.03007758190637,
+      "reorder_point": 1825.601344067604,
+      "unit_price_paid": 372.3030718804806,
+      "discount_taken": false,
+      "ordering_cost": 101042.01135744971,
+      "holding_cost": 127137.62699357135,
+      "shortage_cost": 10184.39525289347,
+      "purchasing_cost": 11219539.491309864,
+      "total_cost": 11457903.524913779,
+      "cost_shares_controllable": {
+        "ordering": 0.4238978919334345,
+        "holding": 0.5333758833970472,
+        "shortage": 0.04272622466951834
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.95,
+      "target_csl": 0.95,
+      "realised_csl": 0.9742424242424244,
+      "realised_fill_rate": 0.9986579312505344,
+      "expected_shortage_exposure": 0.003428549302114433,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 53% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 17 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 2428.077566883691,
+      "baseline_safety_stock": 422.03007758190637
+    },
+    {
+      "sku": "SIM-047",
+      "warehouse": 1,
+      "order_quantity": 2365.1308381291965,
+      "safety_stock": 1585.8350004912927,
+      "reorder_point": 3384.6834167855022,
+      "unit_price_paid": 1043.0593022346154,
+      "discount_taken": true,
+      "ordering_cost": 289892.5523689231,
+      "holding_cost": 810672.7239326525,
+      "shortage_cost": 67210.03752129331,
+      "purchasing_cost": 136970306.89657474,
+      "total_cost": 138138082.2103976,
+      "cost_shares_controllable": {
+        "ordering": 0.24824343256573986,
+        "holding": 0.6942026555423635,
+        "shortage": 0.05755391189189661
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9927414530253177,
+      "target_csl": 0.98,
+      "realised_csl": 0.980105105105105,
+      "realised_fill_rate": 0.9986008076866669,
+      "expected_shortage_exposure": 0.0006526679334213412,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 69% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 2347.5526511425523,
+      "baseline_safety_stock": 1332.5004330668953
+    },
+    {
+      "sku": "SIM-048",
+      "warehouse": 0,
+      "order_quantity": 641.5747171888617,
+      "safety_stock": 134.63532123783767,
+      "reorder_point": 494.62446543806664,
+      "unit_price_paid": 673.5621144732735,
+      "discount_taken": false,
+      "ordering_cost": 52369.7474835255,
+      "holding_cost": 90655.8709810304,
+      "shortage_cost": 7956.321796904938,
+      "purchasing_cost": 4214447.282930932,
+      "total_cost": 4365429.223192393,
+      "cost_shares_controllable": {
+        "ordering": 0.34686100465284087,
+        "holding": 0.600441819889441,
+        "shortage": 0.052697175457718265
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.929167982022194,
+      "target_csl": 0.9,
+      "realised_csl": 0.8059523809523813,
+      "realised_fill_rate": 0.9822130072791441,
+      "expected_shortage_exposure": 0.004483248721925405,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9519469718702276,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.63 > 0.5 and realised CSL 0.806 < target 0.90",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 60% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 21 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 981.5880018077756,
+      "baseline_safety_stock": 117.40573672972111
+    },
+    {
+      "sku": "SIM-049",
+      "warehouse": 1,
+      "order_quantity": 5447.624363638908,
+      "safety_stock": 3780.9503838120313,
+      "reorder_point": 12041.33028392398,
+      "unit_price_paid": 984.7880198129837,
+      "discount_taken": true,
+      "ordering_cost": 134916.44229761045,
+      "holding_cost": 1301711.2277569203,
+      "shortage_cost": 310976.63466761936,
+      "purchasing_cost": 185573372.1954994,
+      "total_cost": 187320976.50022155,
+      "cost_shares_controllable": {
+        "ordering": 0.07720079535914207,
+        "holding": 0.744854670041499,
+        "shortage": 0.177944534599359
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9805549218533925,
+      "target_csl": 0.98,
+      "realised_csl": 0.9704216073781292,
+      "realised_fill_rate": 0.9962578394636478,
+      "expected_shortage_exposure": 0.0023907841029838606,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R2",
+          "evidence": "holding cost is 74% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        },
+        {
+          "id": "R3",
+          "evidence": "lead time 16 d > 14 d",
+          "action": "Review the supplier lead-time arrangement"
+        }
+      ],
+      "baseline_order_quantity": 5419.461717847206,
+      "baseline_safety_stock": 3759.7177663532557
+    },
+    {
+      "sku": "SIM-050",
+      "warehouse": 1,
+      "order_quantity": 3746.7730082038133,
+      "safety_stock": 1558.243409294044,
+      "reorder_point": 3336.241002766842,
+      "unit_price_paid": 1166.8377944828849,
+      "discount_taken": true,
+      "ordering_cost": 126373.18425923676,
+      "holding_cost": 918854.9505845649,
+      "shortage_cost": 19064.11380755035,
+      "purchasing_cost": 252413899.51858068,
+      "total_cost": 253478191.76723203,
+      "cost_shares_controllable": {
+        "ordering": 0.11873917565346746,
+        "holding": 0.8633483441685477,
+        "shortage": 0.01791248017798493
+      },
+      "primary_driver": "holding",
+      "model_csl": 0.9967412931925872,
+      "target_csl": 0.98,
+      "realised_csl": 0.9537037037037032,
+      "realised_fill_rate": 0.9918856094269286,
+      "expected_shortage_exposure": 0.00015149879420023394,
+      "budget_utilisation": 0.9987384886969376,
+      "warehouse_utilisation": 0.9981826024146304,
+      "rules_fired": [
+        {
+          "id": "R1",
+          "evidence": "CV 0.51 > 0.5 and realised CSL 0.954 < target 0.98",
+          "action": "Increase protection inventory, subject to budget and warehouse capacity"
+        },
+        {
+          "id": "R2",
+          "evidence": "holding cost is 86% of controllable cost",
+          "action": "Review / reduce the order quantity"
+        }
+      ],
+      "baseline_order_quantity": 3685.494227801017,
+      "baseline_safety_stock": 1176.3228055932416
+    }
+  ]
+}

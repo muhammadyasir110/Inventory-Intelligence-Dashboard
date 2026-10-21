@@ -1,0 +1,3 @@
+instance,lower_bound,lb_ctrl,dual_primal_ub,multipliers,dual_primal_feasible,duality_gap_pct_ctrl
+E1-main,1335669180.564638,25022572.55044055,1392922258.1298726,"{""lambda_budget"": 0.9122789153029796, ""mu_warehouse"": [0.0, 17924.41589132455]}",,
+E2-nodisc,1390425811.3476865,15072708.536681175,1390425811.5093353,"{""lambda_budget"": 0.0, ""mu_warehouse"": [0.0, 7640.476021888895]}",True,1.0724598695170472e-06

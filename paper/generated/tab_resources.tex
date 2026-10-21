@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Portfolio-level resource view of the median FMCG-ABC policy (second design iteration): utilisation, whether the limit is reached, and the multiplier of the Lagrangian bound.}\label{tab:resources}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.17\linewidth}lrrr>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}p{0.42\linewidth}}
+\toprule
+Resource & Rule & Use (\%) & At limit & Multiplier & Status & Action \\
+\midrule
+Procurement budget & R5 & 99.9 & yes & 0.91 & constraining & Relieving this resource lowers cost; compare the marginal value with its price before requesting more. \\
+Warehouse 0 & R4 & 95.2 & no & 0.00 & high use, not constraining & Monitor; at the current policy the limit does not raise cost. \\
+Warehouse 1 & R4 & 99.8 & yes & 17,924.42 & constraining & Relieving this resource lowers cost; compare the marginal value with its price before requesting more space. \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize At limit: utilisation of at least 99.5\%. Multipliers from the best dual point of the E1 bound (budget: per currency unit; warehouses: per m$^3$); with quantity discounts they are sensitivities of the bound, not exact shadow prices of the optimal cost.}
+\end{table}
