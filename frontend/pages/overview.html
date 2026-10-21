@@ -1,0 +1,44 @@
+<div class="page-header">
+  <div>
+    <h1>Executive Overview</h1>
+    <p>Real-time snapshot of inventory health across your network.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" data-action="export-excel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Export Excel</button>
+    <button class="btn btn-primary" data-action="export-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Export PDF</button>
+  </div>
+</div>
+
+<div class="kpi-grid stagger-in" id="kpiGrid"></div>
+
+<div class="chart-grid">
+  <div class="card">
+    <div class="card-header">
+      <div><h3>Stock Value by Category</h3><div class="subtitle">Top categories ranked by inventory value</div></div>
+    </div>
+    <div style="position:relative;height:280px;width:100%"><canvas id="chartCategoryBreakdown"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div><h3>Stock Health Distribution</h3><div class="subtitle">SKU count by status</div></div>
+    </div>
+    <div style="position:relative;height:280px;width:100%"><canvas id="chartStatusDistribution"></canvas></div>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="card">
+    <div class="card-header">
+      <div><h3>Top SKUs by Stock Value</h3><div class="subtitle">Highest-value items on hand, color-coded by status</div></div>
+    </div>
+    <div style="position:relative;height:260px;width:100%"><canvas id="chartTopSkus"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><h3>Priority Alerts</h3><div class="subtitle">Most urgent items needing action</div></div>
+      <button class="btn btn-ghost btn-sm" data-nav-to="alerts">View all →</button>
+    </div>
+    <div id="quickAlertsList"></div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="page-header">
+  <div>
+    <h1>AI Recommendation Panel</h1>
+    <p>Explainable, rule-based recommendations ranked by business impact.</p>
+  </div>
+  <div id="recSummaryBadges" class="header-actions"></div>
+</div>
+
+<div class="card">
+  <div class="table-toolbar" id="recFilterBar">
+    <button class="btn btn-secondary btn-sm active" data-priority="all">All Priorities</button>
+    <button class="btn btn-secondary btn-sm" data-priority="high">High</button>
+    <button class="btn btn-secondary btn-sm" data-priority="medium">Medium</button>
+    <button class="btn btn-secondary btn-sm" data-priority="low">Low</button>
+    <select data-role="rec-category" style="margin-left:auto">
+      <option value="all">All Categories</option>
+      <option value="reorder">Reorder</option>
+      <option value="reduce">Reduce Overstock</option>
+      <option value="expiry">Expiry Risk</option>
+      <option value="supplier">Supplier Risk</option>
+    </select>
+  </div>
+  <div id="recommendationsContainer"></div>
+</div>

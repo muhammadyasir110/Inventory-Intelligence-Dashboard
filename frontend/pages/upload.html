@@ -1,0 +1,44 @@
+<div class="page-header">
+  <div>
+    <h1>Data Upload</h1>
+    <p>Import a CSV or Excel inventory file to generate the full dashboard automatically.</p>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:24px">
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+    <label for="uploadProvenance" style="font-size:12px;color:var(--text-secondary)">Dataset type (stored with the upload):</label>
+    <select id="uploadProvenance" class="batch-select" style="padding:6px 12px">
+      <option value="user_uploaded" selected>User-uploaded operational data</option>
+      <option value="synthetic">Synthetic (generated) data</option>
+      <option value="demonstration">Demonstration data</option>
+    </select>
+    <span style="font-size:11px;color:var(--text-tertiary)">The research dataset is validated separately (Research data validation), not here.</span>
+  </div>
+  <div class="upload-zone" id="mainUploadZone">
+    <input type="file" accept=".csv,.xlsx,.xls,.xlsm,.tsv,.txt,.pdf" style="display:none" />
+    <div class="upload-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 5 5m-5-5-5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+    </div>
+    <h3>Drag &amp; drop your inventory file here</h3>
+    <p>or click to browse from your computer</p>
+    <div class="file-types">Supported formats: .CSV, .XLSX, .XLS, .XLSM, .TSV, .TXT, .PDF · Max size 10 MB (server setting IIP_MAX_UPLOAD_MB)</div>
+    <div class="file-types">Any value not present in your file (e.g. missing lead times or safety stocks) is derived by a stated rule and listed after upload.</div>
+  </div>
+  <div id="uploadProgressWrap" class="hidden" style="margin-top:16px">
+    <div class="progress-bar-indeterminate"></div>
+    <p style="margin-top:8px;font-size:var(--fs-sm)" id="uploadProgressText">Processing file…</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div><h3>Upload History</h3><div class="subtitle">Previous imports — select one to view its dashboard</div></div>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>File</th><th>Dataset type</th><th>Rows</th><th>Uploaded</th><th>Status</th><th></th></tr></thead>
+      <tbody id="batchHistoryBody"></tbody>
+    </table>
+  </div>
+</div>

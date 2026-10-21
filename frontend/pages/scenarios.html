@@ -1,0 +1,119 @@
+<div class="page-header">
+  <div>
+    <h1>What-If Scenario Simulator</h1>
+    <p>Stress-test supply chain resilience against demand surges, lead time disruption, and budget constraints.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" id="scenarioResetBtn">Reset to Baseline</button>
+    <button class="btn btn-primary" id="scenarioRunBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Run Simulation
+    </button>
+  </div>
+</div>
+
+<!-- Simulation Control Card -->
+<div class="card" style="margin-bottom:24px">
+  <div class="card-header">
+    <div>
+      <h3>Scenario Shock Parameters</h3>
+      <div class="subtitle">Adjust parameter levers to simulate extreme supply chain conditions</div>
+    </div>
+  </div>
+  <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; padding: 12px 0;">
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <label>Demand Shock</label>
+        <span id="demandShockVal" style="font-weight:600;color:var(--signal-indigo)">+0%</span>
+      </div>
+      <input type="range" id="sliderDemandShock" min="-50" max="100" value="0" step="5" style="width:100%" />
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-tertiary);margin-top:4px">
+        <span>-50% (Slump)</span><span>0% (Normal)</span><span>+100% (Surge)</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <label>Lead Time Extension</label>
+        <span id="leadTimeAddVal" style="font-weight:600;color:var(--status-low)">+0 Days</span>
+      </div>
+      <input type="range" id="sliderLeadTimeAdd" min="0" max="30" value="0" step="1" style="width:100%" />
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-tertiary);margin-top:4px">
+        <span>0 Days (On-Time)</span><span>+15 Days</span><span>+30 Days (Port Delay)</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <label>Holding Rate (Cost of Capital)</label>
+        <span id="holdingRateVal" style="font-weight:600;color:var(--signal-teal)">20%</span>
+      </div>
+      <input type="range" id="sliderHoldingRate" min="10" max="45" value="20" step="1" style="width:100%" />
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-tertiary);margin-top:4px">
+        <span>10% (Low Interest)</span><span>20% (Standard)</span><span>45% (High Inflation)</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <label>Capital Budget Limit</label>
+        <span id="budgetLimitVal" style="font-weight:600;color:var(--signal-purple)">$1,000,000</span>
+      </div>
+      <input type="range" id="sliderBudgetLimit" min="200000" max="4000000" value="1000000" step="100000" style="width:100%" />
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-tertiary);margin-top:4px">
+        <span>$200K (Constrained)</span><span>$2.1M</span><span>$4.0M</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delta KPI Comparison Cards -->
+<div class="kpi-grid" id="scenarioKpiGrid">
+  <div class="kpi-card" id="cardSimStockout">
+    <div class="kpi-top"><div class="kpi-icon">⚠️</div><span class="badge" id="badgeStockoutDelta"></span></div>
+    <div class="kpi-value" id="simStockoutVal">—</div>
+    <div class="kpi-label">Simulated Fill Rate (Baseline: <span id="baseStockoutVal">—</span>)</div>
+  </div>
+  <div class="kpi-card" id="cardSimCapital">
+    <div class="kpi-top"><div class="kpi-icon">💰</div><span class="badge" id="badgeCapitalDelta"></span></div>
+    <div class="kpi-value" id="simCapitalVal"></div>
+    <div class="kpi-label">Average Inventory Value (re-planned)</div>
+  </div>
+  <div class="kpi-card" id="cardSimHolding">
+    <div class="kpi-top"><div class="kpi-icon">📦</div><span class="badge" id="badgeHoldingDelta"></span></div>
+    <div class="kpi-value" id="simHoldingVal"></div>
+    <div class="kpi-label">Simulated Annual Holding Cost (re-planned)</div>
+  </div>
+  <div class="kpi-card accent-primary" id="cardSimTotalCost">
+    <div class="kpi-top"><div class="kpi-icon">📈</div><span class="badge" id="badgeCostDelta"></span></div>
+    <div class="kpi-value" id="simTotalCostVal"></div>
+    <div class="kpi-label">Total Simulated Cost incl. Shortage (re-planned)</div>
+  </div>
+</div>
+
+<!-- Side-by-Side Visual Comparison -->
+<div class="chart-grid">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Baseline vs Simulated Cost Impact</h3>
+        <div class="subtitle">Baseline (current policy, normal conditions) vs re-planned policy under stress</div>
+      </div>
+    </div>
+    <div style="height:280px">
+      <canvas id="chartScenarioCost"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Value of Re-planning</h3>
+        <div class="subtitle">Same stress, same random demand paths: do nothing vs re-plan with the DSS</div>
+      </div>
+    </div>
+    <div style="height:280px">
+      <canvas id="chartScenarioRisk"></canvas>
+    </div>
+    <div id="valueOfReplanning" style="margin-top:10px;font-size:12px;color:var(--text-secondary);line-height:1.5"></div>
+  </div>
+</div>

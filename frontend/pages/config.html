@@ -1,0 +1,85 @@
+<div class="page-header">
+  <div>
+    <h1>Policy Configuration &amp; Governance</h1>
+    <p>Tune enterprise inventory optimization parameters, safety stock service levels, and data governance limits.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-primary" id="saveConfigBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Configuration
+    </button>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <!-- Config Parameters Form -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Inventory Optimization Parameters</h3>
+        <div class="subtitle">Global assumptions driving stochastic safety stocks and EOQ formulas</div>
+      </div>
+    </div>
+    <form id="configForm" style="padding:12px 0">
+      <div class="form-group">
+        <label>Target Cycle Service Level (probability of no stockout per cycle)</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="cfgServiceLevel" min="0.80" max="0.99" step="0.01" value="0.95" style="flex:1" />
+          <span id="cfgServiceLevelVal" style="font-weight:600;min-width:48px">95%</span>
+        </div>
+        <small style="color:var(--text-tertiary)">Sets z = &Phi;<sup>-1</sup>(service level) in SS = z&middot;&radic;(L&sigma;<sub>d</sub><sup>2</sup> + d<sup>2</sup>&sigma;<sub>L</sub><sup>2</sup>) (95% &rarr; 1.645, 99% &rarr; 2.326). Achieved fill rate is measured in the Optimization Center.</small>
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label>Annual Holding Cost Rate (Cost of Capital + Storage)</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="cfgHoldingRate" min="0.05" max="0.45" step="0.01" value="0.20" style="flex:1" />
+          <span id="cfgHoldingRateVal" style="font-weight:600;min-width:48px">20%</span>
+        </div>
+        <small style="color:var(--text-tertiary)">Calculated as percentage of unit cost per annum</small>
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label>Order Setup Cost ($ per replenishment order)</label>
+        <input type="number" id="cfgSetupCost" min="5" max="500" step="5" value="50" class="input" style="width:100%" />
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label>Shortage Cost Multiplier (Stockout Penalty vs Unit Cost)</label>
+        <input type="number" id="cfgShortageMultiplier" min="1.0" max="5.0" step="0.1" value="1.5" class="input" style="width:100%" />
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label>Annual Working Capital Budget Limit ($)</label>
+        <input type="number" id="cfgBudget" min="100000" max="10000000" step="50000" value="1000000" class="input" style="width:100%" />
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label>Alert Expiry Threshold (Days ahead)</label>
+        <input type="number" id="cfgExpiryDays" min="15" max="365" step="5" value="90" class="input" style="width:100%" />
+      </div>
+    </form>
+  </div>
+
+  <!-- Data Quality & Readiness Radar -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Data Governance &amp; Readiness Radar</h3>
+        <div class="subtitle">Multi-dimensional health of current uploaded dataset</div>
+      </div>
+    </div>
+    <div style="height:320px">
+      <canvas id="chartDataQuality"></canvas>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:var(--bg-surface);border-radius:6px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">Data Governance Assessment:</div>
+      <div id="dataQualityNotes" style="font-size:12px;color:var(--text-secondary)">
+        • SKU Master Integrity: 100% Valid<br/>
+        • Cost / Price Consistency: Passed<br/>
+        • Expiry Tracking Coverage: Active on perishable categories<br/>
+        • Lead-time and Demand Variance: Sufficient history for stochastic models
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inventory Intelligence Dashboard</title>
+<meta name="description" content="Enterprise-grade inventory analytics, alerting, and AI recommendations." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body>
+
+<div id="globalErrorBanner" class="hidden" style="background:#ef4444; color:white; padding:16px; font-family:monospace; font-size:13px; position:fixed; top:0; left:0; right:0; z-index:99999; box-shadow:0 4px 12px rgba(0,0,0,0.3); max-height:200px; overflow-y:auto; display:flex; justify-content:space-between; align-items:center;">
+  <span id="globalErrorMessage"></span>
+  <button onclick="document.getElementById('globalErrorBanner').classList.add('hidden')" style="background:none; border:none; color:white; font-size:20px; cursor:pointer; font-weight:bold;">&times;</button>
+</div>
+<script>
+  window.onerror = function(message, source, lineno, colno, error) {
+    const banner = document.getElementById('globalErrorBanner');
+    const msgEl = document.getElementById('globalErrorMessage');
+    if (banner && msgEl) {
+      banner.classList.remove('hidden');
+      msgEl.innerHTML = `<strong>Error:</strong> ${message} <br/><small>${source}:${lineno}:${colno}</small>`;
+    }
+    return false;
+  };
+  window.onunhandledrejection = function(event) {
+    const banner = document.getElementById('globalErrorBanner');
+    const msgEl = document.getElementById('globalErrorMessage');
+    if (banner && msgEl) {
+      banner.classList.remove('hidden');
+      msgEl.innerHTML = `<strong>Unhandled Promise Rejection:</strong> ${event.reason}`;
+    }
+  };
+</script>
+
+<div class="page-loader" id="pageLoader">
+  <div class="loader-ring"></div>
+  <p class="text-tertiary" style="font-size:13px">Loading Inventory Intelligence Dashboard…</p>
+</div>
+
+<!-- ======================= LANDING (upload-only, no sidebar/navbar) ======================= -->
+<div class="landing-screen" id="landingScreen">
+  <div class="landing-card">
+    <div class="landing-brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <strong>Inventory Intelligence Dashboard</strong>
+        <span>Control Tower</span>
+      </div>
+    </div>
+    <h1>Upload your inventory file to get started</h1>
+    <p>Drop in a CSV, Excel (.xlsx/.xls/.xlc), or PDF document and the full platform — KPIs, alerts, supplier scorecards, and optimization policies — will build itself automatically.</p>
+
+    <div class="upload-zone" id="landingUploadZone">
+      <input type="file" accept=".csv,.xlsx,.xls,.xlc,.xlsm,.tsv,.txt,.pdf" style="display:none" />
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 5 5m-5-5-5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      </div>
+      <h3>Drag &amp; drop your inventory file here</h3>
+      <p>or click to browse from your computer</p>
+      <div class="file-types">Supported formats: .CSV, .XLSX, .XLS, .XLC, .PDF, .TSV · Max size 50MB</div>
+    </div>
+
+    <div id="landingUploadProgress" class="hidden" style="margin-top:18px">
+      <div class="progress-bar-indeterminate"></div>
+      <p style="margin-top:8px;font-size:var(--fs-sm);color:var(--text-secondary)">Processing file…</p>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell hidden" id="appShell">
+  <div class="nav-scrim"></div>
+
+  <!-- ============================ SIDEBAR ============================ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <strong>IID</strong>
+        <span>Control Tower</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Command Center</div>
+      <div class="nav-item" data-view="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        <span>Executive Overview</span>
+      </div>
+      <div class="nav-item" data-view="inventory">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8 12 3 3 8m18 0-9 5m9-5v9l-9 5m0-9L3 8m9 5v9M3 8v9l9 5"/></svg>
+        <span>Inventory Monitoring</span>
+      </div>
+
+      <div class="nav-section-label">Risk &amp; Exceptions</div>
+      <div class="nav-item" data-view="alerts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.29 3.86-8.18 14.14A2 2 0 0 0 3.82 21h16.36a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4m0 4h.01"/></svg>
+        <span>Low Stock Alerts</span>
+      </div>
+      <div class="nav-item" data-view="overstock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12.83 2.18 8.49 4.24a1 1 0 0 1 0 1.79l-8.49 4.24a2 2 0 0 1-1.66 0L2.68 8.21a1 1 0 0 1 0-1.79l8.49-4.24a2 2 0 0 1 1.66 0Z"/><path d="m2.68 13.21 8.49 4.24a2 2 0 0 0 1.66 0l8.49-4.24"/></svg>
+        <span>Overstock Detection</span>
+      </div>
+      <div class="nav-item" data-view="expiry">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Expiry Monitoring</span>
+      </div>
+      <div class="nav-item" data-view="safety-stock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+        <span>Safety Stock</span>
+      </div>
+
+      <div class="nav-section-label">Network</div>
+      <div class="nav-item" data-view="warehouses">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-8h6v8"/></svg>
+        <span>Warehouse Utilization</span>
+      </div>
+      <div class="nav-item" data-view="suppliers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8Z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>Supplier Performance</span>
+      </div>
+      <div class="nav-item" data-view="erp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <span>ERP Integration</span>
+      </div>
+
+      <div class="nav-section-label">Optimization &amp; Planning</div>
+      <div class="nav-item" data-view="optimization">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/><circle cx="19" cy="9" r="2"/></svg>
+        <span>Optimization Center</span>
+      </div>
+      <div class="nav-item" data-view="forecasting">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <span>Demand Forecasting</span>
+      </div>
+      <div class="nav-item" data-view="scenarios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>What-If Simulator</span>
+      </div>
+      <div class="nav-item" data-view="procurement">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        <span>Procurement &amp; POs</span>
+      </div>
+      <div class="nav-item" data-view="decisions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Decision Audit Log</span>
+      </div>
+
+      <div class="nav-section-label">Operations &amp; Upload</div>
+      <div class="nav-item" data-view="upload">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 5 5m-5-5-5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        <span>Data Upload</span>
+      </div>
+
+      <div class="nav-section-label">Settings</div>
+      <div class="nav-item" data-view="config">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Policy Configuration</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer" style="display:flex;flex-direction:column;gap:8px">
+      <div class="system-pulse"><span class="dot"></span><span>System nominal</span></div>
+      <button class="btn btn-secondary btn-sm" id="logoutBtn" style="width:100%;justify-content:center;font-size:11px;padding:4px">
+        <svg style="width:12px;height:12px;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================ MAIN ============================ -->
+  <div class="main-content">
+    <header class="navbar">
+      <button class="icon-btn mobile-nav-toggle" id="mobileNavToggle" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <button class="icon-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar" title="Collapse sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+      </button>
+
+      <div class="navbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="navSearchInput" placeholder="Search SKU or product… (press Enter)" />
+      </div>
+
+      <div class="navbar-actions">
+        <select class="batch-select" id="batchSelect" title="Select upload batch"></select>
+        <button class="icon-btn theme-toggle" id="themeToggleBtn" aria-label="Toggle theme" title="Toggle light/dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41"/></svg>
+        </button>
+        <button class="btn btn-primary" onclick="App.navigate('upload')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 5 5m-5-5-5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Upload
+        </button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div id="viewMount" class="view"></div>
+    </main>
+  </div>
+</div>
+
+<!-- ======================= LOGIN SCREEN ======================= -->
+<div class="login-screen hidden" id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand" style="margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+      <div class="brand-mark" style="background: var(--accent-primary); width: 32px; height: 32px; border-radius: 6px;"></div>
+      <div class="brand-text">
+        <strong>Inventory Intelligence Dashboard</strong>
+        <span style="font-size: 10px; color: var(--text-tertiary); display: block; text-transform: uppercase;">Enterprise Control Tower</span>
+      </div>
+    </div>
+    <h2 style="font-family: var(--ff-display); font-weight: 600; margin-bottom: 8px;">Platform Login</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 13px;">Authentication required for control tower and optimization access.</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginUsername" style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 12px; color: var(--text-secondary);">Username</label>
+        <input type="text" id="loginUsername" placeholder="e.g. admin" required style="width: 100%; padding: 10px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary); font-size: 13px;" />
+      </div>
+      <div class="form-group" style="margin-top:16px">
+        <label for="loginPassword" style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 12px; color: var(--text-secondary);">Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required style="width: 100%; padding: 10px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary); font-size: 13px;" />
+      </div>
+      <div id="loginError" class="login-error hidden" style="margin-top:12px;color:var(--status-critical);font-size:var(--fs-sm)"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:24px;justify-content:center">Log In</button>
+    </form>
+    <div style="margin-top:24px;text-align:center;font-size:11px;color:var(--text-tertiary)">
+      Demo Access — Username: <code class="mono" style="color:var(--text-secondary)">admin</code> / Password: <code class="mono" style="color:var(--text-secondary)">admin123</code>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= DETAIL MODAL ======================= -->
+<div class="modal-overlay hidden" id="detailModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 id="modalTitle">Entity Details</h2>
+      <button class="close-btn" id="modalCloseBtn">&times;</button>
+    </div>
+    <div class="modal-tabs" id="modalTabHeaders">
+      <button class="modal-tab active" data-tab="tabEdit" id="modalTabEdit">Details &amp; Edit</button>
+      <button class="modal-tab" data-tab="tabMath" id="modalTabMath">Inventory Math &amp; EOQ</button>
+      <button class="modal-tab" data-tab="tabPipeline" id="modalTabPipeline">Decision Lifecycle</button>
+    </div>
+    <div class="modal-body">
+      <!-- Edit Tab -->
+      <div class="modal-tab-content" id="tabEdit">
+        <form id="editForm">
+          <input type="hidden" id="editEntityId" />
+          <input type="hidden" id="editEntityType" />
+          <div id="editFormFields" class="form-grid"></div>
+          <div id="editFormError" style="margin-top: 12px; color: var(--status-critical); font-size: var(--fs-sm);" class="hidden"></div>
+          <div class="modal-actions" style="margin-top:24px;text-align:right; display:flex; gap:12px; justify-content:space-between; align-items:center;">
+            <button type="button" class="btn" id="editDeleteBtn" style="background:var(--status-critical); color:var(--text-inverse); font-weight:600; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">Delete Entity</button>
+            <div style="display:flex; gap:12px;">
+              <button type="button" class="btn btn-secondary" id="editCancelBtn">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Math Tab -->
+      <div class="modal-tab-content hidden" id="tabMath">
+        <div id="mathContent" class="math-content"></div>
+      </div>
+      
+      <!-- Pipeline Tab -->
+      <div class="modal-tab-content hidden" id="tabPipeline">
+        <div class="pipeline-stepper" id="pipelineStepper"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js (Served locally for offline capability) -->
+<script src="assets/js/chart.umd.min.js?v=2"></script>
+
+<!-- App scripts -->
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/state.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/table.js"></script>
+<script src="assets/js/upload.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/recommendations.js"></script>
+<script src="assets/js/templates.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

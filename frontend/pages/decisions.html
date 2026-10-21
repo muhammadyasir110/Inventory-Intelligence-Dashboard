@@ -1,0 +1,61 @@
+﻿<div class="page-header">
+  <div>
+    <h1>Decision Governance &amp; Audit Log</h1>
+    <p>Complete immutable audit trail of human-in-the-loop inventory decisions, overrides, and organizational learning.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" id="refreshDecisionsBtn">Refresh Audit Trail</button>
+  </div>
+</div>
+
+<!-- Decision Governance Stats -->
+<div class="kpi-grid">
+  <div class="kpi-card accent-primary">
+    <div class="kpi-top"><div class="kpi-icon">📋</div></div>
+    <div class="kpi-value" id="decTotalReviewed">0</div>
+    <div class="kpi-label">Decisions Logged</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-top"><div class="kpi-icon">✅</div><span class="badge badge-success">Accepted</span></div>
+    <div class="kpi-value" id="decAcceptedCount">0</div>
+    <div class="kpi-label">AI Direct Acceptance</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-top"><div class="kpi-icon">✏️</div><span class="badge badge-neutral">Modified</span></div>
+    <div class="kpi-value" id="decModifiedCount">0</div>
+    <div class="kpi-label">Human Adjusted</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-top"><div class="kpi-icon">🛑</div><span class="badge badge-critical">Rejected</span></div>
+    <div class="kpi-value" id="decRejectedCount">0</div>
+    <div class="kpi-label">Policy Rejected</div>
+  </div>
+</div>
+
+<!-- Decision History Table -->
+<div class="card" style="margin-top:20px">
+  <div class="card-header">
+    <div>
+      <h3>Decision Ledger &amp; Organizational Learning Records</h3>
+      <div class="subtitle">Traceability of all system recommendations and corresponding manager actions</div>
+    </div>
+  </div>
+  <div class="table-container" style="max-height:500px;overflow-y:auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Decision ID</th>
+          <th>Recommendation Title</th>
+          <th>Action Taken</th>
+          <th>Manager / User</th>
+          <th>Override Notes</th>
+          <th>Affected KPI</th>
+        </tr>
+      </thead>
+      <tbody id="decisionsTableBody">
+        <tr><td colspan="7" class="text-center text-muted" style="padding:24px">No human decisions logged yet. Review AI recommendations to populate the audit ledger.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
