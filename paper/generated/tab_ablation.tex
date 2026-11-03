@@ -1,0 +1,17 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Ablation of the FMCG-specific adaptations (main instance).}\label{tab:ablation}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Configuration & Feasible & Median & $\Delta_{\mathrm{BKS}}$ (\%) & Med. viol. (\%) & Realised CSL (\%) & Fill (\%) \\
+\midrule
+ABC (A1) & 1/30 & 80.51 & 171.0 & 0.74 & 97.8 & 99.59 \\
+A2: +EOQ init. & 21/30 & 60.93 & 105.1 & 0.00 & 96.3 & 99.61 \\
+A3: +constraint adapt. & 30/30 & 54.21 & 82.5 & 0.00 & 94.7 & 99.68 \\
+FMCG-ABC (A4) & 30/30 & 34.10 & 14.8 & 0.00 & 92.9 & 99.34 \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize Median cost over feasible runs (millions; -- if none). Median violation: normalised aggregate violation of the returned solution. Realised CSL and fill rate: holdout replay of the median run (Table~\ref{tab:replay}); for A1 the median run is infeasible, so its replay describes an inadmissible policy.}
+\end{table}

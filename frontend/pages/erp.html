@@ -1,0 +1,29 @@
+<div class="page-header">
+  <div>
+    <h1>Integrations &amp; Data Exchange</h1>
+    <p>How data gets in and out of the platform in this release.</p>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:var(--space-6)">
+  <div class="card-header"><div><h3>Available now</h3></div></div>
+  <ul style="line-height:1.8;padding-left:18px;color:var(--text-secondary);font-size:var(--fs-sm)">
+    <li><strong>File import</strong> (Data Upload): inventory snapshots and daily demand history from CSV or Excel, validated before anything is saved.</li>
+    <li><strong>Report export</strong>: inventory snapshot as CSV or Excel, executive summary as PDF. Exports are limited to your organisation and protected against spreadsheet formula injection.</li>
+    <li><strong>REST API</strong>: every screen uses the same documented HTTP API with bearer-token authentication (see <code>docs/API.md</code>). Your IT team can script imports and exports with it.</li>
+  </ul>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+    <button class="btn btn-secondary btn-sm" data-action="export-csv">Download inventory CSV</button>
+    <button class="btn btn-secondary btn-sm" data-action="export-excel">Download Excel report</button>
+    <button class="btn btn-secondary btn-sm" data-action="export-pdf">Download PDF summary</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div><h3>Not available in this release</h3></div></div>
+  <p style="color:var(--text-secondary);font-size:var(--fs-sm);line-height:1.6">
+    There are <strong>no live connectors</strong> to ERP or accounting systems (for example SAP, Oracle, Microsoft Dynamics, Odoo or QuickBooks),
+    to supplier portals, or to messaging services. Purchase orders created here are not sent to suppliers automatically.
+    A connector would be built on the REST API above for a specific customer system and tested against it before being offered.
+  </p>
+</div>

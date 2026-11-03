@@ -1,0 +1,7 @@
+-r requirements.txt
+httpx2==2.16.0            # used by starlette.testclient (starlette >= 1.x; replaces httpx)
+pytest==9.1.1
+ruff==0.17.2              # lint (pyproject.toml)
+pip-audit==2.10.1          # dependency vulnerability scan (scripts/release_gate.py)
+aiosmtpd==1.4.6           # local SMTP server for e-mail delivery tests (tests/test_account_lifecycle.py)
+atpublic==9.0.0           # aiosmtpd dependency

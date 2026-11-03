@@ -1,0 +1,20 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Model variants on the main instance (10 runs per method): budget as average capital tied up in stock (X5) and daily-review undershoot inside the model (X6).}\label{tab:variants}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrrrr}
+\toprule
+Variant & Method & Feasible & Median ctrl. & IQR & Lower bound & Realised CSL (\%) & SKUs $<\alpha_i$ \\
+\midrule
+Average-investment budget & ABC (A1) & 0/10 & -- & -- & 37.10 & -- & -- \\
+ & FMCG-ABC (A4) & 10/10 & 53.64 & 1.29 &  & -- & -- \\
+ & GA+ & 10/10 & 56.56 & 8.62 &  & -- & -- \\
+ & PSO+ & 10/10 & 63.22 & 8.94 &  & -- & -- \\
+Daily-review model & FMCG-ABC (A4) & 10/10 & 35.42 & 3.73 & 25.63 & 96.8 & 9 \\
+ & GA+ & 10/10 & 42.99 & 2.44 &  & 96.5 & 9 \\
+ & PSO+ & 10/10 & 41.26 & 0.88 &  & 95.9 & 16 \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize Millions of currency units. X5: $B=0.75\sum_ip_i(Q^{EOQ}_i)(Q^{EOQ}_i/2+SS_i)$. X6: offset $u_i=(\sigma_{d,i}^2+d_i^2)/(2d_i)$ in the service constraint and the shortage cost; realised service from the replay of the median run (main model, E1: FMCG-ABC 92.9\%, 27 SKUs below target).}
+\end{table}

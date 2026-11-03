@@ -1,0 +1,11 @@
+.git
+**/venv
+**/__pycache__
+**/*.pyc
+**/*.db
+backend/.env
+backend/uploads/*
+paper
+docs/audit
+*.zip
+System_Description_Report.pdf

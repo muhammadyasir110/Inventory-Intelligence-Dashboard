@@ -1,0 +1,37 @@
+<div class="page-header">
+  <div>
+    <h1>Warehouse Utilization</h1>
+    <p>Distribution of stock units and value across warehouse locations.</p>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="card">
+    <div class="card-header"><div><h3>Utilization by Warehouse</h3><div class="subtitle">Relative to the busiest location</div></div></div>
+    <div id="warehouseUtilList"></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div><h3>Stock Value by Warehouse</h3></div></div>
+    <div style="height:300px"><canvas id="chartWarehouseValue"></canvas></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div><h3>Warehouse Detail</h3></div></div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
+    <table class="data-table">
+      <thead><tr><th>Warehouse</th><th>SKU Count</th><th>Total Units</th><th>Stock Value</th><th>Utilization</th></tr></thead>
+      <tbody id="warehouseTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px">
+  <div class="card-header"><div><h3>Transfer proposals</h3><div class="subtitle">Surplus in one warehouse that could cover a shortage of the same SKU in another, within the destination's free capacity. Nothing moves until you execute a transfer; executed transfers are posted to both stock ledgers.</div></div></div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Transfer proposals">
+    <table class="data-table">
+      <thead><tr><th>SKU</th><th>From</th><th>To</th><th>Quantity</th><th>Value</th><th>Urgency</th><th>Reason</th><th></th></tr></thead>
+      <tbody id="transferBody"><tr><td colspan="8" class="text-muted">Loading…</td></tr></tbody>
+    </table>
+  </div>
+</div>

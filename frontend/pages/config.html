@@ -1,0 +1,195 @@
+<div class="page-header">
+  <div>
+    <h1>Policy Configuration &amp; Governance</h1>
+    <p>Tune enterprise inventory optimization parameters, safety stock service levels, and data governance limits.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-primary" id="saveConfigBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Configuration
+    </button>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <!-- Config Parameters Form -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Inventory Optimization Parameters</h3>
+        <div class="subtitle">Global assumptions driving stochastic safety stocks and EOQ formulas</div>
+      </div>
+    </div>
+    <form id="configForm" style="padding:12px 0">
+      <div class="form-group">
+        <label for="cfgServiceLevel">Target Cycle Service Level (probability of no stockout per cycle)</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="cfgServiceLevel" min="0.80" max="0.99" step="0.01" value="0.95" style="flex:1" />
+          <span id="cfgServiceLevelVal" style="font-weight:600;min-width:48px">95%</span>
+        </div>
+        <small style="color:var(--text-tertiary)">Sets z = &Phi;<sup>-1</sup>(service level) in SS = z&middot;&radic;(L&sigma;<sub>d</sub><sup>2</sup> + d<sup>2</sup>&sigma;<sub>L</sub><sup>2</sup>) (95% &rarr; 1.645, 99% &rarr; 2.326). Achieved fill rate is measured in the Optimization Center.</small>
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label for="cfgHoldingRate">Annual Holding Cost Rate (Cost of Capital + Storage)</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="cfgHoldingRate" min="0.05" max="0.45" step="0.01" value="0.20" style="flex:1" />
+          <span id="cfgHoldingRateVal" style="font-weight:600;min-width:48px">20%</span>
+        </div>
+        <small style="color:var(--text-tertiary)">Calculated as percentage of unit cost per annum</small>
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label for="cfgSetupCost">Order Setup Cost (organisation currency per order)</label>
+        <input type="number" id="cfgSetupCost" min="0" max="10000000" step="1" value="50" class="input" style="width:100%" />
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label for="cfgShortageMultiplier">Shortage Cost Multiplier (Stockout Penalty vs Unit Cost)</label>
+        <input type="number" id="cfgShortageMultiplier" min="1.0" max="5.0" step="0.1" value="1.5" class="input" style="width:100%" />
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label for="cfgBudget">Annual Working Capital Budget Limit (organisation currency)</label>
+        <input type="number" id="cfgBudget" min="1" max="100000000000" step="1000" value="1000000" class="input" style="width:100%" />
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label for="cfgExpiryDays">Alert Expiry Threshold (Days ahead)</label>
+        <input type="number" id="cfgExpiryDays" min="15" max="365" step="5" value="90" class="input" style="width:100%" />
+      </div>
+    </form>
+  </div>
+
+  <!-- Data Quality & Readiness Radar -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Data Governance &amp; Readiness Radar</h3>
+        <div class="subtitle">Multi-dimensional health of current uploaded dataset</div>
+      </div>
+    </div>
+    <div style="height:320px">
+      <canvas id="chartDataQuality"></canvas>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:var(--bg-surface);border-radius:6px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">Data Governance Assessment:</div>
+      <div id="dataQualityNotes" style="font-size:12px;color:var(--text-secondary)">Loading…</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:24px" id="orgProfileCard">
+  <div class="card-header"><div><h3>Organisation profile</h3><div class="subtitle">Currency and time zone used in screens, exports and reports.</div></div></div>
+  <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:12px 0">
+    <div class="form-group"><label for="orgName">Name</label><input type="text" id="orgName" class="input" maxlength="200" /></div>
+    <div class="form-group"><label for="orgCurrency">Currency (ISO code)</label>
+      <select id="orgCurrency" class="input"><option>PKR</option><option>USD</option><option>AED</option><option>SAR</option><option>GBP</option><option>EUR</option></select></div>
+    <div class="form-group"><label for="orgTimezone">Time zone (IANA)</label><input type="text" id="orgTimezone" class="input" placeholder="Asia/Karachi" /></div>
+    <div class="form-group"><label for="orgFyStart">Fiscal year starts (month)</label><input type="number" id="orgFyStart" class="input" min="1" max="12" /></div>
+  </div>
+  <button class="btn btn-primary btn-sm" id="saveOrgProfileBtn" data-admin-only>Save profile</button>
+</div>
+
+<div class="card" style="margin-top:24px">
+  <div class="card-header"><div><h3>Plan &amp; usage</h3><div class="subtitle" id="subBilling"></div></div></div>
+  <p id="subAccess" role="status" style="font-size:13px;margin:8px 0"></p>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table"><table class="data-table"><thead><tr><th>Limit</th><th>Used</th><th>Allowed</th></tr></thead><tbody id="subUsageBody"><tr><td colspan="3" class="text-muted">Loading…</td></tr></tbody></table></div>
+  <div data-admin-only style="margin-top:16px">
+    <h4 style="margin-bottom:8px">Subscription history</h4>
+    <p class="text-muted" id="invoiceNote" style="font-size:12px"></p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table"><table class="data-table"><thead><tr><th>When (UTC)</th><th>Source</th><th>Plan</th><th>Status</th><th>Note</th></tr></thead><tbody id="billingHistoryBody"><tr><td colspan="5" class="text-muted">Loading…</td></tr></tbody></table></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:24px" data-admin-only>
+  <div class="card-header"><div><h3>Team</h3><div class="subtitle">Deactivating a user or resetting a password signs that user out everywhere. The owner's account can only be changed by the owner.</div></div></div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table"><table class="data-table"><thead><tr><th>Username</th><th>Name</th><th>Role</th><th>Status</th><th>Last login</th><th>Actions</th></tr></thead><tbody id="usersBody"></tbody></table></div>
+  <form id="newUserForm" class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px;align-items:end">
+    <div class="form-group"><label for="nuUsername">New username</label><input id="nuUsername" class="input" required minlength="3" maxlength="100" /></div>
+    <div class="form-group"><label for="nuName">Full name</label><input id="nuName" class="input" maxlength="255" /></div>
+    <div class="form-group"><label for="nuRole">Role</label><select id="nuRole" class="input">
+      <option value="inventory_manager">Inventory manager</option><option value="procurement_manager">Procurement manager</option>
+      <option value="warehouse_manager">Warehouse manager</option><option value="executive">Analyst (read-only)</option><option value="admin">Administrator</option></select></div>
+    <div class="form-group"><label for="nuPassword">Initial password</label><input id="nuPassword" type="password" class="input" required minlength="8" autocomplete="new-password" /></div>
+    <button class="btn btn-primary btn-sm" type="submit">Add user</button>
+  </form>
+  <h4 style="margin:20px 0 8px">Invitations</h4>
+  <p class="text-muted" id="emailStatus" style="font-size:12px"></p>
+  <form id="inviteForm" class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end">
+    <div class="form-group"><label for="invEmail">E-mail address</label><input id="invEmail" type="email" class="input" required maxlength="255" autocomplete="off" /></div>
+    <div class="form-group"><label for="invRole">Role</label><select id="invRole" class="input">
+      <option value="inventory_manager">Inventory manager</option><option value="procurement_manager">Procurement manager</option>
+      <option value="warehouse_manager">Warehouse manager</option><option value="executive">Analyst (read-only)</option><option value="admin">Administrator</option></select></div>
+    <button class="btn btn-primary btn-sm" type="submit">Send invitation</button>
+  </form>
+  <div id="inviteLinkBox" class="hidden" style="margin-top:10px">
+    <label for="inviteLink" style="font-size:12px">No e-mail was sent. Share this single-use link with the invitee (valid 7 days):</label>
+    <input id="inviteLink" class="input" readonly style="width:100%" />
+  </div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table" style="margin-top:12px"><table class="data-table"><thead><tr><th>E-mail</th><th>Role</th><th>Invited by</th><th>Expires (UTC)</th><th>State</th><th></th></tr></thead><tbody id="invitesBody"></tbody></table></div>
+</div>
+
+<div class="card" style="margin-top:24px" data-owner-only>
+  <div class="card-header"><div><h3>Organisation data &amp; ownership</h3><div class="subtitle">Owner only. Every action here is recorded in the audit log.</div></div></div>
+  <div style="display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+    <div>
+      <h4>Export all data</h4>
+      <p class="text-muted" style="font-size:12px">A ZIP of CSV files with every record of this organisation (passwords and session secrets excluded).</p>
+      <button class="btn btn-secondary btn-sm" type="button" id="exportOrgBtn">Download export</button>
+    </div>
+    <form id="transferForm">
+      <h4>Transfer ownership</h4>
+      <p class="text-muted" style="font-size:12px">The new owner must be an active member. You become an administrator.</p>
+      <div class="form-group"><label for="toUser">New owner</label><select id="toUser" class="input" required></select></div>
+      <div class="form-group"><label for="toPassword">Your password</label><input id="toPassword" type="password" class="input" required autocomplete="current-password" /></div>
+      <button class="btn btn-secondary btn-sm" type="submit">Transfer ownership</button>
+    </form>
+    <form id="deleteOrgForm">
+      <h4>Delete organisation</h4>
+      <p class="text-muted" id="delStatus" style="font-size:12px"></p>
+      <div id="delRequestFields">
+        <div class="form-group"><label for="delName">Type the organisation name to confirm</label><input id="delName" class="input" required autocomplete="off" /></div>
+        <div class="form-group"><label for="delPassword">Your password</label><input id="delPassword" type="password" class="input" required autocomplete="current-password" /></div>
+        <button class="btn btn-danger btn-sm" type="submit" id="delRequestBtn">Request deletion</button>
+      </div>
+      <button class="btn btn-secondary btn-sm hidden" type="button" id="delCancelBtn">Cancel deletion request</button>
+    </form>
+  </div>
+</div>
+
+<div class="card" style="margin-top:24px">
+  <div class="card-header"><div><h3>My account</h3></div></div>
+  <form id="changePwForm" class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end">
+    <div class="form-group"><label for="cpCurrent">Current password</label><input id="cpCurrent" type="password" class="input" required autocomplete="current-password" /></div>
+    <div class="form-group"><label for="cpNew">New password</label><input id="cpNew" type="password" class="input" required minlength="8" autocomplete="new-password" /></div>
+    <button class="btn btn-primary btn-sm" type="submit">Change password</button>
+    <button class="btn btn-secondary btn-sm" type="button" id="logoutAllBtn">Sign out on all devices</button>
+  </form>
+  <div id="mfaSection" style="margin-top:16px;border-top:1px solid var(--border-subtle);padding-top:12px">
+    <h4 style="margin-bottom:6px">Two-factor login</h4>
+    <p id="mfaStatusText" role="status" style="font-size:13px"></p>
+    <button class="btn btn-secondary btn-sm hidden" type="button" id="mfaStartBtn">Turn on two-factor login</button>
+    <div id="mfaSetupBox" class="hidden" style="margin-top:8px;font-size:13px">
+      <p>1. In an authenticator app (Google Authenticator, Microsoft Authenticator, Authy) add an account with this key, or open the link on your phone:</p>
+      <p><code id="mfaSecret" class="mono" style="word-break:break-all"></code> · <a id="mfaUri" href="#">otpauth link</a></p>
+      <form id="mfaEnableForm" class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end">
+        <div class="form-group"><label for="mfaEnableCode">2. Enter the 6-digit code</label><input id="mfaEnableCode" class="input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required /></div>
+        <button class="btn btn-primary btn-sm" type="submit">Confirm and turn on</button>
+      </form>
+    </div>
+    <div id="mfaCodesBox" class="hidden" style="margin-top:8px;font-size:13px">
+      <p><strong>Save these recovery codes now.</strong> Each works once if you lose your phone. They will not be shown again.</p>
+      <pre id="mfaCodes" class="mono" style="background:var(--bg-surface-alt);padding:8px;border-radius:6px"></pre>
+    </div>
+    <form id="mfaDisableForm" class="form-grid hidden" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;margin-top:8px">
+      <div class="form-group"><label for="mfaDisablePw">Password</label><input id="mfaDisablePw" type="password" class="input" required autocomplete="current-password" /></div>
+      <div class="form-group"><label for="mfaDisableCode">Code or recovery code</label><input id="mfaDisableCode" class="input" required maxlength="20" autocomplete="one-time-code" /></div>
+      <button class="btn btn-secondary btn-sm" type="submit">Turn off two-factor login</button>
+    </form>
+  </div>
+  <p id="emailVerifyRow" class="hidden" style="font-size:13px;margin-top:12px">
+    <span id="emailVerifyText"></span>
+    <button class="btn btn-secondary btn-sm" type="button" id="resendVerifyBtn">Resend confirmation</button>
+  </p>
+</div>

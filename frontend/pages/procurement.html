@@ -1,0 +1,87 @@
+<div class="page-header">
+  <div>
+    <h1>Procurement Planning &amp; Purchase Orders</h1>
+    <p>Items at or below their reorder point, and the purchase-order workflow: draft &rarr; approved &rarr; ordered &rarr; received.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" id="refreshProcurementBtn">Refresh</button>
+    <button class="btn btn-primary" id="createPoBatchBtn" title="Creates one DRAFT purchase order per supplier. Nothing is sent to suppliers.">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+      Create draft POs from plan
+    </button>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi-card accent-critical">
+    <div class="kpi-top"><div class="kpi-icon">🚨</div><span class="badge badge-critical">At or below safety stock</span></div>
+    <div class="kpi-value" id="procCriticalOrdersCount">0</div>
+    <div class="kpi-label">Critical lines</div>
+  </div>
+  <div class="kpi-card accent-low">
+    <div class="kpi-top"><div class="kpi-icon">🛒</div></div>
+    <div class="kpi-value" id="procTotalOrdersCount">0</div>
+    <div class="kpi-label">Recommended replenishments</div>
+  </div>
+  <div class="kpi-card accent-primary">
+    <div class="kpi-top"><div class="kpi-icon">💵</div></div>
+    <div class="kpi-value" id="procTotalValue">—</div>
+    <div class="kpi-label">Value of recommended orders</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-top"><div class="kpi-icon">🏭</div></div>
+    <div class="kpi-value" id="procSuppliersCount">0</div>
+    <div class="kpi-label">Suppliers involved</div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px">
+  <div class="card-header">
+    <div>
+      <h3>Replenishment plan</h3>
+      <div class="subtitle">Quantity = order-up-to gap, at least the minimum order quantity, rounded up to the pack size. EOQ shown for reference.</div>
+    </div>
+    <div class="table-toolbar" style="padding:0">
+      <label for="procSearchInput" class="sr-only">Filter plan</label>
+      <input type="text" id="procSearchInput" placeholder="Filter SKU, product or supplier..." style="min-width:240px" />
+    </div>
+  </div>
+  <div class="table-container" tabindex="0" role="region" aria-label="Scrollable table" style="max-height:420px;overflow-y:auto">
+    <table class="data-table">
+      <thead>
+        <tr><th>SKU</th><th>Product</th><th>Supplier</th><th>Warehouse</th><th>On hand</th><th>ROP</th>
+            <th>Order qty</th><th>Unit cost</th><th>Value</th><th>Urgency</th></tr>
+      </thead>
+      <tbody id="procurementTableBody">
+        <tr><td colspan="10" class="text-center text-muted" style="padding:24px">Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px">
+  <div class="card-header">
+    <div>
+      <h3>Purchase orders</h3>
+      <div class="subtitle">A procurement manager cannot approve an order they created. Receiving updates stock and the transaction ledger.</div>
+    </div>
+    <div class="table-toolbar" style="padding:0">
+      <label for="poStatusFilter" class="sr-only">Status</label>
+      <select id="poStatusFilter" class="batch-select" style="padding:6px 12px">
+        <option value="">All statuses</option>
+        <option value="draft">Draft</option>
+        <option value="approved">Approved</option>
+        <option value="ordered">Ordered</option>
+        <option value="partially_received">Partially received</option>
+        <option value="received">Received</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-container" tabindex="0" role="region" aria-label="Scrollable table" style="max-height:420px;overflow-y:auto">
+    <table class="data-table">
+      <thead><tr><th>PO</th><th>Supplier</th><th>Status</th><th>Lines</th><th>Total</th><th>Created / approved by</th><th>Expected</th><th>Actions</th></tr></thead>
+      <tbody id="poTableBody"><tr><td colspan="8" class="text-center text-muted" style="padding:24px">Loading…</td></tr></tbody>
+    </table>
+  </div>
+</div>

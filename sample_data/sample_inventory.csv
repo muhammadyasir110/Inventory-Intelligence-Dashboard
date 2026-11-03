@@ -1,0 +1,65 @@
+SKU,Product Name,Category,Quantity On Hand,Reorder Point,Safety Stock,Max Stock Level,Unit Cost,Unit Price,Lead Time Days,Daily Avg Demand,Expiry Date,Last Restock Date,Supplier,Warehouse
+SKU-1001,Wireless Mouse,Electronics,21,11,3,29,148.24,180.71,7,1.6,,2026-06-26,Metro Logistics,Karachi Central
+SKU-1002,USB-C Cable,Electronics,221,44,15,156,70.63,121.6,3,13.1,,2026-05-14,Nexus Distributors,Lahore North
+SKU-1003,Bluetooth Speaker,Electronics,161,45,16,119,86.97,118.17,5,9.2,,2026-06-29,Nexus Distributors,Multan Depot
+SKU-1004,LED Monitor 24in,Electronics,243,129,33,444,49.28,61.19,10,13.9,,2026-05-20,Metro Logistics,Multan Depot
+SKU-1005,Power Bank 10000mAh,Electronics,207,153,42,487,89.78,143.84,5,24.6,,2026-05-18,Nexus Distributors,Islamabad Hub
+SKU-1006,HDMI Adapter,Electronics,82,87,22,278,172.51,229.74,5,15.6,,2026-06-11,Metro Logistics,Karachi Central
+SKU-1007,Mechanical Keyboard,Electronics,471,154,33,596,54.34,81.48,7,20.7,,2026-05-06,Global Supply Co.,Lahore North
+SKU-1008,Smartwatch Band,Electronics,60,22,7,64,100.75,134.16,5,4.4,,2026-06-23,Metro Logistics,Multan Depot
+SKU-1009,Basmati Rice 5kg,Groceries,25,12,3,33,97.11,151.25,3,3.2,2026-09-16,2026-05-27,Horizon Wholesale,Multan Depot
+SKU-1010,Cooking Oil 1L,Groceries,133,292,103,879,2.31,3.77,14,17.4,,2026-05-30,Global Supply Co.,Karachi Central
+SKU-1011,Green Tea Box,Groceries,645,190,57,532,238.44,418.1,7,21.9,,2026-05-24,Nexus Distributors,Karachi Central
+SKU-1012,Wheat Flour 10kg,Groceries,4,13,5,38,236.82,296.35,7,1.5,2026-07-18,2026-05-14,Prime Vendors Ltd.,Multan Depot
+SKU-1013,Sugar 2kg,Groceries,167,52,12,171,232.34,384.09,10,4.1,,2026-05-17,Horizon Wholesale,Lahore North
+SKU-1014,Salt 1kg,Groceries,231,549,209,1744,6.73,10.31,21,24.9,,2026-07-01,Prime Vendors Ltd.,Multan Depot
+SKU-1015,Lentils 1kg,Groceries,34,24,5,69,34.38,60.55,3,6.5,,2026-06-01,Global Supply Co.,Karachi Central
+SKU-1016,Honey Jar 500g,Groceries,496,96,32,291,14.96,23.82,5,20.4,,2026-06-28,Nexus Distributors,Multan Depot
+SKU-1017,Paracetamol 500mg,Pharmaceuticals,98,61,15,194,63.58,111.52,3,20.2,2026-07-18,2026-06-28,Apex Trading,Islamabad Hub
+SKU-1018,Vitamin C Tablets,Pharmaceuticals,377,117,35,330,95.67,171.36,5,24.3,2027-07-03,2026-06-13,Metro Logistics,Karachi Central
+SKU-1019,Antiseptic Cream,Pharmaceuticals,3,32,7,115,13.96,20.75,7,4.7,,2026-05-29,Apex Trading,Multan Depot
+SKU-1020,Cough Syrup 100ml,Pharmaceuticals,148,90,19,234,235.49,363.08,3,24.1,,2026-06-29,Nexus Distributors,Karachi Central
+SKU-1021,Bandage Roll,Pharmaceuticals,279,175,46,506,67.51,86.31,14,11.1,,2026-06-02,Horizon Wholesale,Karachi Central
+SKU-1022,Hand Sanitizer 250ml,Pharmaceuticals,12,22,9,57,233.41,403.45,14,1.2,,2026-06-08,Prime Vendors Ltd.,Karachi Central
+SKU-1023,Multivitamin Pack,Pharmaceuticals,194,190,61,756,204.55,282.2,14,11.5,,2026-05-06,Prime Vendors Ltd.,Lahore North
+SKU-1024,Thermometer Digital,Pharmaceuticals,7,14,3,41,172.34,295.0,3,3.8,,2026-06-15,Nexus Distributors,Islamabad Hub
+SKU-1025,Cotton T-Shirt,Apparel,132,104,28,280,111.3,180.68,7,16.2,,2026-05-27,Global Supply Co.,Karachi Central
+SKU-1026,Denim Jeans,Apparel,104,74,23,278,33.17,45.94,21,2.8,,2026-05-05,Global Supply Co.,Karachi Central
+SKU-1027,Formal Shirt,Apparel,115,35,9,117,187.75,329.59,5,6.0,,2026-06-16,Global Supply Co.,Islamabad Hub
+SKU-1028,Winter Jacket,Apparel,375,65,25,239,184.16,248.41,3,22.2,,2026-06-21,Nexus Distributors,Lahore North
+SKU-1029,Sports Socks,Apparel,70,38,9,142,199.14,266.16,3,10.2,,2026-06-30,Metro Logistics,Karachi Central
+SKU-1030,Casual Sneakers,Apparel,163,92,36,269,245.32,373.31,7,10.6,,2026-06-30,Metro Logistics,Lahore North
+SKU-1031,Wool Sweater,Apparel,64,34,11,103,246.08,312.37,7,5.3,,2026-05-05,Global Supply Co.,Islamabad Hub
+SKU-1032,Baseball Cap,Apparel,568,160,49,594,184.65,243.41,21,7.1,,2026-06-04,Horizon Wholesale,Lahore North
+SKU-1033,Non-stick Pan,Home & Kitchen,1700,416,143,1227,101.5,139.81,21,16.0,,2026-06-23,Global Supply Co.,Islamabad Hub
+SKU-1034,Ceramic Mug Set,Home & Kitchen,1010,199,76,681,1.6,2.2,10,17.0,,2026-06-04,Nexus Distributors,Multan Depot
+SKU-1035,Cutlery Set,Home & Kitchen,426,143,43,528,165.22,226.4,10,12.2,,2026-05-20,Horizon Wholesale,Islamabad Hub
+SKU-1036,Storage Container,Home & Kitchen,2,19,5,53,119.57,204.45,5,3.2,,2026-06-27,Metro Logistics,Islamabad Hub
+SKU-1037,LED Bulb 9W,Home & Kitchen,236,305,103,989,2.88,4.75,14,22.3,,2026-05-13,Apex Trading,Multan Depot
+SKU-1038,Table Lamp,Home & Kitchen,271,146,31,420,200.65,321.15,21,6.3,,2026-05-27,Global Supply Co.,Multan Depot
+SKU-1039,Bed Sheet Set,Home & Kitchen,610,273,94,889,224.46,369.5,10,23.8,,2026-06-01,Horizon Wholesale,Islamabad Hub
+SKU-1040,Kitchen Knife Set,Home & Kitchen,257,403,143,1300,178.82,239.74,21,19.0,,2026-06-10,Apex Trading,Islamabad Hub
+SKU-1041,Steel Bolt M8,Industrial Parts,87,23,5,65,117.28,145.12,5,4.3,,2026-05-09,Prime Vendors Ltd.,Karachi Central
+SKU-1042,Ball Bearing 6203,Industrial Parts,952,406,83,1551,235.77,325.17,14,22.7,,2026-06-07,Apex Trading,Multan Depot
+SKU-1043,Hydraulic Hose 2m,Industrial Parts,174,96,20,288,42.51,62.93,7,12.7,,2026-06-23,Apex Trading,Lahore North
+SKU-1044,Rubber Gasket,Industrial Parts,39,359,74,1244,14.0,19.98,14,22.8,,2026-06-18,Horizon Wholesale,Karachi Central
+SKU-1045,Motor Belt,Industrial Parts,184,92,36,288,187.63,231.02,10,9.1,,2026-06-09,Apex Trading,Islamabad Hub
+SKU-1046,Pressure Valve,Industrial Parts,820,379,78,1088,60.78,90.21,21,19.7,,2026-06-24,Nexus Distributors,Karachi Central
+SKU-1047,Welding Rod,Industrial Parts,131,103,24,351,205.1,364.84,7,12.2,,2026-06-25,Horizon Wholesale,Lahore North
+SKU-1048,Safety Gloves,Industrial Parts,443,382,150,1182,173.12,272.9,14,23.3,,2026-06-25,Horizon Wholesale,Karachi Central
+SKU-1049,Face Moisturizer,Cosmetics,75,366,131,1226,165.89,205.93,14,21.4,,2026-07-01,Metro Logistics,Islamabad Hub
+SKU-1050,Sunscreen SPF50,Cosmetics,81,28,10,100,241.42,328.83,7,3.5,,2026-05-28,Apex Trading,Multan Depot
+SKU-1051,Lipstick Matte,Cosmetics,418,275,73,789,113.52,187.34,21,11.5,,2026-05-20,Apex Trading,Multan Depot
+SKU-1052,Shampoo 400ml,Cosmetics,76,12,3,44,175.74,240.02,7,1.7,2026-08-17,2026-06-26,Apex Trading,Islamabad Hub
+SKU-1053,Body Lotion,Cosmetics,91,75,25,243,56.57,91.36,5,12.7,2026-10-31,2026-06-01,Nexus Distributors,Multan Depot
+SKU-1054,Facial Cleanser,Cosmetics,1056,263,71,837,180.74,251.11,21,11.2,,2026-05-14,Horizon Wholesale,Islamabad Hub
+SKU-1055,Perfume 50ml,Cosmetics,237,129,44,511,26.48,34.86,21,5.6,2026-07-28,2026-06-12,Metro Logistics,Lahore North
+SKU-1056,Nail Polish,Cosmetics,48,26,9,70,218.37,337.26,3,7.6,2027-07-03,2026-06-10,Global Supply Co.,Lahore North
+SKU-1057,Ballpoint Pen Pack,Stationery,170,67,14,217,39.2,66.12,10,7.1,,2026-06-12,Nexus Distributors,Karachi Central
+SKU-1058,Notebook A4,Stationery,79,43,15,122,111.52,191.38,10,3.8,,2026-06-04,Global Supply Co.,Lahore North
+SKU-1059,Sticky Notes,Stationery,125,308,109,1059,61.11,93.57,21,15.6,,2026-06-21,Prime Vendors Ltd.,Karachi Central
+SKU-1060,Stapler,Stationery,160,180,37,528,19.19,25.72,14,11.8,,2026-06-15,Global Supply Co.,Multan Depot
+SKU-1061,Highlighter Set,Stationery,9,155,36,449,198.47,309.02,14,11.2,,2026-05-10,Metro Logistics,Lahore North
+SKU-1062,Whiteboard Marker,Stationery,329,135,46,528,21.49,26.3,10,11.5,,2026-06-04,Horizon Wholesale,Islamabad Hub
+SKU-1063,File Folder,Stationery,159,44,17,165,249.89,400.67,3,15.5,,2026-06-14,Metro Logistics,Islamabad Hub
+SKU-1064,Printer Paper Ream,Stationery,76,105,35,407,159.24,238.07,5,19.3,,2026-06-26,Horizon Wholesale,Karachi Central

@@ -1,0 +1,68 @@
+/* ==========================================================================
+   animations.css — Micro-interactions & Loading Effects
+   ========================================================================== */
+
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--signal-indigo);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.page-loader {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: var(--space-4);
+  background: var(--bg-canvas);
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+.page-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-ring {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--signal-indigo);
+  border-right-color: var(--signal-teal);
+  animation: spin 0.9s linear infinite;
+}
+
+.stagger-in > * { animation: fade-in-up var(--transition-slow) both; }
+.stagger-in > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-in > *:nth-child(2) { animation-delay: 40ms; }
+.stagger-in > *:nth-child(3) { animation-delay: 80ms; }
+.stagger-in > *:nth-child(4) { animation-delay: 120ms; }
+.stagger-in > *:nth-child(5) { animation-delay: 160ms; }
+.stagger-in > *:nth-child(6) { animation-delay: 200ms; }
+.stagger-in > *:nth-child(7) { animation-delay: 240ms; }
+.stagger-in > *:nth-child(8) { animation-delay: 280ms; }
+
+.count-up { transition: opacity 0.3s ease; }
+
+.pulse-ring {
+  position: relative;
+}
+.pulse-ring::after {
+  content: '';
+  position: absolute; inset: -4px; border-radius: inherit;
+  border: 2px solid var(--signal-indigo);
+  opacity: 0; animation: ring-pulse 1.8s ease-out infinite;
+}
+@keyframes ring-pulse {
+  0% { opacity: 0.6; transform: scale(0.95); }
+  100% { opacity: 0; transform: scale(1.25); }
+}
+
+.progress-bar-indeterminate {
+  height: 3px; width: 100%; overflow: hidden;
+  background: var(--bg-surface-alt); border-radius: var(--radius-pill);
+}
+.progress-bar-indeterminate::after {
+  content: '';
+  display: block; width: 40%; height: 100%;
+  background: linear-gradient(90deg, var(--signal-indigo), var(--signal-teal));
+  animation: indeterminate 1.2s ease-in-out infinite;
+}
+@keyframes indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}

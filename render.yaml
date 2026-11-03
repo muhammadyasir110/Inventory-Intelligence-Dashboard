@@ -1,0 +1,33 @@
+# Render blueprint (https://render.com/docs/blueprint-spec). Review before use:
+# plan names and regions are examples. Free plans sleep and have no pre-deploy
+# step; use a paid plan for real customers.
+databases:
+  - name: iip-db
+    databaseName: iip
+    user: iip
+    plan: basic-256mb
+    postgresMajorVersion: "16"
+
+services:
+  - type: web
+    name: iip
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /api/ready
+    preDeployCommand: python scripts/db_admin.py upgrade
+    envVars:
+      - key: IIP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: iip-db
+          property: connectionString
+      - key: IIP_TRUST_PROXY
+        value: "true"
+      - key: IIP_ALLOW_REGISTRATION
+        value: "false"
+      - key: WEB_CONCURRENCY
+        value: "2"
+      - key: IIP_PBKDF2_ITERATIONS
+        value: "600000"

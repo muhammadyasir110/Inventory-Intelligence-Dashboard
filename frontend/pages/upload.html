@@ -1,0 +1,57 @@
+<div class="page-header">
+  <div>
+    <h1>Data Upload</h1>
+    <p>Import inventory and demand history. Every file is validated first; nothing is saved until you confirm.</p>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:24px">
+  <div class="card-header"><div><h3>1. Inventory snapshot</h3><div class="subtitle">One row per SKU (per warehouse): stock on hand, unit cost, demand, lead time.</div></div></div>
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+    <label for="uploadProvenance" style="font-size:12px;color:var(--text-secondary)">Dataset type (stored with the upload):</label>
+    <select id="uploadProvenance" class="batch-select" style="padding:6px 12px">
+      <option value="user_uploaded" selected>User-uploaded operational data</option>
+      <option value="synthetic">Synthetic (generated) data</option>
+      <option value="demonstration">Demonstration data</option>
+    </select>
+    <span style="font-size:11px;color:var(--text-tertiary)">The research dataset is validated separately (Research data validation), not here.</span>
+  </div>
+  <div class="upload-zone" id="mainUploadZone" data-kind="inventory" aria-label="Choose an inventory file">
+    <input type="file" accept=".csv,.xlsx,.xls,.xlsm,.tsv,.txt,.pdf" style="display:none" />
+    <div class="upload-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 5 5m-5-5-5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+    </div>
+    <h3>Drag &amp; drop your inventory file here</h3>
+    <p>or click to browse from your computer</p>
+    <div class="file-types">Supported formats: .CSV, .XLSX, .XLS, .XLSM, .TSV, .TXT, .PDF · Max size 10 MB (server setting IIP_MAX_UPLOAD_MB)</div>
+    <div class="file-types">Units: quantities in units, demand in units/day, lead time in days, costs in your organisation currency.</div>
+  </div>
+  <div id="uploadProgressWrap" class="hidden" style="margin-top:16px">
+    <div class="progress-bar-indeterminate"></div>
+    <p style="margin-top:8px;font-size:var(--fs-sm)" id="uploadProgressText">Importing…</p>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:24px">
+  <div class="card-header"><div><h3>2. Demand history</h3><div class="subtitle">Daily demand or sales per SKU: columns <code>sku</code>, <code>date</code>, <code>quantity</code> (optional <code>channel</code>). Needed for forecasts and XYZ classes (at least 14 days per SKU).</div></div></div>
+  <div class="upload-zone" id="demandUploadZone" data-kind="demand" aria-label="Choose a demand history file">
+    <input type="file" accept=".csv,.xlsx,.xls,.xlsm,.tsv,.txt" style="display:none" />
+    <div class="upload-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg>
+    </div>
+    <h3>Drag &amp; drop a demand-history file</h3>
+    <p>SKUs must already exist (import the inventory first). Future dates and duplicates are rejected.</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div><h3>Upload History</h3><div class="subtitle">Previous imports — select an inventory upload to view its dashboard</div></div>
+  </div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">
+    <table class="data-table">
+      <thead><tr><th>File</th><th>Kind</th><th>Dataset type</th><th>Rows</th><th>Uploaded</th><th>Status</th><th></th></tr></thead>
+      <tbody id="batchHistoryBody"></tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Equal wall-clock time (X1): adapted GA and PSO receive the number of evaluations they can perform in the mean time FMCG-ABC needs for 50{,}000 evaluations; seeds 1--10, main instance.}\label{tab:x1}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Comparator & Evaluations & Feasible & FMCG-ABC & Comparator & Time (s) & Diff.\ of medians, 95\% CI & $p_{\mathrm{Holm}}$ & $A_{12}$ \\
+\midrule
+PSO+ & 952,752 & 10/10 & 34.00 & 40.24 & 32 / 46 & [-7.59, +1.65] & 0.0640 & 0.75 \\
+GA+ & 478,667 & 10/10 & 34.00 & 38.35 & 32 / 44 & [-6.62, -3.50] & 0.0004 & 1.00 \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize Median controllable cost (millions); FMCG-ABC values are its E1 runs with the same seeds. Time: mean seconds per run, FMCG-ABC / comparator. Runs are independent samples (10 per method): two-sided Mann--Whitney U test with Holm correction, Vargha--Delaney $A_{12}$, bootstrap 95\% CI of the difference of medians.}
+\end{table}

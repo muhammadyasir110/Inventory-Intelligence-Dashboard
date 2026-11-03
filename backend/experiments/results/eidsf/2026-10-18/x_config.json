@@ -1,0 +1,24 @@
+{
+  "x1_eval_budgets": {
+    "PSO+": 952752,
+    "GA+": 478667
+  },
+  "fmcg_mean_runtime_sec": 31.639770659733284,
+  "x5_x6_multipliers": {
+    "X5-average-budget": {
+      "lambda_budget": 2.8139448497055524,
+      "mu_warehouse": [
+        0.0,
+        0.0
+      ]
+    },
+    "X6-daily-review": {
+      "lambda_budget": 0.9122789153022608,
+      "mu_warehouse": [
+        0.0,
+        22236.36900822872
+      ]
+    }
+  },
+  "runtime_sec": 4593.1
+}
