@@ -2,6 +2,16 @@
 
 All notable changes. Versions follow semantic versioning; dates are UTC+5 (Pakistan).
 
+## [Unreleased]
+
+### Added
+- Vercel + Neon demo hosting: `vercel.json` (single FastAPI function, paper/docs/tests excluded), root
+  `requirements.txt`, `.python-version` (3.12), DEPLOYMENT.md §11, `tests/test_deploy_config.py`.
+
+### Changed
+- `IIP_DB_STATEMENT_TIMEOUT_MS=0` now disables the per-connection statement timeout (needed behind
+  connection poolers that reject the startup `options` parameter). Default unchanged (60 s).
+
 ## [2.7.0] - 2026-11-03
 
 Security and inventory-workflow release. Research engine (`backend/eidsf`), inventory formulas and units

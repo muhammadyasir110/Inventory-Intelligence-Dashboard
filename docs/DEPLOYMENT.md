@@ -158,3 +158,40 @@ instance); there is no shared file storage requirement (uploads are parsed in me
 no background-job queue is needed for the current workload (scheduled jobs run outside the app,
 OPERATIONS.md §6). Size the database connection pool as instances × workers × (`IIP_DB_POOL_SIZE` +
 `IIP_DB_MAX_OVERFLOW`) below the server's connection limit.
+
+## 11. Demo hosting on Vercel (Hobby) + Neon (Free)
+
+For a **demonstration link with synthetic sample data only** (not for customer data: the Vercel Hobby plan
+is for non-commercial personal use, and Neon Free has no point-in-time recovery). All requests go to one
+Python function (`api/index.py`), which serves both the API and the frontend (`vercel.json` rewrite).
+Vercel installs the root `requirements.txt` (kept identical to `backend/requirements.txt` minus uvicorn by
+`tests/test_deploy_config.py`); `paper/`, `docs/` and `backend/tests/` are excluded from the bundle.
+
+1. **Neon**: create a project (PostgreSQL 16 or later). Copy two connection strings: the *pooled* one
+   (host contains `-pooler`) for Vercel and the *direct* one for migrations. Both need `sslmode=require`.
+2. **Migrate and create the first account from your computer** (in `backend/`, with the direct URL):
+   `DATABASE_URL=<direct url> IIP_ENV=production python scripts/db_admin.py upgrade`, then
+   `... python scripts/manage_users.py bootstrap --org "Demo Distributor" --username owner`.
+   The app never migrates on start in production.
+3. **Vercel**: *Add New → Project*, import the private repository, framework preset *Other*, root
+   directory = repository root. Environment variables:
+
+   | Variable | Value |
+   |---|---|
+   | `IIP_ENV` | `production` |
+   | `DATABASE_URL` | Neon **pooled** URL with `?sslmode=require` |
+   | `IIP_DB_POOL_SIZE` / `IIP_DB_MAX_OVERFLOW` | `1` / `2` (each function instance holds few connections) |
+   | `IIP_DB_STATEMENT_TIMEOUT_MS` | `0` (the Neon pooler rejects the startup `options` parameter) |
+   | `IIP_TRUST_PROXY` | `true` |
+   | `IIP_MAX_UPLOAD_MB` | `4` (Vercel limits request bodies to 4.5 MB) |
+   | `IIP_EMAIL_BACKEND` | `disabled` (or SMTP settings, §10) |
+
+4. Deploy, open `https://<project>.vercel.app`, sign in, upload `sample_data/sample_inventory.csv`, and give
+   viewers an `executive` (read-only) account rather than the owner account.
+
+Limits to expect: a cold start of several seconds after inactivity (function and Neon compute both
+suspend); optimisation runs must finish within 300 s; in-process rate limits and metrics are per function
+instance. Rehearsed locally on 2026-11-03 with the same settings (`VERCEL=1`, `IIP_ENV=production`,
+PostgreSQL 16, pool 1/2, statement timeout off): health/ready, frontend, login, sample upload, dashboard,
+forecasting, procurement, optimisation and the 4 MB upload limit (413) behaved as expected. The deployment
+on Vercel itself was not run from this environment.

@@ -58,14 +58,16 @@ def _make_engine():
         return create_engine(DATABASE_URL, connect_args={"check_same_thread": False},
                              pool_pre_ping=True)
     timeout_ms = _int_env("IIP_DB_STATEMENT_TIMEOUT_MS", 60_000)
+    connect_args = {"connect_timeout": 10}
+    if timeout_ms > 0:   # 0 disables it (some connection poolers reject the 'options' parameter)
+        connect_args["options"] = f"-c statement_timeout={timeout_ms}"
     return create_engine(
         DATABASE_URL,
         pool_pre_ping=True,
         pool_size=_int_env("IIP_DB_POOL_SIZE", 5),
         max_overflow=_int_env("IIP_DB_MAX_OVERFLOW", 10),
         pool_recycle=_int_env("IIP_DB_POOL_RECYCLE_S", 1800),
-        connect_args={"options": f"-c statement_timeout={timeout_ms}",
-                      "connect_timeout": 10},
+        connect_args=connect_args,
     )
 
 
