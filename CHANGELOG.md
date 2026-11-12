@@ -2,7 +2,9 @@
 
 All notable changes. Versions follow semantic versioning; dates are UTC+5 (Pakistan).
 
-## [Unreleased]
+## [2.7.0] public release - 2026-11-12
+
+First public release of the 2.7 line (archived on Zenodo). Adds to the internal 2.7.0 build of 2026-11-03:
 
 ### Added
 - Vercel + Neon demo hosting: `vercel.json` (single FastAPI function, paper/docs/tests excluded), root
